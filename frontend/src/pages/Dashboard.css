@@ -1,0 +1,16 @@
+
+body {
+    --tw-bg-opacity: 1;
+    background-color: hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity));
+    min-height: 100vh;
+    max-height: 100vh;
+    overflow: hidden;
+}
+
+.dashboard-list-section {
+    width: 30%;
+}
+
+.dashboard-list {
+    overflow-y: auto;
+}

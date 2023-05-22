@@ -6,9 +6,11 @@ import './index.css';
 
 // Pages for routing and navigation
 import Login from './pages/Login';
+import Dashboard from './pages/Dashboard';
 
 const router = createBrowserRouter([
   { path: '/login', element: <Login /> },
+  { path: '/', element: <Dashboard /> },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
