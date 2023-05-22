@@ -1,0 +1,11 @@
+
+.login-page {
+    background-image: url('../assets/images/login_bg_oblation.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.login-logo {
+    max-height: 10%;
+}
