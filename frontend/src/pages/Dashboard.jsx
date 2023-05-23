@@ -1,5 +1,6 @@
 import React from "react";
 import Application from "../components/application";
+import ApplicationDetails from "../components/application_details";
 import './Dashboard.css';
 
 class Dashboard extends React.Component {
@@ -32,7 +33,7 @@ class Dashboard extends React.Component {
                     </div>
                 </section>
                 <section className="flex-row flex my-6">
-                    <section className="flex flex-col flex-none dashboard-list-section mx-8">
+                    <section className="flex flex-col flex-none dashboard-list-section mx-8 ">
                         <card className="flex-none card w-full bg-base-100 shadow-md mb-0">
                             <Application state="pending" />
                         </card>
@@ -45,7 +46,9 @@ class Dashboard extends React.Component {
                             <Application state="rejected" reviewBy="Adviser" />
                         </section>
                     </section>
-                    <section className="flex-auto"></section>
+                    <section className="flex-auto bg-base-100 w-full rounded-l-lg">
+                        <ApplicationDetails state="new_app"/>
+                    </section>
                 </section>
             </page>
         )
