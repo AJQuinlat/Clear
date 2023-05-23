@@ -134,7 +134,7 @@ export default function ApplicationDetails(props) {
               application’s resources(e.g. pictures, code, documents, etc.).
             </p>
             <p className="text-sm font-semibold">
-              Ensure the link is accessible before submittingyour application.
+              Ensure the link is accessible before submitting your application.
             </p>
             <input
               class="mt-5 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -373,7 +373,7 @@ export default function ApplicationDetails(props) {
                   <textarea
                     id="app_resource"
                     rows="8"
-                    class="block w-full px-0 text-sm text-gray-800 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
+                    class="block w-full p-3 text-sm text-gray-800 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
                     placeholder="Write a remark..."
                     required
                   ></textarea>
