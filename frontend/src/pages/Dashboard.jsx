@@ -39,7 +39,6 @@ class Dashboard extends React.Component {
         if (element) {
             const { top } = element.getBoundingClientRect();
             const distanceToBottom = window.innerHeight - top;
-            console.log(distanceToBottom);
             this.setState({ distanceToBottom });
         }
     };
@@ -113,6 +112,8 @@ class Dashboard extends React.Component {
                             })}
                             <div className="h-4" />
                         </section>
+                        <button onclick="buttonHandler()" title="Contact Sale"
+                            class="relative z-90 bottom-16 mr-0 ml-auto btn btn-secondary w-max h-12 px-3 rounded-lg drop-shadow-md justify-center items-center text-white text-sm normal-case shadow-lg"><span className="align-middle material-symbols-rounded mr-2" style={{ fontSize: '20px' }}>add_circle</span>New application</button>
                     </section>
                     <section className="flex-auto"></section>
                 </section>
