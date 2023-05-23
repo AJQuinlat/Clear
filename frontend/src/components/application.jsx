@@ -1,66 +1,50 @@
 import 'material-symbols';
+import RelativeTime from '@yaireo/relative-time'
 
-function getIcon(state) {
-    // eslint-disable-next-line default-case
-    switch (state) {
-        case "rejected":
-            return "cancel";
-        case "approved":
-            return "check_circle";
-        case "pending":
-            return "pending";
-    }
-}
+function getResources(application) {
+    const relativeTime = new RelativeTime();
+    console.log(application.dateApproved);
+    let res = {};
 
-function getColor(state) {
     // eslint-disable-next-line default-case
-    switch (state) {
-        case "rejected":
-            return "text-primary";
-        case "approved":
-            return "text-secondary";
-        case "pending":
-            return "text-accent";
+    switch (application.state) {
+        case "REJECTED":
+            res.color = "text-primary";
+            res.icon = "cancel";
+            res.header = "Application Returned";
+            res.secondLine = <h3 className="text-sm">Returned by <span className="font-medium">{application.step === 1 ? "Adviser" : "Clearance Officer"}</span> {relativeTime.from(application.dateReturned)}</h3>;
+            res.thirdLine = <p className="font-light text-xs mt-2">{ application.returnRemarks }</p>;
+            break;
+        case "APPROVED":
+            res.color = "text-secondary";
+            res.icon = "check_circle";
+            res.header = "Application Cleared";
+            res.secondLine = <h3 className="text-sm">Cleared {relativeTime.from(application.dateApproved)}</h3>;
+            res.thirdLine = "";
+            break;
+        case "PENDING":
+            res.color = "text-accent";
+            res.icon = "pending";
+            res.header = "Pending Application";
+            res.secondLine = <h3 className="text-sm">Submitted {relativeTime.from(application.dateSubmitted)}</h3>;
+            res.thirdLine = <p className="font-light text-xs mt-2">Being reviewed by <span className="font-medium">{application.step === 1 ? "Adviser" : "Clearance Officer"}</span></p>;
     }
-}
 
-function getStateHeader(state) {
-    // eslint-disable-next-line default-case
-    switch (state) {
-        case "rejected":
-            return "Application Returned";
-        case "approved":
-            return "Application Cleared";
-        case "pending":
-            return "Pending Application";
-    }
-}
-
-function getRelativeStart(state, reviewBy) {
-    // eslint-disable-next-line default-case
-    switch (state) {
-        case "rejected":
-            return "Returned by " + reviewBy;
-        case "approved":
-            return "Cleared";
-        case "pending":
-            return "Submitted";
-    }
+    return res;
 }
 
 export default function Application(props) {
-    const state = props.state;
-    const reviewBy = props.reviewBy;
+    const res = getResources(props.data);
 
     return (
-        <div className="flex flex-row px-6 py-5">
+        <div className="flex flex-row px-6 py-5" style={{ minHeight: '7rem' }}>
             <div className="justify-center m-auto flex-none">
-                <span className={ getColor(state)+" align-middle material-symbols-rounded" } style={{ fontSize: '3rem' }}>{ getIcon(state) }</span>
+                <span className={ res.color + " align-middle material-symbols-rounded" } style={{ fontSize: '3rem' }}>{ res.icon }</span>
             </div>
-            <div className="flex flex-col justify-start flex-auto ml-5">
-                <h1 className={getColor(state) + " font-semibold text-accent text-2xl"}>{getStateHeader(state)}</h1>
-                <h3 className="text-md">{getRelativeStart(state, reviewBy) + " just now"}</h3>
-                <p className="font-light text-xs mt-2">Being reviewed by <span className="font-medium">adviser</span></p>
+            <div className="flex flex-col justify-center flex-auto ml-5">
+                <h1 className={ res.color + " font-semibold text-accent text-2xl"}>{ res.header }</h1>
+                { res.secondLine }
+                { res.thirdLine }
             </div>
         </div>
     )
