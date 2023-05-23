@@ -3,7 +3,6 @@ import RelativeTime from '@yaireo/relative-time'
 
 function getResources(application) {
     const relativeTime = new RelativeTime();
-    console.log(application.dateApproved);
     let res = {};
 
     // eslint-disable-next-line default-case
