@@ -27,6 +27,13 @@ function getResources(application) {
             res.header = "Pending Application";
             res.secondLine = <h3 className="text-sm">Submitted {relativeTime.from(application.dateSubmitted)}</h3>;
             res.thirdLine = <p className="font-light text-xs mt-2">Being reviewed by <span className="font-medium">{application.step === 1 ? "Adviser" : "Clearance Officer"}</span></p>;
+            break;
+        case "NONE":
+            res.color = "text-slate-600";
+            res.icon = "circle";
+            res.header = "No application submitted";
+            res.secondLine = "";
+            res.thirdLine = "";
     }
 
     return res;
@@ -41,7 +48,7 @@ export default function Application(props) {
                 <span className={ res.color + " align-middle material-symbols-rounded" } style={{ fontSize: '3rem' }}>{ res.icon }</span>
             </div>
             <div className="flex flex-col justify-center flex-auto ml-5">
-                <h1 className={ res.color + " font-semibold text-accent text-2xl"}>{ res.header }</h1>
+                <h1 className={ res.color + " font-semibold text-accent text-xl"}>{ res.header }</h1>
                 { res.secondLine }
                 { res.thirdLine }
             </div>
