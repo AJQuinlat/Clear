@@ -44,7 +44,7 @@ export default function ApplicationDetails(props) {
   const state = props.state;
 
   return (
-    <div className="px-14" style={{ maxHeight: "650px", overflowY: "auto" }}>
+    <div className="px-14" style={{ maxHeight:'650px', overflowY: "auto" }}>
       {/* Header */}
       <div className="flex flex-row py-14">
         <div className="justify-center m-auto flex-none">
@@ -157,7 +157,6 @@ export default function ApplicationDetails(props) {
               id="app_resource"
               type="text"
             /> */}
-
             <form className="mt-5">
               <div class="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
                 <div class="flex items-center justify-between px-3 py-2 border-b dark:border-gray-600">
@@ -381,12 +380,10 @@ export default function ApplicationDetails(props) {
                 </div>
               </div>
             </form>
-
-
           </div>
         </section>
       </div>
-      <button class="my-10 flex bg-transparent hover:bg-yellow-500 text-accent font-semibold hover:text-white py-2 px-4 border border-text-accent hover:border-transparent rounded">
+      <button class="mt-10 mb-20 flex bg-transparent hover:bg-yellow-500 text-accent font-semibold hover:text-white py-2 px-4 border border-text-accent hover:border-transparent rounded">
         <div className="material-symbols-rounded align-middle">
           {getIcon("submit")}
         </div>
