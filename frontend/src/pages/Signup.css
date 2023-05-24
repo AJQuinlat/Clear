@@ -1,0 +1,27 @@
+/* * {
+    border: 1px;
+    border-color: red;
+    border-style: dotted;
+} */
+
+.signup-page {
+    background-color: white;
+}
+
+.signup-logo {
+    max-height: 10%;
+}
+
+option[value=""][disabled] {
+    display: none;
+}
+
+option {
+    color: black;
+}
+
+.btn {
+    height: 10px;
+}
+
+
