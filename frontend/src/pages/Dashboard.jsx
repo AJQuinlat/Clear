@@ -1,5 +1,6 @@
 import React from "react";
 import Application from "../components/application";
+import ApplicationDetails from "../components/application_details";
 import './Dashboard.css';
 
 class Dashboard extends React.Component {
@@ -115,7 +116,9 @@ class Dashboard extends React.Component {
                         <button onclick="buttonHandler()" title="Contact Sale"
                             class="relative z-90 bottom-16 mr-0 ml-auto btn btn-secondary w-max h-12 px-3 rounded-lg drop-shadow-md justify-center items-center text-white text-sm normal-case shadow-lg"><span className="align-middle material-symbols-rounded mr-2" style={{ fontSize: '20px' }}>add_circle</span>New application</button>
                     </section>
-                    <section className="flex-auto"></section>
+                    <section className="flex-auto bg-base-100 w-full rounded-l-lg">
+                        <ApplicationDetails state="new_app"/>
+                    </section>
                 </section>
             </page>
         )
