@@ -16,7 +16,6 @@ export default function Login() {
         }
     }, [isLoggedIn, navigate])
 
-
     function logIn(event) {
         event.preventDefault();
 
@@ -72,7 +71,7 @@ export default function Login() {
                             <text class="text-center text-xs leading-none">Contact an administrator to reset your password.</text>
 
                             <button type="submit" className="mt-6 mb-2 text-base-300 btn btn-primary">Log in</button>
-                            <a className="text-secondary m-auto font-semibold" href="/">Don’t have an account? Sign up.</a>
+                            <a className="text-secondary m-auto font-semibold" href="#" onClick={navigate("/sign-up")}>Don’t have an account? Sign up.</a>
                         </div>
                     </form>
                 </div>
