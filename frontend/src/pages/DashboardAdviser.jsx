@@ -1,9 +1,9 @@
 import React from "react";
-import Application from "../components/application";
 import ApplicationDetails from "../components/application_details";
 import "./Dashboard.css";
+import AdviserView from "../components/clearanceAdviser";
 
-class Dashboard extends React.Component {
+class DashboardAdviser extends React.Component {
   constructor(props) {
     super(props);
     this.elementRef = React.createRef();
@@ -12,59 +12,18 @@ class Dashboard extends React.Component {
     this.state = {
       data: [
         {
-          step: 1,
-          state: "APPROVED",
+          name: "John Vincent M. Corcega",
           dateSubmitted: Date.now(),
-          dateReturned: Date.now(),
-          dateApproved: Date.now(),
           returnRemarks: "Missing commits in your repository.",
         },
         {
-          step: 2,
-          state: "REJECTED",
+          name: "Ariezel M. Bautista",
           dateSubmitted: Date.now(),
-          dateReturned: Date.now(),
-          dateApproved: Date.now(),
           returnRemarks: "Missing commits in your repository.",
         },
         {
-          step: 2,
-          state: "REJECTED",
+          name: "Angelo Jasper Quinlat",
           dateSubmitted: Date.now(),
-          dateReturned: Date.now(),
-          dateApproved: Date.now(),
-          returnRemarks: "Missing commits in your repository.",
-        },
-        {
-          step: 2,
-          state: "REJECTED",
-          dateSubmitted: Date.now(),
-          dateReturned: Date.now(),
-          dateApproved: Date.now(),
-          returnRemarks: "Missing commits in your repository.",
-        },
-        {
-          step: 1,
-          state: "REJECTED",
-          dateSubmitted: Date.now(),
-          dateReturned: Date.now(),
-          dateApproved: Date.now(),
-          returnRemarks: "Missing commits in your repository.",
-        },
-        {
-          step: 1,
-          state: "REJECTED",
-          dateSubmitted: Date.now(),
-          dateReturned: Date.now(),
-          dateApproved: Date.now(),
-          returnRemarks: "Missing commits in your repository.",
-        },
-        {
-          step: 1,
-          state: "REJECTED",
-          dateSubmitted: Date.now(),
-          dateReturned: Date.now(),
-          dateApproved: Date.now(),
           returnRemarks: "Missing commits in your repository.",
         },
       ],
@@ -206,20 +165,13 @@ class Dashboard extends React.Component {
         </section>
         <section className="flex-row flex">
           <section className="flex flex-col flex-none dashboard-list-section mx-8">
-            <card className="flex-none card w-full bg-base-100 shadow-md mb-0">
-              <Application data={this.state.data[0]} />
-            </card>
             <section
               className="dashboard-list grow"
               ref={this.elementRef}
               style={{ height: this.state.distanceToBottom + "px" }}
             >
-              {this.state.data.map((data) => {
-                if (data !== this.state.data[0]) {
-                  return <Application data={data} />;
-                }
-                return null;
-              })}
+              <AdviserView data={this.state.data[0]} />
+
               <div className="h-4" />
             </section>
             <button
@@ -249,4 +201,4 @@ class Dashboard extends React.Component {
   }
 }
 
-export default Dashboard;
+export default DashboardAdviser;
