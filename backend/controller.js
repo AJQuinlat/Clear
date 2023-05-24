@@ -32,7 +32,7 @@ const signUp = async (req, res) => {
 	}
 }
 
-const login = async (req, res) => {
+const logIn = async (req, res) => {
   const email = req.body.email.trim();
   const password = req.body.password;
 
@@ -92,4 +92,4 @@ const checkIfLoggedIn = async (req, res) => {
   }
 }
 
-export { signUp, login, checkIfLoggedIn }
+export { signUp, logIn, checkIfLoggedIn }

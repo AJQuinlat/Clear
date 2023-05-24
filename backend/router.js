@@ -1,9 +1,10 @@
 // Import route methods from controller
-import {signUp} from './controller.js';
+import {signUp, logIn} from './controller.js';
 
 // Routes
 const router = (app) => {
     app.post('/api/sign-up', signUp);
+    app.post('/api/log-in', logIn);
 }
 
 // Export router
