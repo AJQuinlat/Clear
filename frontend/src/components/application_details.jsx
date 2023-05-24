@@ -383,7 +383,7 @@ export default function ApplicationDetails(props) {
           </div>
         </section>
       </div>
-      <button class="mt-10 mb-20 flex bg-transparent hover:bg-yellow-500 text-accent font-semibold hover:text-white py-2 px-4 border border-text-accent hover:border-transparent rounded">
+      <button class="btn btn-accent mt-10 mb-20 flex bg-transparent text-accent font-semibold hover:text-white py-2 px-4 border border-text-accent hover:border-transparent rounded">
         <div className="material-symbols-rounded align-middle">
           {getIcon("submit")}
         </div>
