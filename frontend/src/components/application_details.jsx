@@ -44,7 +44,7 @@ export default function ApplicationDetails(props) {
   const state = props.state;
 
   return (
-    <div className="px-14" style={{ maxHeight:'650px', overflowY: "auto" }}>
+    <div className="px-14">
       {/* Header */}
       <div className="flex flex-row py-14">
         <div className="justify-center m-auto flex-none">

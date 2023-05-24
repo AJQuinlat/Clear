@@ -7,6 +7,7 @@ class Dashboard extends React.Component {
     constructor(props) {
         super(props)
         this.elementRef = React.createRef();
+        this.detailsRef = React.createRef();
 
         this.state = {
             data: [
@@ -19,6 +20,7 @@ class Dashboard extends React.Component {
                 { "step": 1, "state": "REJECTED", "dateSubmitted": Date.now(), "dateReturned": Date.now(), "dateApproved": Date.now(), "returnRemarks": "Missing commits in your repository." },
             ],
             distanceToBottom: 0,
+            detailsDistanceToBottom: 0,
         }
     }
 
@@ -37,10 +39,17 @@ class Dashboard extends React.Component {
 
     updateDistanceToBottom = () => {
         const element = this.elementRef.current;
+        const details = this.detailsRef.current;
         if (element) {
             const { top } = element.getBoundingClientRect();
             const distanceToBottom = window.innerHeight - top;
             this.setState({ distanceToBottom });
+        }
+        
+        if (details) {
+            const { top } = details.getBoundingClientRect();
+            const detailsDistanceToBottom = window.innerHeight - top;
+            this.setState({ detailsDistanceToBottom });
         }
     };
 
@@ -116,7 +125,7 @@ class Dashboard extends React.Component {
                         <button onclick="buttonHandler()" title="Contact Sale"
                             class="relative z-90 bottom-16 mr-0 ml-auto btn btn-secondary w-max h-12 px-3 rounded-lg drop-shadow-md justify-center items-center text-white text-sm normal-case shadow-lg"><span className="align-middle material-symbols-rounded mr-2" style={{ fontSize: '20px' }}>add_circle</span>New application</button>
                     </section>
-                    <section className="flex-auto bg-base-100 w-full rounded-l-lg">
+                    <section className="flex-auto bg-base-100 w-full rounded-3xl overflow-y-auto" ref={this.detailsRef} style={{ "height": this.state.detailsDistanceToBottom+"px" }}>
                         <ApplicationDetails state="new_app"/>
                     </section>
                 </section>
