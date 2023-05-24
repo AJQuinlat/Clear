@@ -24,11 +24,11 @@ class Signup extends React.Component {
                         <h3 className="mb-2 mt-12 text-xl text-primary font-bold leading-snug">Course and College</h3>
                         <div class="grid gap-8 mb-6 md:grid-cols-2">
                             <div className="">
-                                <input type="text" placeholder="Course/Program" className="input input-bordered bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded w-full mb-4" />
-                                <input type="text" placeholder="Student ID/number" className="input input-bordered bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded w-full" />
+                                <input type="text" placeholder="Course/Program" className="input input-bordered bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded w-full mb-4" required/>
+                                <input type="text" placeholder="Student ID/number" className="input input-bordered bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded w-full" required/>
                             </div>
 
-                            <select className="select select-bordered bg-gray-300 border border-gray-300 text-sm rounded block w-full">
+                            <select className="select select-bordered bg-gray-300 border border-gray-300 text-sm rounded block w-full" required>
                                 <option value="" disabled selected>College</option>
                                 <option value="CAS">CAS</option>
                                 <option value="CEAT">CEAT</option>
@@ -41,8 +41,8 @@ class Signup extends React.Component {
                         <text class="text-left text-sm">Ensure the e-mail you are using to sign-up is your UP Mail account</text>
 
                         <div class="grid gap-2 mb-6 mt-4 md:grid-cols-3">
-                            <input type="text" placeholder="Email" className="input input-bordered bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded w-full" />
-                            <input type="password" placeholder="Password" className="input input-bordered bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded w-full" />
+                            <input type="text" placeholder="Email" className="input input-bordered bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded w-full" required/>
+                            <input type="password" placeholder="Password" className="input input-bordered bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded w-full" required/>
                         </div>
 
                         <button className="mb-2 text-base-300 btn btn-primary rounded-xl h-10 w-full">Sign-up</button>
