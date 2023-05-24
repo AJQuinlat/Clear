@@ -8,10 +8,12 @@ import './index.css';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Signup from './pages/Signup';
+import Admin_Applications from './pages/Admin_Applications';
 
 const router = createBrowserRouter([
   { path: '/login', element: <Login /> },
   { path: '/', element: <Dashboard /> },
+  { path: '/admin/applications', element: <Admin_Applications /> },
   { path: '/sign-up', element: <Signup /> }
 ]);
 
