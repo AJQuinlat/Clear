@@ -1,9 +1,10 @@
 import React from "react";
 import Application from "../components/application";
 import ApplicationDetails from "../components/application_details";
+import Search from "../components/search";
 import './Dashboard.css';
 
-class Dashboard extends React.Component {
+class Admin_Applications extends React.Component {
     constructor(props) {
         super(props)
         this.elementRef = React.createRef();
@@ -64,7 +65,7 @@ class Dashboard extends React.Component {
                     <ul className="text-primary px-10 space-x-5">
                         <li><a className="font-semibold underline" href="/admin/applications">Applications</a></li>
                         <li><a href="/admin/students">Students</a></li>
-                        <li><a href="/admin/manage-accounts">Manage Accounts</a></li>
+                        <li><a href="/admin/accounts">Manage Accounts</a></li>
                     </ul>  
 
                     <div className="flex-none gap-2">
@@ -114,33 +115,7 @@ class Dashboard extends React.Component {
                 </section>
                 <section className="flex-row flex">
                     <section className="flex flex-col flex-none dashboard-list-section mx-8">
-                                                {/* search */}
-                                                <label className="relative block mb-8">
-                            <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-                                </svg>
-                            </span>
-                            <input
-                                className="w-full bg-white placeholder:font-italitc border border-slate-300 rounded-lg py-2 pl-12 pr-4 focus:outline-none shadow-md"
-                                placeholder="Search for applications" type="text" />
-                        </label>
-
-                        {/* filter by */}
-                        <div class="grid gap-2 mb-1 md:grid-cols-5 pr-16">
-                            <span className="ml-8">Filter by</span>
-                            <button className="mb-2 text-black text-sm shadow-md h-8 bg-white rounded-full w-full">Date</button>
-                            <button className="mb-2 text-black text-sm shadow-md h-8 bg-white rounded-full w-full">Adviser</button>
-                            <button className="mb-2 text-black text-sm shadow-md h-8 bg-white rounded-full w-full">Status</button>
-                            <button className="mb-2 text-black text-sm shadow-md h-8 bg-white rounded-full w-full">Step</button>
-                        </div>
-
-                        {/* sort by */}
-                        <div class="grid gap-2 mb-6 md:grid-cols-5 pr-16">
-                            <span className="ml-8">Sort by</span>
-                            <button className="mb-2 text-black text-sm shadow-md h-8 bg-white rounded-full w-full">Date</button>
-                            <button className="mb-2 text-black text-sm shadow-md h-8 bg-white rounded-full w-full">Name</button>
-                        </div>
+                        <Search></Search>
 
                         <card className="flex-none card w-full bg-base-100 shadow-md mb-0">
                             <Application data={this.state.data[0]} />
@@ -169,4 +144,4 @@ class Dashboard extends React.Component {
     }
 }
 
-export default Dashboard;
+export default Admin_Applications;
