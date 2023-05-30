@@ -210,7 +210,8 @@ class Admin_Accounts extends React.Component {
             ref={this.detailsRef}
             style={{ height: this.state.detailsDistanceToBottom + "px" }}
           >
-            <ApplicationDetails user="adviser" state="info_app"/>>
+            <EmptyApplication/>
+            
           </section>
         </section>
       </page>
