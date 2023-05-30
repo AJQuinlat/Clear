@@ -241,7 +241,7 @@ class Dashboard extends React.Component {
             ref={this.detailsRef}
             style={{ height: this.state.detailsDistanceToBottom + "px" }}
           >
-            <ApplicationDetails state="new_app" />
+            <ApplicationDetails state="new_app" user="student"/>
           </section>
         </section>
       </page>

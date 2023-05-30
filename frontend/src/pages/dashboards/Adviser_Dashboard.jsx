@@ -3,6 +3,7 @@ import Search from "../../components/search";
 import "./Dashboard.css";
 import AdviserView from "../../components/adviser_studentview";
 import ApplicationDetails from "../../components/application_details";
+import EmptyApplication from "../../components/application_empty";
 
 class Admin_Accounts extends React.Component {
   constructor(props) {
@@ -209,7 +210,7 @@ class Admin_Accounts extends React.Component {
             ref={this.detailsRef}
             style={{ height: this.state.detailsDistanceToBottom + "px" }}
           >
-            <ApplicationDetails state="info_app" user="adviser"/>
+            <ApplicationDetails user="adviser" state="info_app"/>>
           </section>
         </section>
       </page>

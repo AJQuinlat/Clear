@@ -42,10 +42,10 @@ function getStatusHeader(state) {
 
 function isDisabled(state) {
   switch (state) {
-    case "adviser":
-      return true;
-    default:
+    case "student":
       return false;
+    default:
+      return true;
   }
 }
 
