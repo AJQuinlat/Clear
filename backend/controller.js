@@ -103,16 +103,16 @@ const heartbeat = async (req, res) => {
 
   switch (data.userInfo.userType) {
     case "STUDENT":
-      data.applications = await Application.find({ uid: data.userInfo._id });
+      data.applications = await Application.find({ uid: data.userInfo._id }).sort({ dateSubmitted: "desc" });
       break;
     case "ADVISER":
-      data.applications = await Application.find({ adviserUid: data.userInfo._id });
+      data.applications = await Application.find({ adviserUid: data.userInfo._id }).sort({ dateSubmitted: "desc" });
       break;
     case "CLEARANCE_OFFICER":
-      data.applications = await Application.find({ officerUid: data.userInfo._id });
+      data.applications = await Application.find({ officerUid: data.userInfo._id }).sort({ dateSubmitted: "desc" });
       break;
     case "ADMINISTRATOR":
-      data.applications = await Application.find({});
+      data.applications = await Application.find({}).sort({ dateSubmitted: "desc" });
       break;
   }
 
