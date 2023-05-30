@@ -12,7 +12,7 @@ import Admin_Applications from './pages/Admin_Applications';
 import Admin_Students from './pages/Admin_Students'
 import Admin_Accounts from './pages/Admin_Accounts'
 
-const checkIfLoggedInOnDash = async () => {
+const verifyUser = async () => {
   const res = await fetch("http://localhost:3001/api/heartbeat",
     {
       method: "GET",
@@ -21,16 +21,16 @@ const checkIfLoggedInOnDash = async () => {
 
 
   const payload = await res.json();
-  if (payload.userInfo !== null || payload.userInfo !== undefined) {
+  if (payload.userInfo !== null && payload.userInfo !== undefined) {
     return true
   } else {
-    return redirect("/")
+    return redirect("/login")
   }
 }
 
 const router = createBrowserRouter([
   { path: '/login', element: <Login /> },
-  { path: '/', element: <Dashboard />, loader: checkIfLoggedInOnDash },
+  { path: '/', element: <Dashboard />, loader: verifyUser },
   { path: '/admin/applications', element: <Admin_Applications /> },
   { path: '/admin/students', element: <Admin_Students /> },
   { path: '/admin/accounts', element: <Admin_Accounts /> },
