@@ -101,9 +101,26 @@ const heartbeat = async (req, res) => {
     return res.send(data);
   }
 
+  data.userInfo.password = undefined;
+
   switch (data.userInfo.userType) {
     case "STUDENT":
       data.applications = await Application.find({ uid: data.userInfo._id }).sort({ dateSubmitted: "desc" });
+
+      try {
+        data.assignedAdviser = await User.findById(data.userInfo.adviserUid);
+        data.assignedAdviser.password = undefined;
+      } catch (e) {
+        console.log(e);
+      }
+
+      try {
+        data.assignedOfficer = await User.findById(data.userInfo.officerUid);
+        data.assignedOfficer.password = undefined;
+      } catch (e) {
+        console.log(e);
+      }
+
       break;
     case "ADVISER":
       data.applications = await Application.find({ adviserUid: data.userInfo._id }).sort({ dateSubmitted: "desc" });
