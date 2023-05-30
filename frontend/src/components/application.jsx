@@ -6,13 +6,13 @@ function getResources(application) {
     let res = {};
 
     // eslint-disable-next-line default-case
-    switch (application.state) {
+    switch (application.status) {
         case "REJECTED":
             res.color = "text-primary";
             res.icon = "cancel";
             res.header = "Application Returned";
             res.secondLine = <h3 className="text-sm">Returned by <span className="font-medium">{application.step === 1 ? "Adviser" : "Clearance Officer"}</span> {relativeTime.from(application.dateReturned)}</h3>;
-            res.thirdLine = <p className="font-light text-xs mt-2">{ application.returnRemarks }</p>;
+            res.thirdLine = <p className="font-light text-xs mt-2">{ application.remarks }</p>;
             break;
         case "APPROVED":
             res.color = "text-secondary";
@@ -28,7 +28,7 @@ function getResources(application) {
             res.secondLine = <h3 className="text-sm">Submitted {relativeTime.from(application.dateSubmitted)}</h3>;
             res.thirdLine = <p className="font-light text-xs mt-2">Being reviewed by <span className="font-medium">{application.step === 1 ? "Adviser" : "Clearance Officer"}</span></p>;
             break;
-        case "NONE":
+        default:
             res.color = "text-slate-600";
             res.icon = "circle";
             res.header = "No application submitted";

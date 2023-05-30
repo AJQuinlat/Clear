@@ -2,6 +2,7 @@ import React from "react";
 import Application from "../components/application";
 import ApplicationDetails from "../components/application_details";
 import './Dashboard.css';
+import ApplicationsList from "./dashboard/Applications";
 
 class Dashboard extends React.Component {
     constructor(props) {
@@ -107,24 +108,7 @@ class Dashboard extends React.Component {
                     </div>
                 </section>
                 <section className="flex-row flex">
-                    <section className="flex flex-col flex-none dashboard-list-section mx-8">
-                        <card className="flex-none card w-full bg-base-100 shadow-md mb-0">
-                            <Application data={this.state.data[0]} />
-                        </card>
-                        <section className="dashboard-list grow" ref={this.elementRef} style={{ "height": this.state.distanceToBottom+"px" }}>
-                            {this.state.data.map((data) => {
-                                if (data !== this.state.data[0]) {
-                                    return (
-                                        <Application data={data} />
-                                    )
-                                }
-                                return null;
-                            })}
-                            <div className="h-4" />
-                        </section>
-                        <button onclick="buttonHandler()" title="Contact Sale"
-                            class="relative z-90 bottom-16 mr-0 ml-auto btn btn-secondary w-max h-12 px-3 rounded-lg drop-shadow-md justify-center items-center text-white text-sm normal-case shadow-lg"><span className="align-middle material-symbols-rounded mr-2" style={{ fontSize: '20px' }}>add_circle</span>New application</button>
-                    </section>
+                    <ApplicationsList elementRef={this.state.elementRef} distanceToBottom={this.state.distanceToBottom} /> 
                     <section className="flex-auto bg-base-100 w-full rounded-3xl overflow-y-auto" ref={this.detailsRef} style={{ "height": this.state.detailsDistanceToBottom+"px" }}>
                         <ApplicationDetails state="new_app"/>
                     </section>
