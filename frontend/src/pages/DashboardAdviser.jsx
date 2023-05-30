@@ -1,9 +1,11 @@
 import React from "react";
+import Application from "../components/application";
 import ApplicationDetails from "../components/application_details";
+import Search from "../components/search";
 import "./Dashboard.css";
 import AdviserView from "../components/clearanceAdviser";
 
-class DashboardAdviser extends React.Component {
+class Admin_Accounts extends React.Component {
   constructor(props) {
     super(props);
     this.elementRef = React.createRef();
@@ -14,17 +16,17 @@ class DashboardAdviser extends React.Component {
         {
           name: "John Vincent M. Corcega",
           dateSubmitted: Date.now(),
-          returnRemarks: "Missing commits in your repository.",
+          returnRemarks: "Fixed commit messages. Uploaded in the wrong branch. Sorry po",
         },
         {
           name: "Ariezel M. Bautista",
           dateSubmitted: Date.now(),
-          returnRemarks: "Missing commits in your repository.",
+          returnRemarks: "Kakapush palang sir",
         },
         {
           name: "Angelo Jasper Quinlat",
           dateSubmitted: Date.now(),
-          returnRemarks: "Missing commits in your repository.",
+          returnRemarks: "Fixed missing commits in my repository.",
         },
       ],
       distanceToBottom: 0,
@@ -71,6 +73,7 @@ class DashboardAdviser extends React.Component {
               Clear
             </button>
           </div>
+
           <div className="flex-none gap-2">
             <div className="dropdown dropdown-end">
               <label
@@ -165,35 +168,30 @@ class DashboardAdviser extends React.Component {
         </section>
         <section className="flex-row flex">
           <section className="flex flex-col flex-none dashboard-list-section mx-8">
+            <Search></Search>
+
+            <card className="flex-none card w-full bg-base-100 shadow-md mb-0">
+              {/* current_account_card */}
+            </card>
             <section
               className="dashboard-list grow"
               ref={this.elementRef}
               style={{ height: this.state.distanceToBottom + "px" }}
             >
-              <AdviserView data={this.state.data[0]} />
-
-              <div className="h-4" />
+              {this.state.data.map((data) => {
+                if (data !== this.state.data) {
+                  return <AdviserView data={data} />;
+                }
+                return null;
+              })}
             </section>
-            <button
-              onclick="buttonHandler()"
-              title="Contact Sale"
-              class="relative z-90 bottom-16 mr-5 ml-auto btn btn-secondary w-max h-12 px-3 rounded-lg drop-shadow-md justify-center items-center text-white text-sm normal-case shadow-lg"
-            >
-              <span
-                className="align-middle material-symbols-rounded mr-2"
-                style={{ fontSize: "20px" }}
-              >
-                add_circle
-              </span>
-              New application
-            </button>
           </section>
           <section
             className="flex-auto bg-base-100 w-full rounded-3xl overflow-y-auto"
             ref={this.detailsRef}
             style={{ height: this.state.detailsDistanceToBottom + "px" }}
           >
-            <ApplicationDetails state="new_app" />
+            {/* account details */}
           </section>
         </section>
       </page>
@@ -201,4 +199,4 @@ class DashboardAdviser extends React.Component {
   }
 }
 
-export default DashboardAdviser;
+export default Admin_Accounts;
