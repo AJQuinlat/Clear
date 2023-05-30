@@ -1,7 +1,7 @@
 // Important imports for the web app
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter, redirect } from 'react-router-dom';
 import './index.css';
 
 // Pages for routing and navigation
@@ -12,9 +12,25 @@ import Admin_Applications from './pages/Admin_Applications';
 import Admin_Students from './pages/Admin_Students'
 import Admin_Accounts from './pages/Admin_Accounts'
 
+const checkIfLoggedInOnDash = async () => {
+  const res = await fetch("http://localhost:3001/api/heartbeat",
+    {
+      method: "GET",
+      credentials: "include"
+    });
+
+
+  const payload = await res.json();
+  if (payload.userInfo !== null || payload.userInfo !== undefined) {
+    return true
+  } else {
+    return redirect("/")
+  }
+}
+
 const router = createBrowserRouter([
   { path: '/login', element: <Login /> },
-  { path: '/', element: <Dashboard /> },
+  { path: '/', element: <Dashboard />, loader: checkIfLoggedInOnDash },
   { path: '/admin/applications', element: <Admin_Applications /> },
   { path: '/admin/students', element: <Admin_Students /> },
   { path: '/admin/accounts', element: <Admin_Accounts /> },

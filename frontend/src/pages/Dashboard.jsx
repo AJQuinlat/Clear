@@ -2,6 +2,7 @@ import React from "react";
 import ApplicationDetails from "../components/application_details";
 import './Dashboard.css';
 import ApplicationsList from "./dashboard/Applications";
+import AccountMenu from "../components/account_menu";
 
 class Dashboard extends React.Component {
     beatOnce = false;
@@ -91,39 +92,7 @@ class Dashboard extends React.Component {
                                 </div>
                             </label>
                             <ul tabIndex={0} className="mt-3 pt-10 pb-4 px-8 shadow-lg menu dropdown-content bg-base-100 rounded-box w-80">
-                                <section className="flex flex-col m-auto">
-                                    <div className="mb-4 m-auto w-20 avatar">
-                                        <img className="rounded-full" src="https://placehold.jp/150x150.png" />
-                                    </div>
-                                    <span className="text-lg text-center font-semibold m-auto">John Vincent M. Corcega</span>
-                                    <span className="text-xs text-center opacity-60 m-auto">2021-04240</span>
-                                    <span className="text-xs text-center opacity-60 m-auto">Student - Second Year (2nd Semester)</span>
-                                    <div className="h-8" />
-                                    <span className="text-md text-start font-semibold m-start">Assigned Adviser</span>
-                                    <div className="flex mt-3">
-                                        <div className="flex-none w-10 avatar">
-                                            <img className="rounded-full" src="https://placehold.jp/150x150.png" />
-                                        </div>
-                                        <div className="flex flex-col flex-auto ml-4">
-                                            <span className="text-md font-semibold">Arian J. Jacildo</span>
-                                            <span className="text-xs text-light">ajjacildo@up.edu.ph</span>
-                                        </div>
-                                    </div>
-                                    <div className="h-6" />
-                                    <span className="text-md text-start font-semibold m-start">Assigned Clearance Officer</span>
-                                    <div className="flex mt-3">
-                                        <div className="flex-none w-10 avatar">
-                                            <img className="rounded-full" src="https://placehold.jp/150x150.png" />
-                                        </div>
-                                        <div className="flex flex-col flex-auto ml-4">
-                                            <span className="text-md font-semibold">John O-Neil V. Geronimo</span>
-                                            <span className="text-xs text-light">jvgeronimo@up.edu.ph</span>
-                                        </div>
-                                    </div>
-                                    <div className="h-8" />
-                                    <button onClick={console.log} className="m-auto text-secondary text-base font-medium">Log out <span className="align-middle material-symbols-rounded" style={{ fontSize: 'unset' }}>arrow_right_alt</span></button>
-                                    <span className="m-auto mt-6 opacity-50 text-xs">Padayon, Isko/Iska!</span>
-                                </section>
+                                <AccountMenu user={this.state.data} />
                             </ul>
                         </div>
                     </div>
