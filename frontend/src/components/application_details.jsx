@@ -40,8 +40,18 @@ function getStatusHeader(state) {
   }
 }
 
+function isDisabled(state) {
+  switch (state) {
+    case "adviser":
+      return true;
+    default:
+      return false;
+  }
+}
+
 export default function ApplicationDetails(props) {
   const state = props.state;
+  const user = props.user;
 
   return (
     <div className="px-14">
@@ -140,6 +150,7 @@ export default function ApplicationDetails(props) {
               class="mt-5 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               id="app_resource"
               type="text"
+              disabled={isDisabled(user)}
             />
           </div>
         </section>
@@ -375,6 +386,7 @@ export default function ApplicationDetails(props) {
                     rows="8"
                     class="block w-full p-3 text-sm text-gray-800 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
                     placeholder="Write a remark..."
+                    disabled={isDisabled(user)}
                     required
                   ></textarea>
                 </div>

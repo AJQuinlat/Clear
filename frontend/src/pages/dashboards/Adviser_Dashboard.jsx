@@ -42,6 +42,11 @@ class Admin_Accounts extends React.Component {
           dateSubmitted: Date.now(),
           returnRemarks: "Fixed missing commits in my repository.",
         },
+        {
+          name: "Aether Aranara",
+          dateSubmitted: Date.now(),
+          returnRemarks: "Fixed missing commits in my repository.",
+        },
       ],
       distanceToBottom: 0,
       detailsDistanceToBottom: 0,
@@ -204,7 +209,7 @@ class Admin_Accounts extends React.Component {
             ref={this.detailsRef}
             style={{ height: this.state.detailsDistanceToBottom + "px" }}
           >
-            <ApplicationDetails state="info_app" />
+            <ApplicationDetails state="info_app" user="adviser"/>
           </section>
         </section>
       </page>
