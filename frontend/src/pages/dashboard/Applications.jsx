@@ -1,33 +1,12 @@
-import { React, useEffect, useState } from "react";
+import { React } from "react";
 import Application from "../../components/application";
 
 export default function ApplicationsList(properties) {
     const elementRef = properties.elementRef;
     const distanceToBottom = properties.distanceToBottom;
-    const [data, setData] = useState([]);
+    const data = properties.data;
 
-    function heartbeat() {
-        fetch('http://localhost:3001/api/heartbeat',
-            {
-                method: "GET",
-                credentials: "include"
-            })
-            .then(response => response.json())
-            .then(body => {
-                console.log(body.applications);
-                setData(body.applications);
-            });
-    }
-
-    useEffect(() => {
-        heartbeat();
-        const interval = setInterval(() => heartbeat(), 3000);
-        return () => {
-            clearInterval(interval);
-        }
-    }, []);
-
-    if (data.length === 0) {
+    if (data === undefined || data.length === 0) {
         return (
             <section className="flex flex-col flex-none dashboard-list-section mx-8">
                 <card className="flex-none card w-full bg-base-100 shadow-md mb-0">

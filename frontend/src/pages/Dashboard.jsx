@@ -1,31 +1,52 @@
 import React from "react";
-import Application from "../components/application";
 import ApplicationDetails from "../components/application_details";
 import './Dashboard.css';
 import ApplicationsList from "./dashboard/Applications";
 
 class Dashboard extends React.Component {
+    beatOnce = false;
+
     constructor(props) {
         super(props)
         this.elementRef = React.createRef();
         this.detailsRef = React.createRef();
 
         this.state = {
-            data: [
-                { "step": 1, "state": "APPROVED", "dateSubmitted": Date.now(), "dateReturned": Date.now(), "dateApproved": Date.now(), "returnRemarks": "Missing commits in your repository." },
-                { "step": 2, "state": "REJECTED", "dateSubmitted": Date.now(), "dateReturned": Date.now(), "dateApproved": Date.now(), "returnRemarks": "Missing commits in your repository." },
-                { "step": 2, "state": "REJECTED", "dateSubmitted": Date.now(), "dateReturned": Date.now(), "dateApproved": Date.now(), "returnRemarks": "Missing commits in your repository." },
-                { "step": 2, "state": "REJECTED", "dateSubmitted": Date.now(), "dateReturned": Date.now(), "dateApproved": Date.now(), "returnRemarks": "Missing commits in your repository." },
-                { "step": 1, "state": "REJECTED", "dateSubmitted": Date.now(), "dateReturned": Date.now(), "dateApproved": Date.now(), "returnRemarks": "Missing commits in your repository." },
-                { "step": 1, "state": "REJECTED", "dateSubmitted": Date.now(), "dateReturned": Date.now(), "dateApproved": Date.now(), "returnRemarks": "Missing commits in your repository." },
-                { "step": 1, "state": "REJECTED", "dateSubmitted": Date.now(), "dateReturned": Date.now(), "dateApproved": Date.now(), "returnRemarks": "Missing commits in your repository." },
-            ],
+            data: {},
             distanceToBottom: 0,
             detailsDistanceToBottom: 0,
         }
     }
 
+    heartbeat() {
+        fetch('http://localhost:3001/api/heartbeat',
+            {
+                method: "GET",
+                credentials: "include"
+            })
+            .then(response => response.json())
+            .then(body => {
+                this.setState({
+                    data: body,
+                });
+            });
+    }
+
+    setHeartbeat() {
+        const interval = setInterval(() => this.heartbeat(), 3000);
+        return () => {
+            clearInterval(interval);
+        }
+    }
+
     componentDidMount() {
+        if (!this.beatOnce) {
+            console.log(this.beatOnce);
+            this.heartbeat();
+            this.setHeartbeat();
+            this.beatOnce = true;
+        }
+
         window.addEventListener('resize', this.handleScroll);
         this.updateDistanceToBottom();
     }
@@ -108,7 +129,7 @@ class Dashboard extends React.Component {
                     </div>
                 </section>
                 <section className="flex-row flex">
-                    <ApplicationsList elementRef={this.state.elementRef} distanceToBottom={this.state.distanceToBottom} /> 
+                    <ApplicationsList data={this.state.data.applications} elementRef={this.state.elementRef} distanceToBottom={this.state.distanceToBottom} /> 
                     <section className="flex-auto bg-base-100 w-full rounded-3xl overflow-y-auto" ref={this.detailsRef} style={{ "height": this.state.detailsDistanceToBottom+"px" }}>
                         <ApplicationDetails state="new_app"/>
                     </section>
