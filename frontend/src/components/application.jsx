@@ -1,5 +1,8 @@
+
+import { useState, useEffect } from "react";
 import 'material-symbols';
 import RelativeTime from '@yaireo/relative-time'
+import "./application.css"
 
 function getResources(application) {
     const relativeTime = new RelativeTime();
@@ -40,18 +43,31 @@ function getResources(application) {
 }
 
 export default function Application(props) {
-    const res = getResources(props.data);
+    const { currentApp, isCard, onAppClick, data } = props;
+    const [isInactive, setInactive] = useState(true);
+    const res = getResources(data);
+
+    useEffect(() => {
+        setInactive(data !== currentApp);
+    }, [currentApp, data]);
+
+    function onClk() {
+        if (onAppClick == null || onAppClick === undefined) return;
+        onAppClick(data);
+    }
 
     return (
-        <div className="flex flex-row px-6 py-5" style={{ minHeight: '7rem' }}>
-            <div className="justify-center m-auto flex-none">
-                <span className={ res.color + " align-middle material-symbols-rounded" } style={{ fontSize: '3rem' }}>{ res.icon }</span>
+        <button onClick={onClk} className={(isCard ? "card " : "") + (!isInactive ? "app-active" : "") + " app-ghost btn-block text-left"}>
+            <div className={"flex flex-row px-6 py-5 " + (isCard ? "" : "mx-8")} style={{ minHeight: '7rem' }}>
+                <div className="justify-center m-auto flex-none">
+                    <span className={res.color + " align-middle material-symbols-rounded"} style={{ fontSize: '3rem' }}>{res.icon}</span>
+                </div>
+                <div className="flex flex-col justify-center flex-auto ml-5">
+                    <h1 className={res.color + " font-semibold text-accent text-xl"}>{res.header}</h1>
+                    {res.secondLine}
+                    {res.thirdLine}
+                </div>
             </div>
-            <div className="flex flex-col justify-center flex-auto ml-5">
-                <h1 className={ res.color + " font-semibold text-accent text-xl"}>{ res.header }</h1>
-                { res.secondLine }
-                { res.thirdLine }
-            </div>
-        </div>
+        </button>
     )
 }

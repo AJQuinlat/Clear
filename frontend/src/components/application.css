@@ -1,0 +1,24 @@
+.app-ghost {
+    border-width: 1px;
+    border-color: transparent;
+    background-color: transparent;
+    color: currentColor;
+}
+
+.app-ghost:hover,
+.app-ghost.app-active {
+    --tw-border-opacity: 0;
+    background-color: hsl(var(--af) / var(--tw-bg-opacity));
+    --tw-bg-opacity: 0.15;
+}
+
+.app-ghost:hover,
+.app-ghost.app-active {
+    --tw-border-opacity: 0;
+    background-color: hsl(var(--af) / var(--tw-bg-opacity));
+    --tw-bg-opacity: 0.15;
+}
+
+.app-ghost:focus-visible {
+    outline: 2px solid currentColor;
+}

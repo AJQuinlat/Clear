@@ -1,6 +1,8 @@
 import "material-symbols";
+import EmptyApplication from "./application_empty";
 
 function getIcon(state) {
+  // eslint-disable-next-line default-case
   switch (state) {
     case "new_app":
       return "add_circle_outline";
@@ -12,6 +14,7 @@ function getIcon(state) {
 }
 
 function getColor(state) {
+  // eslint-disable-next-line default-case
   switch (state) {
     case "new_app":
       return "text-secondary";
@@ -50,8 +53,12 @@ function isDisabled(state) {
 }
 
 export default function ApplicationDetails(props) {
-  const state = props.state;
+  const { data, state } = props;
   const user = props.user;
+
+  if (state === "info_app" && (data == null || data === undefined || data.length === 0)) {
+    return <EmptyApplication />;
+  }
 
   return (
     <div className="px-14">

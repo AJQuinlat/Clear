@@ -11,6 +11,9 @@ export default function Dashboard() {
     const [data, setData] = useState([]);
     const [appListHeight, setApplicationListHeight] = useState([]);
     const [detailsHeight, setDetailsPaneHeight] = useState([]);
+    const [currentApplication, setCurrentApplication] = useState([]);
+    const [isNewApplication, setNewApplication] = useState(false);
+    const [paneState, setPaneState] = useState([]);
     const navigate = useNavigate();
 
     let appList = React.createRef();
@@ -32,12 +35,11 @@ export default function Dashboard() {
         if (!isLoggedIn) {
             navigate("/login")
         }
-
         heartbeat();
-        const interval = setInterval(() => heartbeat(), 3000);
-        return () => {
-            clearInterval(interval);
-        }
+        // const interval = setInterval(() => heartbeat(), 3000);
+        // return () => {
+        //     clearInterval(interval);
+        // }
     }, [isLoggedIn, navigate]);
 
 
@@ -61,6 +63,11 @@ export default function Dashboard() {
         window.addEventListener('resize', onResize);
     });
 
+    useEffect(() => {
+        setNewApplication(isNewApplication);
+        setPaneState(isNewApplication ? "new_app" : "info_app");
+    }, [currentApplication, isNewApplication]);
+
     return (
         <div>
             <div className="h-1" />
@@ -82,9 +89,9 @@ export default function Dashboard() {
                 </div>
             </section>
             <section className="flex-row flex">
-                <ApplicationsList data={data.applications} elementRef={appList} distanceToBottom={appListHeight} />
+                <ApplicationsList onAppClick={setCurrentApplication} currentApp={currentApplication} onNewAppClick={setNewApplication} data={data.applications} elementRef={appList} distanceToBottom={appListHeight} />
                 <section className="flex-auto bg-base-100 w-full rounded-3xl overflow-y-auto" ref={detailsPane} style={{ "height": detailsHeight + "px" }}>
-                    <ApplicationDetails state="new_app" />
+                    <ApplicationDetails data={currentApplication} state={paneState} />
                 </section>
             </section>
         </div>
