@@ -21,9 +21,12 @@ const ApplicationSchema = new mongoose.Schema({
     officerUid: { type: String, required: true },
     status: { type: String, required: true },
     step: { type: Number, required: true, min: 0, max: 3, default: 0 },
-    remarks: { type: [mongoose.Schema.Types.Mixed], required: true },
     submission: { type: mongoose.Schema.Types.Mixed, required: true },
     email: { type: String, required: true },
+    dateSubmitted: { type: Number, required: true },
+    dateReturned: { type: Number, required: false, default: null },
+    dateApproved: { type: Number, required: false, default: null },
+    remarks: { type: String, required: false },
 });
 
 UserSchema.pre("save", function (next) {
