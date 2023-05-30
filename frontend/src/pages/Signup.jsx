@@ -81,10 +81,17 @@ class Signup extends React.Component {
 
                             <select name="college" className="select select-bordered bg-gray-300 border border-gray-300 text-sm rounded block w-full">
                                 <option value="" disabled selected>College</option>
-                                <option value="CAS">CAS</option>
-                                <option value="CEAT">CEAT</option>
-                                <option value="CFNR">CFNR</option>
-                                <option value="CAFS">CAFS</option>
+                                <option value="CAFS">College of Agriculture and Food Science</option>
+                                <option value="CAS">College of Arts and Sciences</option>
+                                <option value="CDC">College of Development Communication</option>
+                                <option value="CEM">College of Economics and Management</option>
+                                <option value="CEAT">College of Engineering and Agro-Industrial Technology</option>
+                                <option value="SESAM">School of Environmental Science and Management</option>
+                                <option value="CFNR">College of Forestry and Natural Resources</option>
+                                <option value="GS">Graduate School</option>
+                                <option value="CHE">College of Human Ecology</option>
+                                <option value="CPAF">College of Public Affairs and Development</option>
+                                <option value="CVM">College of Veterinary Medicine</option>
                             </select>
                         </div>
 
