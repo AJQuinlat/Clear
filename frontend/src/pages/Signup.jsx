@@ -35,7 +35,7 @@ class Signup extends React.Component {
         data.email = formData.get("email");
         data.password = formData.get("password");
 
-        fetch('http://localhost:3001/api/sign-up', {
+        fetch('http://localhost:3001/api/signup', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

@@ -27,7 +27,7 @@ export default function Login() {
         data.email = formData.get("email");
         data.password = formData.get("password");
 
-        fetch("http://localhost:3001/api/log-in",
+        fetch("http://localhost:3001/api/signin",
             {
                 method: "POST",
                 headers: {

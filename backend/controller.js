@@ -4,12 +4,13 @@ import jwt from 'jsonwebtoken';
 
 // Connect to the defined repository
 await mongoose.connect('mongodb://127.0.0.1:27017/Clear',
-{ useNewUrlParser: true, useUnifiedTopology: true });
+  { useNewUrlParser: true, useUnifiedTopology: true });
 
 // get user model registered in Mongoose
 const User = mongoose.model("users");
+const Application = mongoose.model("applications");
 
-const signUp = async (req, res) => {
+const signUpWithEmail = async (req, res) => {
   const newUser = new User({
     firstName: req.body.firstName,
     middleName: req.body.middleName,
@@ -26,13 +27,13 @@ const signUp = async (req, res) => {
   const result = await newUser.save();
 
   if (result._id) {
-		res.send({ success: true })
-	} else {
-		res.send({ success: false })
-	}
+    res.send({ success: true })
+  } else {
+    res.send({ success: false })
+  }
 }
 
-const logIn = async (req, res) => {
+const signInWithEmail = async (req, res) => {
   const email = req.body.email.trim();
   const password = req.body.password;
 
@@ -45,7 +46,7 @@ const logIn = async (req, res) => {
   }
 
   // Check if password is correct using the Schema method defined in User Schema
-   user.comparePassword(password, (err, isMatch) => {
+  user.comparePassword(password, (err, isMatch) => {
     if (err || !isMatch) {
       // Scenario 2: FAIL - Wrong password
       return res.send({ success: false });
@@ -146,4 +147,4 @@ const checkIfLoggedIn = async (req, res) => {
   }
 }
 
-export { signUp, logIn, checkIfLoggedIn }
+export { signUpWithEmail, signInWithEmail, heartbeat }
