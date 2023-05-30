@@ -3,7 +3,7 @@ import Application from "../components/application";
 import ApplicationDetails from "../components/application_details";
 import Search from "../components/search";
 import "./Dashboard.css";
-import AdviserView from "../components/clearanceAdviser";
+import AdviserView from "../components/adviser_studentview";
 
 class Admin_Accounts extends React.Component {
   constructor(props) {
@@ -169,7 +169,6 @@ class Admin_Accounts extends React.Component {
         <section className="flex-row flex">
           <section className="flex flex-col flex-none dashboard-list-section mx-8">
             <Search></Search>
-
             <card className="flex-none card w-full bg-base-100 shadow-md mb-0">
               {/* current_account_card */}
             </card>

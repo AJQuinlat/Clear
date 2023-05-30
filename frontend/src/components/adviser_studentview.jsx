@@ -26,7 +26,7 @@ export default function AdviserView(props) {
   const res = getResources(props.data);
 
   return (
-    <div className="flex flex-row px-14 py-5" style={{ minHeight: "7rem" }}>
+    <div className="flex flex-row px-4 py-5">
       <label
         tabIndex={0}
         className="btn btn-ghost btn-circle avatar"
