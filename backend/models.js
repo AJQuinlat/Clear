@@ -14,6 +14,17 @@ const UserSchema = new mongoose.Schema({
     applications: { type: String, required: false },
 });
 
+const ApplicationSchema = new mongoose.Schema({
+    uid: { type: String, required: true },
+    adviserUid: { type: String, required: true },
+    officerUid: { type: String, required: true },
+    status: { type: String, required: true },
+    step: { type: Number, required: true, min: 0, max: 3, default: 0 },
+    remarks: { type: [mongoose.Schema.Types.Mixed], required: true },
+    submission: { type: mongoose.Schema.Types.Mixed, required: true },
+    email: { type: String, required: true },
+});
+
 UserSchema.pre("save", function (next) {
     const user = this;
 
@@ -36,4 +47,5 @@ UserSchema.methods.comparePassword = function (password, callback) {
 }
 
 const User = mongoose.model("users", UserSchema);
-export { User };
+const Application = mongoose.model("applications", ApplicationSchema);
+export { User, Application };
