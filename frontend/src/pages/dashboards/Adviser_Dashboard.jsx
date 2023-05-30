@@ -1,9 +1,7 @@
 import React from "react";
-import Application from "../components/application";
-import ApplicationDetails from "../components/application_details";
-import Search from "../components/search";
+import Search from "../../components/search";
 import "./Dashboard.css";
-import AdviserView from "../components/adviser_studentview";
+import AdviserView from "../../components/adviser_studentview";
 
 class Admin_Accounts extends React.Component {
   constructor(props) {

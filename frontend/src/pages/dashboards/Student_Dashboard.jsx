@@ -1,6 +1,6 @@
 import React from "react";
-import Application from "../components/application";
-import ApplicationDetails from "../components/application_details";
+import Application from "../../components/application";
+import ApplicationDetails from "../../components/application_details";
 import "./Dashboard.css";
 
 class Dashboard extends React.Component {

@@ -6,9 +6,9 @@ import "./index.css";
 
 // Pages for routing and navigation
 import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
+import Dashboard from "./pages/dashboards/Student_Dashboard";
 import Signup from "./pages/Signup";
-import DashboardAdviser from "./pages/DashboardAdviser.jsx";
+import DashboardAdviser from "./pages/dashboards/Adviser_Dashboard.jsx";
 
 const router = createBrowserRouter([
   { path: "/login", element: <Login /> },
