@@ -2,6 +2,7 @@ import React from "react";
 import Search from "../../components/search";
 import "./Dashboard.css";
 import AdviserView from "../../components/adviser_studentview";
+import ApplicationDetails from "../../components/application_details";
 
 class Admin_Accounts extends React.Component {
   constructor(props) {
@@ -23,6 +24,21 @@ class Admin_Accounts extends React.Component {
         },
         {
           name: "Angelo Jasper Quinlat",
+          dateSubmitted: Date.now(),
+          returnRemarks: "Fixed missing commits in my repository.",
+        },
+        {
+          name: "Carlo Angelo Amaccana",
+          dateSubmitted: Date.now(),
+          returnRemarks: "Fixed missing commits in my repository.",
+        },
+        {
+          name: "Katrina Sy",
+          dateSubmitted: Date.now(),
+          returnRemarks: "Fixed missing commits in my repository.",
+        },
+        {
+          name: "Prince Raeginald Lucario",
           dateSubmitted: Date.now(),
           returnRemarks: "Fixed missing commits in my repository.",
         },
@@ -188,7 +204,7 @@ class Admin_Accounts extends React.Component {
             ref={this.detailsRef}
             style={{ height: this.state.detailsDistanceToBottom + "px" }}
           >
-            {/* account details */}
+            <ApplicationDetails state="info_app" />
           </section>
         </section>
       </page>
