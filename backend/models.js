@@ -11,7 +11,6 @@ const UserSchema = new mongoose.Schema({
     userType: { type: String, required: true, default: "STUDENT" },
     email: { type: String, required: true },
     password: { type: String, required: true },
-    applications: { type: String, required: false },
 });
 
 const ApplicationSchema = new mongoose.Schema({
