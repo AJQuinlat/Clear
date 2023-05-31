@@ -68,6 +68,12 @@ export default function Dashboard() {
         setPaneState(isNewApplication ? "new_app" : "info_app");
     }, [currentApplication, isNewApplication]);
 
+    function onSubmitApplication() {
+        setNewApplication(false);
+        setPaneState("info_app");
+        heartbeat();
+    }
+
     return (
         <div>
             <div className="h-1" />
@@ -91,7 +97,7 @@ export default function Dashboard() {
             <section className="flex-row flex">
                 <ApplicationsList onAppClick={setCurrentApplication} currentApp={currentApplication} onNewAppClick={setNewApplication} data={data} elementRef={appList} distanceToBottom={appListHeight} />
                 <section className="flex-auto bg-base-100 w-full rounded-3xl overflow-y-auto" ref={detailsPane} style={{ "height": detailsHeight + "px" }}>
-                    <ApplicationDetails data={currentApplication} state={paneState} user={data.userInfo} assignedAdviser={data.assignedAdviser} assignedOfficer={data.assignedOfficer} />
+                    <ApplicationDetails onSubmitApp={onSubmitApplication} data={currentApplication} state={paneState} user={data.userInfo} assignedAdviser={data.assignedAdviser} assignedOfficer={data.assignedOfficer} />
                 </section>
             </section>
         </div>

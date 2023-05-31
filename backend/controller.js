@@ -37,7 +37,7 @@ const addApplication = async (req, res) => {
   const newApplication = new Application({
     uid: req.body.uid, 
     adviserUid: req.body.adviserUid,
-    officerUid: req.body.officer.Uid,
+    officerUid: req.body.officerUid,
     status: "PENDING",
     step: req.body.step,
     submission: req.body.submission, 

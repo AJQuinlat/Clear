@@ -43,7 +43,8 @@ function getStatusHeader(state) {
   }
 }
 
-function isDisabled(user) {
+function isDisabled(state, user) {
+  if (state === "info_app") return true;
   switch (user.userType) {
     case "STUDENT":
       return false;
@@ -53,14 +54,48 @@ function isDisabled(user) {
 }
 
 export default function ApplicationDetails(props) {
-  const { data, state, user, assignedAdviser, assignedOfficer } = props;
+  const { onSubmitApp, data, state, user, assignedAdviser, assignedOfficer } = props;
 
   if ((state === "info_app" && (data == null || data === undefined || data.length === 0)) || user === undefined) {
     return <EmptyApplication />;
   }
 
+  function submitApplication(event) {
+    event.preventDefault();
+
+    // Get the data from form
+    const formData = new FormData(event.target);
+
+    // Construct the object based on form
+    let data = {};
+    data.uid = user._id;
+    data.adviserUid = assignedAdviser._id;
+    data.officerUid = assignedOfficer._id;
+    data.step = (state === "new_app" ? 1 : data.step);
+    data.submission = { link: formData.get("link"), remarks: document.getElementById("submissionRemark").value };
+    data.email = user.email;
+    data.dateSubmitted = Date.now();
+
+    fetch("http://localhost:3001/api/application",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      })
+      .then(response => response.json())
+      .then(body => {
+        if (body.success) {
+          alert("SUCCESS!");
+          onSubmitApp();
+        }
+        else { alert("Log in failed") }
+      })
+  }
+
   return (
-    <div className="px-14">
+    <form className="px-14" onSubmit={submitApplication}>
       {/* Header */}
       <div className="flex flex-row py-14">
         <div className="justify-center m-auto flex-none">
@@ -167,9 +202,10 @@ export default function ApplicationDetails(props) {
             </p>
             <input
               class="mt-5 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-              id="app_resource"
+              name="link"
               type="text"
-              disabled={isDisabled(user)}
+              value={state == "info_app" ? data.submission.link : null}
+              disabled={isDisabled(state, user)}
             />
           </div>
         </section>
@@ -401,11 +437,12 @@ export default function ApplicationDetails(props) {
                     Publish post
                   </label>
                   <textarea
-                    id="app_resource"
+                    id="submissionRemark"
+                    value={state == "info_app" ? data.submission.remarks : null}
                     rows="8"
                     class="block w-full p-3 text-sm text-gray-800 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
                     placeholder="Write a remark..."
-                    disabled={isDisabled(user)}
+                    disabled={isDisabled(state, user)}
                     required
                   ></textarea>
                 </div>
@@ -414,12 +451,13 @@ export default function ApplicationDetails(props) {
           </div>
         </section>
       </div>
-      <button class="btn btn-accent mt-10 mb-20 flex bg-transparent text-accent font-semibold hover:text-white py-2 px-4 border border-text-accent hover:border-transparent rounded">
+      {state === "new_app" && user.userType === "STUDENT" ?
+      <button type="submit" class="btn btn-accent mt-10 mb-20 flex bg-transparent text-accent font-semibold hover:text-white py-2 px-4 border border-text-accent hover:border-transparent rounded">
         <div className="material-symbols-rounded align-middle">
           {getIcon("submit")}
         </div>
         <p className="px-2">Submit application for review</p>
-      </button>
-    </div>
+      </button> : null}
+    </form>
   );
 }
