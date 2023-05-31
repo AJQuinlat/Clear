@@ -43,9 +43,9 @@ function getStatusHeader(state) {
   }
 }
 
-function isDisabled(state) {
-  switch (state) {
-    case "student":
+function isDisabled(user) {
+  switch (user.userType) {
+    case "STUDENT":
       return false;
     default:
       return true;
@@ -53,10 +53,9 @@ function isDisabled(state) {
 }
 
 export default function ApplicationDetails(props) {
-  const { data, state } = props;
-  const user = props.user;
+  const { data, state, user, assignedAdviser, assignedOfficer } = props;
 
-  if (state === "info_app" && (data == null || data === undefined || data.length === 0)) {
+  if ((state === "info_app" && (data == null || data === undefined || data.length === 0)) || user === undefined) {
     return <EmptyApplication />;
   }
 
@@ -98,13 +97,19 @@ export default function ApplicationDetails(props) {
                 />
               </div>
             </div>
-
-            {/* To be Edited: Assigned Officer Details */}
             <div className="flex flex-col justify-center flex-auto ml-4">
-              <h3 className="text-base font-bold">Arian J. Jacildo</h3>
-              <p className="text-sm" style={{ marginTop: "-0.2rem" }}>
-                ajjacildo@up.edu.ph
-              </p>
+              {assignedAdviser === undefined || assignedAdviser === null ?
+                <div>
+                  <h3 className="text-base font-bold">Not assigned</h3>
+                </div>
+                :
+                <div>
+                  <h3 className="text-base font-bold">{assignedAdviser.firstName} {assignedAdviser.lastName}</h3>
+                  <p className="text-sm" style={{ marginTop: "-0.2rem" }}>
+                    {assignedAdviser.email}
+                  </p>
+                </div>
+              }
             </div>
           </div>
         </div>
@@ -124,12 +129,19 @@ export default function ApplicationDetails(props) {
               </div>
             </div>
 
-            {/* To be Edited: Clearance Officer Details */}
             <div className="flex flex-col justify-center flex-auto ml-4">
-              <h3 className="text-base font-bold">John O-Neil V. Geronimo</h3>
-              <p className="text-sm" style={{ marginTop: "-0.2rem" }}>
-                jvgeronimo@up.edu.ph
-              </p>
+              {assignedOfficer === undefined || assignedOfficer === null ?
+                <div>
+                  <h3 className="text-base font-bold">Not assigned</h3>
+                </div>
+                :
+                <div>
+                  <h3 className="text-base font-bold">{assignedOfficer.firstName} {assignedOfficer.lastName}</h3>
+                  <p className="text-sm" style={{ marginTop: "-0.2rem" }}>
+                    {assignedOfficer.email}
+                  </p>
+                </div>
+              }
             </div>
           </div>
         </div>
