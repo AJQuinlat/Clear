@@ -44,7 +44,7 @@ export default function ApplicationsList(properties) {
                     <Application onAppClick={onAppClick} currentApp={currentApp} data={applications[0]} isCard={true} />
                 </card>
                 :
-                <Search />
+                <Search data={applications}/>
             }
             {data.userInfo.userType === "STUDENT" ?
                 <section className="dashboard-list grow" ref={elementRef} style={{ "height": distanceToBottom + "px" }}>
