@@ -3,16 +3,29 @@ import Application from "../../components/application";
 
 export default function ApplicationsList(properties) {
     const { currentApp, onNewAppClick, onAppClick, elementRef, distanceToBottom, data } = properties;
+    const applications = data.applications;
 
     function btnNewAppClick() {
         onNewAppClick(true);
     }
 
-    if (data === undefined || data.length === 0 || (data.length === 1 && data[0].step === 0)) {
+    if (data.assignedAdviser === undefined || data.assignedAdviser === null || data.assignedOfficer === undefined || data.assignedOfficer === null) {
         return (
             <section className="flex flex-col flex-none dashboard-list-section">
                 <card className="mx-8 flex-none card w-auto bg-base-100 shadow-md mb-0">
-                    <Application data={({ state: null })} isCard={true} />
+                    <Application data={({ status: "NO_OFFICER" })} isCard={true} />
+                </card>
+                <section className="dashboard-list grow" ref={elementRef} style={{ "height": distanceToBottom + "px" }}>
+                </section>
+            </section>
+        );
+    }
+
+    if (applications === undefined || applications.length === 0 || (applications.length === 1 && applications[0].step === 0)) {
+        return (
+            <section className="flex flex-col flex-none dashboard-list-section">
+                <card className="mx-8 flex-none card w-auto bg-base-100 shadow-md mb-0">
+                    <Application data={({ status: null })} isCard={true} />
                 </card>
                 <section className="dashboard-list grow" ref={elementRef} style={{ "height": distanceToBottom + "px" }}>
                 </section>
@@ -25,10 +38,10 @@ export default function ApplicationsList(properties) {
     return (
         <section className="flex flex-col flex-none dashboard-list-section">
             <card className="mx-8 flex-none card w-auto bg-base-100 shadow-md mb-0">
-                <Application onAppClick={onAppClick} currentApp={currentApp} data={data[0]} isCard={true} />
+                <Application onAppClick={onAppClick} currentApp={currentApp} data={applications[0]} isCard={true} />
             </card>
             <section className="dashboard-list grow" ref={elementRef} style={{ "height": distanceToBottom + "px" }}>
-                {data.slice(1).map((data) => {
+                {applications.slice(1).map((data) => {
                     return (
                         <Application onAppClick={onAppClick} currentApp={currentApp} data={data} isCard={false} />
                     )

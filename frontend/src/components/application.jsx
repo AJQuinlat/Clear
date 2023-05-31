@@ -31,6 +31,13 @@ function getResources(application) {
             res.secondLine = <h3 className="text-sm">Submitted {relativeTime.from(application.dateSubmitted)}</h3>;
             res.thirdLine = <p className="font-light text-xs mt-2">Being reviewed by <span className="font-medium">{application.step === 1 ? "Adviser" : "Clearance Officer"}</span></p>;
             break;
+        case "NO_OFFICER":
+            res.color = "text-slate-600";
+            res.icon = "circle";
+            res.header = "No assigned adviser/clearance officer";
+            res.secondLine = "Try again later.";
+            res.thirdLine = "";
+            break;
         default:
             res.color = "text-slate-600";
             res.icon = "circle";
@@ -48,7 +55,7 @@ export default function Application(props) {
     const res = getResources(data);
 
     useEffect(() => {
-        setInactive(data !== currentApp);
+        if (currentApp !== undefined) setInactive(data._id !== currentApp._id);
     }, [currentApp, data]);
 
     function onClk() {
