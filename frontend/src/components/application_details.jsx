@@ -93,7 +93,7 @@ export default function ApplicationDetails(props) {
               <div className="w-10 avatar pt-2">
                 <img
                   className="rounded-full"
-                  src="https://placehold.jp/150x150.png"
+                  src={"../assets/images/profile-default.webp"}
                 />
               </div>
             </div>
@@ -124,7 +124,7 @@ export default function ApplicationDetails(props) {
               <div className="w-10 avatar pt-2">
                 <img
                   className="rounded-full"
-                  src="https://placehold.jp/150x150.png"
+                  src={"../assets/images/profile-default.webp"}
                 />
               </div>
             </div>

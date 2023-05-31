@@ -79,7 +79,7 @@ export default function Dashboard() {
                     <div className="dropdown dropdown-end">
                         <label tabIndex={0} className="btn btn-ghost btn-circle avatar" id="menuButton">
                             <div className="w-12 rounded-full">
-                                <img src="https://placehold.jp/150x150.png" />
+                                <img src={"../assets/images/profile-default.webp"} />
                             </div>
                         </label>
                         <ul tabIndex={0} className="mt-3 pt-10 pb-4 px-8 shadow-lg menu dropdown-content bg-base-100 rounded-box w-80">

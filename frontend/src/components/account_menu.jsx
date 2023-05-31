@@ -25,7 +25,7 @@ export default function AccountMenu(properties) {
         return (
             <section className="flex flex-col m-auto">
                 <div className="mb-4 m-auto w-20 avatar">
-                    <img className="rounded-full" src="https://placehold.jp/150x150.png" />
+                    <img className="rounded-full" src={"../assets/images/profile-default.webp"} />
                 </div>
                 <span className="text-lg text-center font-semibold m-auto">John Vincent M. Corcega</span>
                 <span className="text-xs text-center opacity-60 m-auto">2021-04240</span>
@@ -34,7 +34,7 @@ export default function AccountMenu(properties) {
                 <span className="text-md text-start font-semibold m-start">Assigned Adviser</span>
                 <div className="flex mt-3">
                     <div className="flex-none w-10 avatar">
-                        <img className="rounded-full" src="https://placehold.jp/150x150.png" />
+                        <img className="rounded-full" src={"../assets/images/profile-default.webp"} />
                     </div>
                     <div className="flex flex-col flex-auto ml-4">
                         <span className="text-md font-semibold">Arian J. Jacildo</span>
@@ -45,7 +45,7 @@ export default function AccountMenu(properties) {
                 <span className="text-md text-start font-semibold m-start">Assigned Clearance Officer</span>
                 <div className="flex mt-3">
                     <div className="flex-none w-10 avatar">
-                        <img className="rounded-full" src="https://placehold.jp/150x150.png" />
+                        <img className="rounded-full" src={"../assets/images/profile-default.webp"} />
                     </div>
                     <div className="flex flex-col flex-auto ml-4">
                         <span className="text-md font-semibold">John O-Neil V. Geronimo</span>
@@ -62,7 +62,7 @@ export default function AccountMenu(properties) {
     return (
         <section className="flex flex-col m-auto">
             <div className="mb-4 m-auto w-20 avatar">
-                <img className="rounded-full" src="https://placehold.jp/150x150.png" />
+                <img className="rounded-full" src={"../assets/images/profile-default.webp"} />
             </div>
             <span className="text-lg text-center font-semibold m-auto">{userInfo.firstName} {userInfo.lastName}</span>
             <span className="text-xs text-center opacity-60 m-auto">{userInfo.studentNumber}</span>
@@ -71,7 +71,7 @@ export default function AccountMenu(properties) {
             <span className="text-md text-start font-semibold m-start">Assigned Adviser</span>
             <div className="flex mt-3">
                 <div className="flex-none w-10 avatar">
-                    <img className="rounded-full" src="https://placehold.jp/150x150.png" />
+                    <img className="rounded-full" src={"../assets/images/profile-default.webp"} />
                 </div>
                 {user.assignedAdviser === undefined || user.assignedAdviser === null ?
                     <div className="flex flex-col flex-auto ml-4">
@@ -89,7 +89,7 @@ export default function AccountMenu(properties) {
             <span className="text-md text-start font-semibold m-start">Assigned Clearance Officer</span>
             <div className="flex mt-3">
                 <div className="flex-none w-10 avatar">
-                    <img className="rounded-full" src="https://placehold.jp/150x150.png" />
+                    <img className="rounded-full" src={"../assets/images/profile-default.webp"} />
                 </div>
                 {user.assignedOfficer === undefined || user.assignedOfficer === null ?
                     <div className="flex flex-col flex-auto ml-4">
