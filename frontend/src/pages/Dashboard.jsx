@@ -36,10 +36,10 @@ export default function Dashboard() {
             navigate("/login")
         }
         heartbeat();
-        // const interval = setInterval(() => heartbeat(), 3000);
-        // return () => {
-        //     clearInterval(interval);
-        // }
+        const interval = setInterval(() => heartbeat(), 3000);
+        return () => {
+            clearInterval(interval);
+        }
     }, [isLoggedIn, navigate]);
 
 
@@ -89,9 +89,9 @@ export default function Dashboard() {
                 </div>
             </section>
             <section className="flex-row flex">
-                <ApplicationsList onAppClick={setCurrentApplication} currentApp={currentApplication} onNewAppClick={setNewApplication} data={data.applications} elementRef={appList} distanceToBottom={appListHeight} />
+                <ApplicationsList onAppClick={setCurrentApplication} currentApp={currentApplication} onNewAppClick={setNewApplication} data={data} elementRef={appList} distanceToBottom={appListHeight} />
                 <section className="flex-auto bg-base-100 w-full rounded-3xl overflow-y-auto" ref={detailsPane} style={{ "height": detailsHeight + "px" }}>
-                    <ApplicationDetails data={currentApplication} state={paneState} />
+                    <ApplicationDetails data={currentApplication} state={paneState} user={data.userInfo} assignedAdviser={data.assignedAdviser} assignedOfficer={data.assignedOfficer} />
                 </section>
             </section>
         </div>
