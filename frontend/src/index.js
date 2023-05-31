@@ -29,13 +29,29 @@ const verifyUser = async () => {
   }
 }
 
+const verifyUserOnLogin = async () => {
+  const res = await fetch("http://localhost:3001/api/heartbeat",
+    {
+      method: "GET",
+      credentials: "include"
+    });
+
+
+  const payload = await res.json();
+  if (payload.userInfo !== null && payload.userInfo !== undefined) {
+    return redirect("/")
+  } else {
+    return false
+  }
+}
+
 const router = createBrowserRouter([
-  { path: '/login', element: <Login /> },
+  { path: '/login', element: <Login />, loader: verifyUserOnLogin },
+  { path: '/sign-up', element: <Signup />, loader: verifyUserOnLogin },
   { path: '/', element: <Dashboard />, loader: verifyUser },
   { path: '/admin/applications', element: <Admin_Applications /> },
   { path: '/admin/students', element: <Admin_Students /> },
   { path: '/admin/accounts', element: <Admin_Accounts /> },
-  { path: '/sign-up', element: <Signup /> },
   { path: "/da", element: <DashboardAdviser /> }
 ]);
 
