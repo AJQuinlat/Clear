@@ -17,12 +17,12 @@ const UserSchema = new mongoose.Schema({
 
 const ApplicationSchema = new mongoose.Schema({
     uid: { type: String, required: true },
+    user: { type: mongoose.Schema.Types.Mixed, required: true },
     adviserUid: { type: String, required: true },
     officerUid: { type: String, required: true },
     status: { type: String, required: true },
     step: { type: Number, required: true, min: 0, max: 3, default: 0 },
     submission: { type: mongoose.Schema.Types.Mixed, required: true },
-    email: { type: String, required: true },
     dateSubmitted: { type: Number, required: true },
     dateReturned: { type: Number, required: false, default: null },
     dateApproved: { type: Number, required: false, default: null },
