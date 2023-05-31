@@ -33,6 +33,28 @@ const signUpWithEmail = async (req, res) => {
   }
 }
 
+const addApplication = async (req, res) => {
+  const newApplication = new Application({
+    uid: req.body.uid, 
+    adviserUid: req.body.adviserUid,
+    officerUid: req.body.officer.Uid,
+    status: "PENDING",
+    step: req.body.step,
+    submission: req.body.submission, 
+    email: req.body.email,
+    dateSubmitted: req.body.dateSubmitted
+  });
+
+  console.log(req.body);
+  const result = await newApplication.save();
+
+  if (result._id) {
+    res.send({ success: true })
+  } else {
+    res.send({ success: false })
+  }
+}
+
 const signInWithEmail = async (req, res) => {
   const email = req.body.email.trim();
   const password = req.body.password;
@@ -164,4 +186,4 @@ const checkIfLoggedIn = async (req, res) => {
   }
 }
 
-export { signUpWithEmail, signInWithEmail, heartbeat }
+export { signUpWithEmail, signInWithEmail, heartbeat, addApplication }
