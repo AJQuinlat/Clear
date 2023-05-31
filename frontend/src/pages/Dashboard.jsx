@@ -81,6 +81,15 @@ export default function Dashboard() {
                 <div className="flex-1">
                     <button className="btn btn-ghost text-primary normal-case text-xl">Clear</button>
                 </div>
+                {data.userInfo !== undefined && data.userInfo.userType === "ADMINISTRATOR" ?
+                    <ul className="text-primary px-10 space-x-5">
+                        <li><button className="font-semibold underline" href="/admin/applications">Applications</button></li>
+                        <li><button href="/admin/students">Students</button></li>
+                        <li><button href="/admin/accounts">Manage Accounts</button></li>
+                    </ul>
+                    :
+                    null
+                }
                 <div className="flex-none gap-2">
                     <div className="dropdown dropdown-end">
                         <label tabIndex={0} className="btn btn-ghost btn-circle avatar" id="menuButton">

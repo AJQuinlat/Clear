@@ -188,7 +188,6 @@ class Admin_Accounts extends React.Component {
         </section>
         <section className="flex-row flex">
           <section className="flex flex-col flex-none dashboard-list-section mx-8">
-            <Search></Search>
             <card className="flex-none card w-full bg-base-100 shadow-md mb-0">
               {/* current_account_card */}
             </card>

@@ -69,11 +69,11 @@ export default function ApplicationDetails(props) {
     // Construct the object based on form
     let data = {};
     data.uid = user._id;
+    data.user = user;
     data.adviserUid = assignedAdviser._id;
     data.officerUid = assignedOfficer._id;
     data.step = (state === "new_app" ? 1 : data.step);
     data.submission = { link: formData.get("link"), remarks: document.getElementById("submissionRemark").value };
-    data.email = user.email;
     data.dateSubmitted = Date.now();
 
     fetch("http://localhost:3001/api/application",

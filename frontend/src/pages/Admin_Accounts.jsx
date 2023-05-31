@@ -60,7 +60,7 @@ class Admin_Accounts extends React.Component {
                         <li><a href="/admin/applications">Applications</a></li>
                         <li><a  href="/admin/students">Students</a></li>
                         <li><a className="font-semibold underline" href="/admin/accounts">Manage Accounts</a></li>
-                    </ul>  
+                    </ul>
 
                     <div className="flex-none gap-2">
                         <div className="dropdown dropdown-end">

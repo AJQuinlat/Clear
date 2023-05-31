@@ -1,5 +1,7 @@
 import { React } from "react";
 import Application from "../../components/application";
+import StudentApplication from "../../components/application_student";
+import Search from "../../components/search";
 
 export default function ApplicationsList(properties) {
     const { currentApp, onNewAppClick, onAppClick, elementRef, distanceToBottom, data } = properties;
@@ -9,7 +11,7 @@ export default function ApplicationsList(properties) {
         onNewAppClick(true);
     }
 
-    if (data.assignedAdviser === undefined || data.assignedAdviser === null || data.assignedOfficer === undefined || data.assignedOfficer === null) {
+    if ((data.userInfo === undefined || data.userInfo.userType === "STUDENT") && (data.assignedAdviser === undefined || data.assignedAdviser === null || data.assignedOfficer === undefined || data.assignedOfficer === null)) {
         return (
             <section className="flex flex-col flex-none dashboard-list-section">
                 <card className="mx-8 flex-none card w-auto bg-base-100 shadow-md mb-0">
@@ -21,7 +23,7 @@ export default function ApplicationsList(properties) {
         );
     }
 
-    if (applications === undefined || applications.length === 0 || (applications.length === 1 && applications[0].step === 0)) {
+    if ((data.userInfo === undefined || data.userInfo.userType === "STUDENT") && (applications === undefined || applications.length === 0 || (applications.length === 1 && applications[0].step === 0))) {
         return (
             <section className="flex flex-col flex-none dashboard-list-section">
                 <card className="mx-8 flex-none card w-auto bg-base-100 shadow-md mb-0">
@@ -37,17 +39,32 @@ export default function ApplicationsList(properties) {
 
     return (
         <section className="flex flex-col flex-none dashboard-list-section">
-            <card className="mx-8 flex-none card w-auto bg-base-100 shadow-md mb-0">
-                <Application onAppClick={onAppClick} currentApp={currentApp} data={applications[0]} isCard={true} />
-            </card>
-            <section className="dashboard-list grow" ref={elementRef} style={{ "height": distanceToBottom + "px" }}>
-                {applications.slice(1).map((data) => {
-                    return (
-                        <Application onAppClick={onAppClick} currentApp={currentApp} data={data} isCard={false} />
-                    )
-                })}
-                <div className="h-4" />
-            </section>
+            {data.userInfo.userType === "STUDENT" ?
+                <card className="mx-8 flex-none card w-auto bg-base-100 shadow-md mb-0">
+                    <Application onAppClick={onAppClick} currentApp={currentApp} data={applications[0]} isCard={true} />
+                </card>
+                :
+                <Search />
+            }
+            {data.userInfo.userType === "STUDENT" ?
+                <section className="dashboard-list grow" ref={elementRef} style={{ "height": distanceToBottom + "px" }}>
+                    {applications.slice(1).map((data) => {
+                        return (
+                            <Application onAppClick={onAppClick} currentApp={currentApp} data={data} isCard={false} />
+                        )
+                    })}
+                    <div className="h-4" />
+                </section>
+                :
+                <section className="dashboard-list grow" ref={elementRef} style={{ "height": distanceToBottom + "px" }}>
+                    {applications.map((data) => {
+                        return (
+                            <StudentApplication onAppClick={onAppClick} currentApp={currentApp} data={data} isCard={false} />
+                        )
+                    })}
+                    <div className="h-4" />
+                </section>
+            }
         </section>
     );
 }
