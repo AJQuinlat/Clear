@@ -1,4 +1,4 @@
-import { React } from "react";
+import { React, useState } from "react";
 import Application from "../../components/application";
 import StudentApplication from "../../components/application_student";
 import Search from "../../components/search";
@@ -6,6 +6,15 @@ import Search from "../../components/search";
 export default function ApplicationsList(properties) {
     const { currentApp, onNewAppClick, onAppClick, elementRef, distanceToBottom, data } = properties;
     const applications = data.applications;
+
+    const [query, setQuery] = useState("")
+
+    let filteredApps = []
+    if (applications!==undefined){
+        filteredApps = applications.filter(application => {
+            return (application.user.firstName+application.user.middleName+application.user.lastName).toLowerCase().includes(query.toLowerCase())
+        });
+    }
 
     function btnNewAppClick() {
         onNewAppClick(true);
@@ -32,7 +41,7 @@ export default function ApplicationsList(properties) {
                 <section className="dashboard-list grow" ref={elementRef} style={{ "height": distanceToBottom + "px" }}>
                 </section>
                 <button onClick={btnNewAppClick}
-                    class="relative z-90 bottom-16 mx-8 ml-auto btn btn-secondary w-max h-12 px-3 rounded-lg drop-shadow-md justify-center items-center text-white text-sm normal-case shadow-lg"><span className="align-middle material-symbols-rounded mr-2" style={{ fontSize: '20px' }}>add_circle</span>New application</button>
+                    className="relative z-90 bottom-16 mx-8 ml-auto btn btn-secondary w-max h-12 px-3 rounded-lg drop-shadow-md justify-center items-center text-white text-sm normal-case shadow-lg"><span className="align-middle material-symbols-rounded mr-2" style={{ fontSize: '20px' }}>add_circle</span>New application</button>
             </section>
         );
     }
@@ -44,7 +53,7 @@ export default function ApplicationsList(properties) {
                     <Application onAppClick={onAppClick} currentApp={currentApp} data={applications[0]} isCard={true} />
                 </card>
                 :
-                <Search data={applications}/>
+                <Search data={applications} query={query} onQuery={setQuery}/>
             }
             {data.userInfo.userType === "STUDENT" ?
                 <section className="dashboard-list grow" ref={elementRef} style={{ "height": distanceToBottom + "px" }}>
@@ -57,7 +66,7 @@ export default function ApplicationsList(properties) {
                 </section>
                 :
                 <section className="dashboard-list grow" ref={elementRef} style={{ "height": distanceToBottom + "px" }}>
-                    {applications.map((data) => {
+                    {filteredApps.map((data) => {
                         return (
                             <StudentApplication onAppClick={onAppClick} currentApp={currentApp} data={data} isCard={false} />
                         )

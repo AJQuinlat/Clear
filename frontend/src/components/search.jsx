@@ -1,17 +1,5 @@
-import { useState, useEffect } from "react"
-
 
 export default function Search(props) {
-    const [applications, setApplications] = useState([])
-    const [query, setQuery] = useState("")
-
-    useEffect(()=>{
-		setApplications(props.data);
-	}, [])
-
-    const filteredApplications = applications.filter(applications => {
-        return (applications.user.firstName+applications.user.middlName+applications.user.lastName).toLowerCase().includes(query.toLowerCase())
-    })
 
     return (
         <div className="mx-8">
@@ -22,14 +10,14 @@ export default function Search(props) {
                     </svg>
                 </span>
                 <input
-                    value={query}
-                    onChange={e => setQuery(e.target.value)}
+                    value={props.query}
+                    onChange={(e) => props.onQuery(e.target.value)}
                     className="w-full bg-white placeholder:font-italitc border border-slate-300 rounded-lg py-4 pl-16 pr-4 focus:outline-primary/50 shadow-md"
                     placeholder="Search for applications" type="search" />
             </label>
 
             {/* filter by */}
-            <div class="grid gap-3 mb-2 md:grid-cols-5 pr-16">
+            <div className="grid gap-3 mb-2 md:grid-cols-5 pr-16">
                 <span className="ml-8 align-middle my-auto">Filter by</span>
                 <button className="btn-sm btn-secondary btn mb-2 text-black text-xs shadow-md border-none bg-white rounded-full hover:text-white">Date</button>
                 <button className="btn-sm btn-secondary btn mb-2 text-black text-xs shadow-md border-none bg-white rounded-full hover:text-white">Adviser</button>
@@ -37,26 +25,11 @@ export default function Search(props) {
                 <button className="btn-sm btn-secondary btn mb-2 text-black text-xs shadow-md border-none bg-white rounded-full hover:text-white">Step</button>
             </div>
              {/* sort by */}
-            <div class="grid gap-3 mb-6 md:grid-cols-5 pr-16">
+            <div className="grid gap-3 mb-6 md:grid-cols-5 pr-16">
                 <span className="ml-8 align-middle my-auto">Sort by</span>
                 <button className="btn-sm btn-secondary btn mb-2 text-black text-xs shadow-md border-none bg-white rounded-full hover:text-white">Date</button>
                 <button className="btn-sm btn-secondary btn mb-2 text-black text-xs shadow-md border-none bg-white rounded-full hover:text-white">Name</button>
             </div>
-
-            {
-                filteredApplications.map(application => {
-                    console.log(application)
-                    return(                    
-                        <h1>
-                            {application.user.firstName}
-                        </h1>
-                    )
-                })
-            }
-
-
-
-
         </div>
     )
 }
