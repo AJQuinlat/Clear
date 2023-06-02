@@ -122,12 +122,13 @@ export default function ApplicationDetails(props) {
           </h1>
         </div>
       </div>
+
       <div className="flex flex-row">
-        <div>
+        <div className="w-full">
           <h2
             className={getColor(state) + " font-semibold text-accent text-2xl"}
           >
-            Assigned Officer
+            Assigned Adviser
           </h2>
           <div className="flex flex-row mt-3">
             <div className="m-auto flex-none">
@@ -154,11 +155,11 @@ export default function ApplicationDetails(props) {
             </div>
           </div>
         </div>
-        <div className="pl-20">
+        <div className="w-full pr-40">
           <h2
             className={getColor(state) + " font-semibold text-accent text-2xl"}
           >
-            Clearance Officer
+            Assigned Clearance Officer
           </h2>
           <div className="flex flex-row mt-3">
             <div className="m-auto flex-none">
