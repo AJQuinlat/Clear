@@ -36,9 +36,11 @@ const signUpWithEmail = async (req, res) => {
 const addApplication = async (req, res) => {
   const newApplication = new Application({
     uid: req.body.uid, 
-    user: req.body.user, 
+    user: req.body.user,
     adviserUid: req.body.adviserUid,
     officerUid: req.body.officerUid,
+    adviser: req.body.adviser,
+    officer: req.body.officer,
     status: "PENDING",
     step: req.body.step,
     submission: req.body.submission,

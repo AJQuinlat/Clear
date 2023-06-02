@@ -20,6 +20,8 @@ const ApplicationSchema = new mongoose.Schema({
     user: { type: mongoose.Schema.Types.Mixed, required: true },
     adviserUid: { type: String, required: true },
     officerUid: { type: String, required: true },
+    adviser: { type: mongoose.Schema.Types.Mixed, required: true },
+    officer: { type: mongoose.Schema.Types.Mixed, required: true },
     status: { type: String, required: true },
     step: { type: Number, required: true, min: 0, max: 3, default: 0 },
     submission: { type: mongoose.Schema.Types.Mixed, required: true },
