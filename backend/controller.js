@@ -44,6 +44,8 @@ const addApplication = async (req, res) => {
     status: "PENDING",
     step: req.body.step,
     submission: req.body.submission,
+    year: req.body.year,
+    semester: req.body.semester,
     dateSubmitted: req.body.dateSubmitted
   });
 
@@ -125,6 +127,9 @@ const heartbeat = async (req, res) => {
     return res.send(data);
   }
 
+  data.semester = 2;
+  data.year = 2022;
+
   data.userInfo.password = undefined;
 
   switch (data.userInfo.userType) {
@@ -156,8 +161,7 @@ const heartbeat = async (req, res) => {
       data.applications = await Application.find({}).sort({ dateSubmitted: "desc" });
       break;
   }
-
-  console.log(data);
+  
   return res.send(data);
 }
 

@@ -46,7 +46,7 @@ function isDisabled(state, user) {
 }
 
 export default function ApplicationDetails(props) {
-  const { onSubmitApp, data, state, user } = props;
+  const { onSubmitApp, data, state, user, year, semester } = props;
   let assignedAdviser = props.assignedAdviser;
   let assignedOfficer = props.assignedOfficer;
 
@@ -72,6 +72,8 @@ export default function ApplicationDetails(props) {
     data.officerUid = assignedOfficer._id;
     data.adviser = assignedAdviser;
     data.officer = assignedOfficer;
+    data.year = year;
+    data.semester = semester;
     data.step = (state === "new_app" ? 1 : data.step);
     data.submission = { link: formData.get("link"), remarks: formData.get("remarks") };
     data.dateSubmitted = Date.now();

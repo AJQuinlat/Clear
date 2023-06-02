@@ -25,6 +25,8 @@ const ApplicationSchema = new mongoose.Schema({
     status: { type: String, required: true },
     step: { type: Number, required: true, min: 0, max: 3, default: 0 },
     submission: { type: mongoose.Schema.Types.Mixed, required: true },
+    year: { type: Number, required: true },
+    semester: { type: Number, required: true },
     dateSubmitted: { type: Number, required: true },
     dateReturned: { type: Number, required: false, default: null },
     dateApproved: { type: Number, required: false, default: null },
