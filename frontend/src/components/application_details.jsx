@@ -233,7 +233,7 @@ export default function ApplicationDetails(props) {
               name="remarks"
               value={state === "info_app" ? data.submission.remarks : null}
               rows="8"
-              placeholder="Write a remark"
+              placeholder={isDisabled(state, user) ? "No remarks" : "Write a remark"}
               style={{resize: "none"}}
               disabled={isDisabled(state, user)}
               />
