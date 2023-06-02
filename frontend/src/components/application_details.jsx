@@ -98,7 +98,7 @@ export default function ApplicationDetails(props) {
   }
 
   let res;
-  if (state === "info_app" && user.userType === "STUDENT") {
+  if (state === "info_app" && (user.userType !== "ADVISER" && user.userType !== "CLEARANCE_OFFICER")) {
     res = getResources(data);
   }
 
@@ -192,7 +192,7 @@ export default function ApplicationDetails(props) {
       </div>
 
       {/* Status */}
-      {state === "info_app" && user.userType === "STUDENT" ?
+      {state === "info_app" && (user.userType !== "ADVISER" && user.userType !== "CLEARANCE_OFFICER") ?
         <div className="mt-12">
           <h2 className={getColor(state) + " font-semibold text-accent text-2xl"}>
             Application Status
