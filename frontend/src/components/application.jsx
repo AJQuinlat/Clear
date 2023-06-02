@@ -4,7 +4,7 @@ import 'material-symbols';
 import RelativeTime from '@yaireo/relative-time'
 import "./application.css"
 
-function getResources(application) {
+export function getResources(application) {
     const relativeTime = new RelativeTime();
     let res = {};
 
