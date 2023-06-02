@@ -55,11 +55,17 @@ function isDisabled(state, user) {
 }
 
 export default function ApplicationDetails(props) {
-  const { onSubmitApp, data, state, user, assignedAdviser, assignedOfficer } = props;
+  const { onSubmitApp, data, state, user } = props;
+  let assignedAdviser = props.assignedAdviser;
+  let assignedOfficer = props.assignedOfficer;
 
   if ((state === "info_app" && (data == null || data === undefined || data.length === 0)) || user === undefined) {
     return <EmptyApplication />;
   }
+
+  // Pull assigned adviser/officer from data if prop is undefined
+  if (assignedAdviser === undefined) assignedAdviser = data.adviser;
+  if (assignedOfficer === undefined) assignedOfficer = data.officer;
 
   function submitApplication(event) {
     event.preventDefault();
@@ -73,6 +79,8 @@ export default function ApplicationDetails(props) {
     data.user = user;
     data.adviserUid = assignedAdviser._id;
     data.officerUid = assignedOfficer._id;
+    data.adviser = assignedAdviser;
+    data.officer = assignedOfficer;
     data.step = (state === "new_app" ? 1 : data.step);
     data.submission = { link: formData.get("link"), remarks: document.getElementById("submissionRemark").value };
     data.dateSubmitted = Date.now();
