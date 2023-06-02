@@ -48,7 +48,7 @@ export default function StudentApplication(props) {
 
     return (
         <button onClick={onClk} className={(isCard ? "card " : "") + (!isInactive ? "app-active" : "") + " app-ghost btn-block text-left"}>
-            <div className={"flex flex-row px-6 py-5 " + (isCard ? "" : "mx-8")} style={{ minHeight: '7rem' }}>
+            <div className={"flex flex-row px-6 py-5 " + (isCard ? " " : "mx-8 ") + (data.status === "REJECTED" ? "opacity-75" : "")} style={{ minHeight: '7rem' }}>
                 <label className="my-auto btn btn-ghost btn-circle avatar">
                     <div className="w-12 rounded-full">
                         <img src="https://placehold.jp/150x150.png" />
