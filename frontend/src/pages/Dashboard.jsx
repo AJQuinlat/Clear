@@ -70,6 +70,7 @@ export default function Dashboard() {
 
     function onSubmitApplication() {
         setNewApplication(false);
+        setCurrentApplication([]);
         setPaneState("info_app");
         heartbeat();
     }
