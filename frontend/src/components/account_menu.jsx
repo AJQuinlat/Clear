@@ -21,6 +21,21 @@ export default function AccountMenu(properties) {
         setIsLoggedIn(false)
     }
 
+    function getSemesterName() {
+        switch (user.semester) {
+            case 1:
+                return "1st Semester";
+            case 2:
+                return "2nd Semester";
+            default:
+                return "Mid-semester";
+        }
+    }
+
+    function getAcademicYear() {
+        return user.year+"-"+(user.year+1);
+    }
+
     if (userInfo === undefined || userInfo === null) {
         return (
             <section className="flex flex-col m-auto">
@@ -66,7 +81,8 @@ export default function AccountMenu(properties) {
             </div>
             <span className="text-lg text-center font-semibold m-auto">{userInfo.firstName} {userInfo.lastName}</span>
             <span className="text-xs text-center opacity-60 m-auto">{userInfo.studentNumber}</span>
-            <span className="text-xs text-center opacity-60 m-auto">{userInfo.userType.charAt(0).toUpperCase()}{userInfo.userType.slice(1).toLowerCase()} - {userInfo.course}</span>
+            {userInfo.userType === "STUDENT" ? <span className="text-xs text-center opacity-60 m-auto">{userInfo.course}</span> : <span />}
+            <span className="text-xs text-center opacity-60 m-auto">{userInfo.userType.charAt(0).toUpperCase()}{userInfo.userType.slice(1).toLowerCase()} - {getSemesterName() + " (A.Y. " + getAcademicYear() + ")"}</span>
             {userInfo.userType === "STUDENT" ?
                 <div>
                     <div className="h-8" />
