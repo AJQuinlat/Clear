@@ -1,4 +1,5 @@
 import "material-symbols";
+import { showToast } from "./toast";
 import EmptyApplication from "./application_empty";
 
 function getIcon(state) {
@@ -87,10 +88,11 @@ export default function ApplicationDetails(props) {
       .then(response => response.json())
       .then(body => {
         if (body.success) {
-          alert("SUCCESS!");
+          showToast("Application success", "Application submitted successfully.", "success", "left");
           onSubmitApp();
-        }
-        else { alert("Log in failed") }
+        } else { 
+          showToast("Application error", "An error has occured. Try again later.", "error", "left");
+         }
       })
   }
 
