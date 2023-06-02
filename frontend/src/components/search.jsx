@@ -1,6 +1,24 @@
 
 export default function Search(props) {
 
+    function handleFilter(value){
+        // document.getElementById(value).className += " bg-primary text-white";
+        switch (value) {
+            case "DATE":
+                props.filterBy(value);
+                break
+            case "ADVISER":
+                props.filterBy(value);
+                break
+            case "STATUS":
+                props.filterBy(value);
+                break
+            case "STEP":
+                props.filterBy(value);
+                break
+          }
+    }
+
     return (
         <div className="mx-8">
             <label className="relative block mb-6">
@@ -19,10 +37,10 @@ export default function Search(props) {
             {/* filter by */}
             <div className="grid gap-3 mb-2 md:grid-cols-5 pr-16">
                 <span className="ml-8 align-middle my-auto">Filter by</span>
-                <button className="btn-sm btn-secondary btn mb-2 text-black text-xs shadow-md border-none bg-white rounded-full hover:text-white">Date</button>
-                <button className="btn-sm btn-secondary btn mb-2 text-black text-xs shadow-md border-none bg-white rounded-full hover:text-white">Adviser</button>
-                <button className="btn-sm btn-secondary btn mb-2 text-black text-xs shadow-md border-none bg-white rounded-full hover:text-white">Status</button>
-                <button className="btn-sm btn-secondary btn mb-2 text-black text-xs shadow-md border-none bg-white rounded-full hover:text-white">Step</button>
+                <button id={"DATE"} onClick={e => handleFilter(e.target.id)} className="btn-sm btn-secondary btn mb-2 text-black text-xs shadow-md border-none bg-white rounded-full hover:text-white">Date</button>
+                <button id={"ADVISER"} onClick={e => handleFilter(e.target.id)} className="btn-sm btn-secondary btn mb-2 text-black text-xs shadow-md border-none bg-white rounded-full hover:text-white">Adviser</button>
+                <button id={"STATUS"} onClick={e => handleFilter(e.target.id)} className="btn-sm btn-secondary btn mb-2 text-black text-xs shadow-md border-none bg-white rounded-full hover:text-white">Status</button>
+                <button id={"STEP"} onClick={e => handleFilter(e.target.id)} className="btn-sm btn-secondary btn mb-2 text-black text-xs shadow-md border-none bg-white rounded-full hover:text-white">Step</button>
             </div>
              {/* sort by */}
             <div className="grid gap-3 mb-6 md:grid-cols-5 pr-16">

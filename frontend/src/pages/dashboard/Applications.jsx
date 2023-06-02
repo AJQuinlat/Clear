@@ -2,6 +2,7 @@ import { React, useState } from "react";
 import Application from "../../components/application";
 import StudentApplication from "../../components/application_student";
 import Search from "../../components/search";
+import moment from 'moment';
 
 export default function ApplicationsList(properties) {
     const { currentApp, onNewAppClick, onAppClick, elementRef, distanceToBottom, data } = properties;
@@ -10,10 +11,41 @@ export default function ApplicationsList(properties) {
     const [query, setQuery] = useState("")
 
     let filteredApps = []
+    const [filter, setFilter] = useState("NAME")
+    function filterBy(value){
+        if (filter == value){
+            setFilter("NAME")
+        } else {
+            setFilter(value)
+        }
+    }
+
     if (applications!==undefined){
-        filteredApps = applications.filter(application => {
-            return (application.user.firstName+application.user.middleName+application.user.lastName).toLowerCase().includes(query.toLowerCase())
-        });
+        switch(filter){
+            case "DATE":
+                filteredApps = applications.filter(app => {
+                    let date = new Date(app.dateSubmitted)
+                    return (moment(date).format("dddd LL")).toLowerCase().includes(query.toLowerCase())
+                });
+                break;
+            case "ADVISER":
+                break;
+            case "STATUS":
+                filteredApps = applications.filter(app => {
+                    return (String(app.status)).toLowerCase().includes(query.toLowerCase())
+                });
+                break;
+            case "STEP":
+                filteredApps = applications.filter(app => {
+                    return (String(app.step)).toLowerCase().includes(query.toLowerCase())
+                });
+                break;
+            case "NAME":
+                filteredApps = applications.filter(app => {
+                    return (app.user.firstName+app.user.middleName+app.user.lastName).toLowerCase().includes(query.toLowerCase())
+                });
+        }
+
     }
 
     function btnNewAppClick() {
@@ -53,7 +85,7 @@ export default function ApplicationsList(properties) {
                     <Application onAppClick={onAppClick} currentApp={currentApp} data={applications[0]} isCard={true} />
                 </card>
                 :
-                <Search data={applications} query={query} onQuery={setQuery}/>
+                <Search data={applications} query={query} onQuery={setQuery} filterBy={filterBy}/>
             }
             {data.userInfo.userType === "STUDENT" ?
                 <section className="dashboard-list grow" ref={elementRef} style={{ "height": distanceToBottom + "px" }}>
