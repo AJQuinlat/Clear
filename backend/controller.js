@@ -36,12 +36,16 @@ const signUpWithEmail = async (req, res) => {
 const addApplication = async (req, res) => {
   const newApplication = new Application({
     uid: req.body.uid, 
-    user: req.body.user, 
+    user: req.body.user,
     adviserUid: req.body.adviserUid,
     officerUid: req.body.officerUid,
+    adviser: req.body.adviser,
+    officer: req.body.officer,
     status: "PENDING",
     step: req.body.step,
     submission: req.body.submission,
+    year: req.body.year,
+    semester: req.body.semester,
     dateSubmitted: req.body.dateSubmitted
   });
 
@@ -123,11 +127,14 @@ const heartbeat = async (req, res) => {
     return res.send(data);
   }
 
+  data.semester = 2;
+  data.year = 2022;
+
   data.userInfo.password = undefined;
 
   switch (data.userInfo.userType) {
     case "STUDENT":
-      data.applications = await Application.find({ uid: data.userInfo._id }).sort({ dateSubmitted: "desc" });
+      data.applications = await Application.find({ uid: data.userInfo._id, semester: data.semester, year: data.year }).sort({ dateSubmitted: "desc" });
 
       try {
         data.assignedAdviser = await User.findById(data.userInfo.adviserUid);
@@ -145,17 +152,16 @@ const heartbeat = async (req, res) => {
 
       break;
     case "ADVISER":
-      data.applications = await Application.find({ adviserUid: data.userInfo._id }).sort({ dateSubmitted: "desc" });
+      data.applications = await Application.find({ adviserUid: data.userInfo._id, semester: data.semester, year: data.year }).sort({ dateSubmitted: "desc" });
       break;
     case "CLEARANCE_OFFICER":
-      data.applications = await Application.find({ officerUid: data.userInfo._id }).sort({ dateSubmitted: "desc" });
+      data.applications = await Application.find({ officerUid: data.userInfo._id, semester: data.semester, year: data.year }).sort({ dateSubmitted: "desc" });
       break;
     case "ADMINISTRATOR":
       data.applications = await Application.find({}).sort({ dateSubmitted: "desc" });
       break;
   }
-
-  console.log(data);
+  
   return res.send(data);
 }
 
