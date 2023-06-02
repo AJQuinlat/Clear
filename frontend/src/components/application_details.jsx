@@ -1,6 +1,7 @@
 import "material-symbols";
 import { showToast } from "./toast";
 import EmptyApplication from "./application_empty";
+import { getResources } from "./application";
 
 function getIcon(state) {
   // eslint-disable-next-line default-case
@@ -31,16 +32,6 @@ function getStateHeader(state) {
       return "New Application";
     case "info_app":
       return "Application Details";
-  }
-}
-
-function getStatusHeader(state) {
-  // eslint-disable-next-line default-case
-  switch (state) {
-    case "new_app":
-      return "Application Details";
-    case "info_app":
-      return "Application Status";
   }
 }
 
@@ -102,6 +93,11 @@ export default function ApplicationDetails(props) {
           showToast("Application error", "An error has occured. Try again later.", "error", "left");
          }
       })
+  }
+
+  let res;
+  if (state === "info_app" && user.userType === "STUDENT") {
+    res = getResources(data);
   }
 
   return (
@@ -192,10 +188,40 @@ export default function ApplicationDetails(props) {
         </div>
       </div>
 
+      {/* Status */}
+      {state === "info_app" && user.userType === "STUDENT" ?
+        <div className="mt-12">
+          <h2 className={getColor(state) + " font-semibold text-accent text-2xl"}>
+            Application Status
+          </h2>
+          <div className="flex flex-row py-5" style={{ minHeight: '7rem' }}>
+            <div className="justify-center m-auto flex-none">
+              <span className={res.color + " align-middle material-symbols-rounded"} style={{ fontSize: '3rem' }}>{res.icon}</span>
+            </div>
+            <div className="flex flex-col justify-center flex-auto ml-5">
+              <h1 className={res.color + " font-semibold text-accent text-xl"}>{res.header}</h1>
+              {res.secondLine}
+            </div>
+          </div>
+          {data.status === "REJECTED" ? 
+            <div className="mt-4 mb-12">
+              <h3 className="mb-2 text-2xl font-bold">Remarks</h3>
+              <p className="text-md">
+                {data.remarks}
+              </p>
+            </div>
+            :
+            <div />
+          }
+        </div>
+        : 
+        <div></div>
+      }
+
       {/* Details */}
-      <div className="mt-10">
+      <div className="mt-8">
         <h2 className={getColor(state) + " font-semibold text-accent text-2xl"}>
-          {getStatusHeader(state)}
+          Application Details
         </h2>
         <section className="mt-8">
           <div className="flex items-end">
