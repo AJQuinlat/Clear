@@ -183,6 +183,8 @@ const heartbeat = async (req, res) => {
       break;
     case "ADMINISTRATOR":
       data.applications = await Application.find({}).sort({ dateSubmitted: "desc" });
+      data.students = await User.find({ userType: "STUDENT" });
+      data.accounts = await User.find({ userType: { $ne: "STUDENT" } });
       break;
   }
 
