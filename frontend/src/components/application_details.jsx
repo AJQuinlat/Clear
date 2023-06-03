@@ -65,18 +65,18 @@ export default function ApplicationDetails(props) {
     const formData = new FormData(event.target);
 
     // Construct the object based on form
-    let data = {};
-    data.uid = user._id;
-    data.user = user;
-    data.adviserUid = assignedAdviser._id;
-    data.officerUid = assignedOfficer._id;
-    data.adviser = assignedAdviser;
-    data.officer = assignedOfficer;
-    data.year = year;
-    data.semester = semester;
-    data.step = (state === "new_app" ? 1 : data.step);
-    data.submission = { link: formData.get("link"), remarks: formData.get("remarks") };
-    data.dateSubmitted = Date.now();
+    let dta = {};
+    dta.uid = user._id;
+    dta.user = user;
+    dta.adviserUid = assignedAdviser._id;
+    dta.officerUid = assignedOfficer._id;
+    dta.adviser = assignedAdviser;
+    dta.officer = assignedOfficer;
+    dta.year = year;
+    dta.semester = semester;
+    dta.step = (state === "new_app" ? 1 : data.step);
+    dta.submission = { link: formData.get("link"), remarks: formData.get("remarks") };
+    dta.dateSubmitted = Date.now();
 
     fetch("http://localhost:3001/api/application",
       {
@@ -84,16 +84,75 @@ export default function ApplicationDetails(props) {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(dta)
       })
       .then(response => response.json())
       .then(body => {
         if (body.success) {
           showToast("Application success", "Application submitted successfully.", "success", "left");
           onSubmitApp();
-        } else { 
+        } else {
           showToast("Application error", "An error has occured. Try again later.", "error", "left");
-         }
+        }
+      })
+  }
+
+  function returnApplication(event) {
+    event.preventDefault();
+
+    // Construct the object based on form
+    let dta = {};
+    dta.id = data._id;
+    dta.remarks = document.getElementById("officerRemarks").value;
+    dta.dateReturned = Date.now();
+
+    fetch("http://localhost:3001/api/application/update",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(dta)
+      })
+      .then(response => response.json())
+      .then(body => {
+        console.log(body);
+        if (body.success) {
+          showToast("Application success", "Application returned successfully.", "success", "left");
+          onSubmitApp();
+        } else {
+          showToast("Application error", "An error has occured. Try again later.", "error", "left");
+        }
+      })
+  }
+
+  function approveApplication(event) {
+    event.preventDefault();
+
+    // Construct the object based on form
+    let dta = {};
+    dta.id = data._id;
+    dta.step = (data.step + 1);
+    dta.remarks = document.getElementById("officerRemarks").value;
+    dta.dateApproved = Date.now();
+
+    fetch("http://localhost:3001/api/application/update",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(dta)
+      })
+      .then(response => response.json())
+      .then(body => {
+        console.log(body);
+        if (body.success) {
+          showToast("Application success", "Application approved successfully.", "success", "left");
+          onSubmitApp();
+        } else {
+          showToast("Application error", "An error has occured. Try again later.", "error", "left");
+        }
       })
   }
 
@@ -232,13 +291,17 @@ export default function ApplicationDetails(props) {
             <p className="text-xs text-primary font-bold pl-2">required</p>
           </div>
           <div className="mt-2">
-            <p className="text-sm">
-              Enter the Drive, GitHub, or folder link associated with your
-              application’s resources(e.g. pictures, code, documents, etc.).
-            </p>
-            <p className="text-sm font-semibold">
-              Ensure the link is accessible before submitting your application.
-            </p>
+            {user.userType === "STUDENT" ?
+              <div>
+                <p className="text-sm">
+                  Enter the Drive, GitHub, or folder link associated with your
+                  application’s resources(e.g. pictures, code, documents, etc.).
+                </p>
+                <p className="text-sm font-semibold">
+                  Ensure the link is accessible before submitting your application.
+                </p>
+            </div> : null
+            }
             <input
               class="mt-5 appearance-none block input input-bordered w-full"
               name="link"
@@ -254,9 +317,11 @@ export default function ApplicationDetails(props) {
             <h3 className="text-lg font-bold">Additional Remarks</h3>
           </div>
           <div className="mt-2">
-            <p className="text-sm">
-              Add additional remarks to be seen by your clearance adviser
-            </p>
+            {user.userType === "STUDENT" ?
+              <p className="text-sm">
+                Add additional remarks to be seen by your clearance adviser
+              </p> : null
+            }
             <textarea
               className="mt-5 block w-full p-3 textarea textarea-bordered"
               name="remarks"
@@ -269,13 +334,56 @@ export default function ApplicationDetails(props) {
           </div>
         </section>
       </div>
+
       {state === "new_app" && user.userType === "STUDENT" ?
-      <button type="submit" class="btn btn-accent mt-10 mb-4 flex bg-transparent text-accent font-semibold hover:text-white py-2 px-4 border border-text-accent hover:border-transparent rounded">
-        <div className="material-symbols-rounded align-middle">
-          {getIcon("submit")}
-        </div>
-        <p className="px-2">Submit application for review</p>
-      </button> : null}
+        <button type="submit" class="btn btn-accent mt-10 mb-4 flex bg-transparent text-accent font-semibold hover:text-white py-2 px-4 border border-text-accent hover:border-transparent rounded">
+          <div className="material-symbols-rounded align-middle">
+            {getIcon("submit")}
+          </div>
+          <p className="px-2">Submit application for review</p>
+        </button> : null}
+
+      {state === "info_app" && data.status === "PENDING" && (user.userType === "ADVISER" || user.userType === "CLEARANCE_OFFICER") ?
+        <div>
+          {/* Remarks */}
+          <div className="mt-12">
+            <h2 className={getColor(state) + " font-semibold text-accent text-2xl"}>
+              Respond to Application
+            </h2>
+            <section className="mt-4">
+              <div className="flex items-end">
+                <h3 className="text-lg font-bold">Additional Remarks</h3>
+              </div>
+              <div className="mt-2">
+                <p className="text-sm">
+                  Add additional remarks to be seen by the student.
+                </p>
+                <textarea
+                  className="mt-5 block w-full p-3 textarea textarea-bordered"
+                  id="officerRemarks"
+                  rows="8"
+                  placeholder="Write a remark"
+                  style={{ resize: "none" }}
+                />
+              </div>
+            </section>
+          </div>
+          <div className="flex">
+            <button type="button" onClick={approveApplication} class="mr-4 btn btn-secondary mt-10 mb-4 flex font-semibold hover:text-white py-2 px-4 border border-text-accent hover:border-transparent rounded">
+              <div className="material-symbols-rounded align-middle">
+                done
+              </div>
+              <p className="px-2">Approve application</p>
+            </button>
+            <button type="button" onClick={returnApplication} class="btn btn-primary mt-10 mb-4 flex bg-transparent text-primary font-semibold hover:text-white py-2 px-4 border border-text-accent hover:border-transparent rounded">
+              <div className="material-symbols-rounded align-middle">
+                close
+              </div>
+              <p className="px-2">Return application</p>
+            </button>
+          </div>
+        </div>: null}
+
       <div className="h-12" />
     </form>
   );

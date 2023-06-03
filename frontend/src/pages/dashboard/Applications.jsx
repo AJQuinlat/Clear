@@ -1,3 +1,4 @@
+/* eslint-disable default-case */
 import { React, useState } from "react";
 import Application from "../../components/application";
 import StudentApplication from "../../components/application_student";
@@ -17,7 +18,7 @@ export default function ApplicationsList(properties) {
     // filter setting
     const [filter, setFilter] = useState("NAME");
     function filterBy(value) {
-      if (filter == value) {
+      if (filter === value) {
         setFilter("NAME");
       } else {
         setFilter(value);
@@ -27,7 +28,7 @@ export default function ApplicationsList(properties) {
     // sort setting
     const [sort, setSort] = useState("NONE");
     function sortBy(value) {
-      if (sort == value) {
+      if (sort === value) {
         setSort("NONE");
       } else {
         setSort(value);
@@ -148,9 +149,9 @@ export default function ApplicationsList(properties) {
                 </section>
                 :
                 <section className="dashboard-list grow" ref={elementRef} style={{ "height": distanceToBottom + "px" }}>
-                    {filteredApps.map((data) => {
+                    {filteredApps.map((app) => {
                         return (
-                            <StudentApplication onAppClick={onAppClick} currentApp={currentApp} data={data} isCard={false} />
+                            <StudentApplication onAppClick={onAppClick} currentApp={currentApp} user={data.userInfo} data={app} isCard={false} />
                         )
                     })}
                     <div className="h-4" />

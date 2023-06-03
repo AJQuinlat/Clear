@@ -4,7 +4,7 @@ import 'material-symbols';
 import RelativeTime from '@yaireo/relative-time'
 import "./application.css"
 
-function getResources(application) {
+function getResources(application, user) {
     const relativeTime = new RelativeTime();
     let res = {};
     res.header = application.user.firstName + " " + application.user.lastName;
@@ -20,12 +20,18 @@ function getResources(application) {
         case "APPROVED":
             res.color = "text-secondary";
             res.icon = "check_circle";
-            res.secondLine = <h3 className="text-sm">Cleared {relativeTime.from(application.dateApproved)}</h3>;
+            res.secondLine = <h3 className="text-sm text-secondary">Cleared {relativeTime.from(application.dateApproved)}</h3>;
             break;
         case "PENDING":
-            res.color = "text-accent";
-            res.icon = "pending";
-            res.secondLine = <h3 className="text-sm">Submitted {relativeTime.from(application.dateSubmitted)}</h3>;
+            if (application.step > 1 && user.userType === "ADVISER") {
+                res.color = "text-accent";
+                res.icon = "pending";
+                res.secondLine = <h3 className="text-sm text-secondary">Approved {relativeTime.from(application.dateApproved)}</h3>;
+            } else {
+                res.color = "text-accent";
+                res.icon = "pending";
+                res.secondLine = <h3 className="text-sm">Submitted {relativeTime.from(application.dateSubmitted)}</h3>;
+            }
             break;
     }
 
@@ -33,9 +39,9 @@ function getResources(application) {
 }
 
 export default function StudentApplication(props) {
-    const { currentApp, isCard, onAppClick, data } = props;
+    const { currentApp, isCard, onAppClick, data, user } = props;
     const [isInactive, setInactive] = useState(true);
-    const res = getResources(data);
+    const res = getResources(data, user);
 
     useEffect(() => {
         if (currentApp !== undefined) setInactive(data._id !== currentApp._id);
@@ -48,7 +54,7 @@ export default function StudentApplication(props) {
 
     return (
         <button onClick={onClk} className={(isCard ? "card " : "") + (!isInactive ? "app-active" : "") + " app-ghost btn-block text-left"}>
-            <div className={"flex flex-row px-6 py-5 " + (isCard ? " " : "mx-8 ") + (data.status === "REJECTED" ? "opacity-75" : "")} style={{ minHeight: '7rem' }}>
+            <div className={"flex flex-row px-6 py-5 " + (isCard ? " " : "mx-8 ") + (data.status === "REJECTED" || (data.status === "PENDING" && user.userType === "ADVISER" && data.step > 1) ? "opacity-75" : "")} style={{ minHeight: '7rem' }}>
                 <label className="my-auto btn btn-ghost btn-circle avatar">
                     <img
                         className="rounded-full"
