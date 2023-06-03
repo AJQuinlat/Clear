@@ -8,44 +8,94 @@ export default function ApplicationsList(properties) {
     const { currentApp, onNewAppClick, onAppClick, elementRef, distanceToBottom, data } = properties;
     const applications = data.applications;
 
+    // query from search
     const [query, setQuery] = useState("")
 
+    // new list of applications to display
     let filteredApps = []
-    const [filter, setFilter] = useState("NAME")
-    function filterBy(value){
-        if (filter == value){
-            setFilter("NAME")
-        } else {
-            setFilter(value)
-        }
+
+    // filter setting
+    const [filter, setFilter] = useState("NAME");
+    function filterBy(value) {
+      if (filter == value) {
+        setFilter("NAME");
+      } else {
+        setFilter(value);
+      }
     }
 
-    if (applications!==undefined){
-        switch(filter){
-            case "DATE":
-                filteredApps = applications.filter(app => {
-                    let date = new Date(app.dateSubmitted)
-                    return (moment(date).format("dddd LL")).toLowerCase().includes(query.toLowerCase())
-                });
-                break;
-            case "ADVISER":
-                break;
-            case "STATUS":
-                filteredApps = applications.filter(app => {
-                    return (String(app.status)).toLowerCase().includes(query.toLowerCase())
-                });
-                break;
-            case "STEP":
-                filteredApps = applications.filter(app => {
-                    return (String(app.step)).toLowerCase().includes(query.toLowerCase())
-                });
-                break;
-            case "NAME":
-                filteredApps = applications.filter(app => {
-                    return (app.user.firstName+app.user.middleName+app.user.lastName).toLowerCase().includes(query.toLowerCase())
-                });
-        }
+    // sort setting
+    const [sort, setSort] = useState("NONE");
+    function sortBy(value) {
+      if (sort == value) {
+        setSort("NONE");
+      } else {
+        setSort(value);
+      }
+    }
 
+    // filtering and sorting functionality
+    if (applications !== undefined) {
+      switch (filter) {
+        case "DATE":
+          filteredApps = applications.filter((app) => {
+            let date = new Date(app.dateSubmitted);
+            return moment(date)
+              .format("dddd LL")
+              .toLowerCase()
+              .includes(query.toLowerCase());
+          });
+          break;
+        case "ADVISER":
+          filteredApps = applications.filter((app) => {
+            return (
+              app.adviser.firstName +
+              " " +
+              app.adviser.middleName +
+              " " +
+              app.adviser.lastName
+            )
+              .toLowerCase()
+              .includes(query.toLowerCase());
+          });
+          break;
+        case "STATUS":
+          filteredApps = applications.filter((app) => {
+            return String(app.status)
+              .toLowerCase()
+              .includes(query.toLowerCase());
+          });
+          break;
+        case "STEP":
+          filteredApps = applications.filter((app) => {
+            return String(app.step).toLowerCase().includes(query.toLowerCase());
+          });
+          break;
+        case "NAME":
+          filteredApps = applications.filter((app) => {
+            return (
+              app.user.firstName +
+              " " +
+              app.user.middleName +
+              " " +
+              app.user.lastName
+            )
+              .toLowerCase()
+              .includes(query.toLowerCase());
+          });
+      }
+      switch (sort) {
+        case "SDATE":
+          filteredApps = filteredApps.sort(function (a, b) {
+            return new Date(b.dateSubmitted) - new Date(a.dateSubmitted);
+          });
+          break;
+        case "SNAME":
+          filteredApps = filteredApps.sort((a, b) =>
+            a.user.firstName > b.user.firstName ? 1 : -1
+          );
+          break;
+      }
     }
 
     function btnNewAppClick() {
@@ -85,7 +135,7 @@ export default function ApplicationsList(properties) {
                     <Application onAppClick={onAppClick} currentApp={currentApp} data={applications[0]} isCard={true} />
                 </card>
                 :
-                <Search data={applications} query={query} onQuery={setQuery} filterBy={filterBy}/>
+                <Search data={applications} query={query} onQuery={setQuery} filter={filter} filterBy={filterBy} sort={sort} sortBy={sortBy}/>
             }
             {data.userInfo.userType === "STUDENT" ?
                 <section className="dashboard-list grow" ref={elementRef} style={{ "height": distanceToBottom + "px" }}>
