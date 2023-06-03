@@ -30,7 +30,7 @@ const ApplicationSchema = new mongoose.Schema({
     dateSubmitted: { type: Number, required: true },
     dateReturned: { type: Number, required: false, default: null },
     dateApproved: { type: Number, required: false, default: null },
-    remarks: { type: String, required: false },
+    remarks: { type: String, required: false, default: null },
 });
 
 UserSchema.pre("save", function (next) {

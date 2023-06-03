@@ -35,7 +35,7 @@ const signUpWithEmail = async (req, res) => {
 
 const addApplication = async (req, res) => {
   const newApplication = new Application({
-    uid: req.body.uid, 
+    uid: req.body.uid,
     user: req.body.user,
     adviserUid: req.body.adviserUid,
     officerUid: req.body.officerUid,
@@ -55,6 +55,28 @@ const addApplication = async (req, res) => {
   if (result._id) {
     res.send({ success: true })
   } else {
+    res.send({ success: false })
+  }
+}
+
+const updateApplication = async (req, res) => {
+  try {
+    let application;
+
+    if (req.body.dateApproved !== undefined) {
+      if (req.body.step === 3) {
+        application = await Application.updateOne({ _id: req.body.id }, { step: req.body.step, status: "APPROVED", dateApproved: req.body.dateApproved, remarks: req.body.remarks });
+      } else {
+        application = await Application.updateOne({ _id: req.body.id }, { step: req.body.step, dateApproved: req.body.dateApproved });
+      }
+    } else if (req.body.dateReturned !== undefined) {
+      application = await Application.updateOne({ _id: req.body.id }, { dateReturned: req.body.dateReturned, status: "REJECTED", remarks: req.body.remarks });
+    }
+
+    // If saving is successful and there were matches, return success
+    res.send({ success: (application.acknowledged && application.matchedCount > 0) })
+  } catch (err) {
+    console.log(err);
     res.send({ success: false })
   }
 }
@@ -97,7 +119,7 @@ async function getUser(req) {
   if (!req.cookies || !req.cookies.authToken) {
     return null;
   }
-  
+
   try {
     // try to verify the token
     const tokenPayload = jwt.verify(req.cookies.authToken, 'THIS_IS_A_SECRET_STRING');
@@ -161,7 +183,7 @@ const heartbeat = async (req, res) => {
       data.applications = await Application.find({}).sort({ dateSubmitted: "desc" });
       break;
   }
-  
+
   return res.send(data);
 }
 
@@ -192,4 +214,4 @@ const checkIfLoggedIn = async (req, res) => {
   }
 }
 
-export { signUpWithEmail, signInWithEmail, heartbeat, addApplication }
+export { signUpWithEmail, signInWithEmail, heartbeat, addApplication, updateApplication }
