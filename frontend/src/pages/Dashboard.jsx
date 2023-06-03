@@ -13,6 +13,7 @@ export default function Dashboard() {
     const [detailsHeight, setDetailsPaneHeight] = useState([]);
     const [currentApplication, setCurrentApplication] = useState([]);
     const [isNewApplication, setNewApplication] = useState(false);
+    const [isCard, setIsCard] = useState(false);
     const [paneState, setPaneState] = useState([]);
     const navigate = useNavigate();
 
@@ -66,13 +67,22 @@ export default function Dashboard() {
     useEffect(() => {
         setNewApplication(isNewApplication);
         setPaneState(isNewApplication ? "new_app" : "info_app");
-    }, [currentApplication, isNewApplication]);
+        if (!isNewApplication && currentApplication.status === "REJECTED" && isCard) {
+            document.getElementById("link").value = currentApplication.submission.link;
+            document.getElementById("remarks").value = currentApplication.submission.remarks;
+        }
+    }, [currentApplication, isNewApplication, isCard]);
 
     function onSubmitApplication() {
         setNewApplication(false);
         setCurrentApplication([]);
         setPaneState("info_app");
         heartbeat();
+    }
+
+    function onClickApplication(app, card) {
+        setIsCard(card);
+        setCurrentApplication(app);
     }
 
     return (
@@ -105,9 +115,9 @@ export default function Dashboard() {
                 </div>
             </section>
             <section className="flex-row flex">
-                <ApplicationsList onAppClick={setCurrentApplication} currentApp={currentApplication} onNewAppClick={setNewApplication} data={data} elementRef={appList} distanceToBottom={appListHeight} />
+                <ApplicationsList onAppClick={onClickApplication} currentApp={currentApplication} onNewAppClick={setNewApplication} data={data} elementRef={appList} distanceToBottom={appListHeight} />
                 <section className="flex-auto bg-base-100 w-full rounded-3xl overflow-y-auto" ref={detailsPane} style={{ "height": detailsHeight + "px" }}>
-                    <ApplicationDetails onSubmitApp={onSubmitApplication} data={currentApplication} state={paneState} semester={data.semester} year={data.year} user={data.userInfo} assignedAdviser={data.assignedAdviser} assignedOfficer={data.assignedOfficer} />
+                    <ApplicationDetails isFirst={isCard} onSubmitApp={onSubmitApplication} data={currentApplication} state={paneState} semester={data.semester} year={data.year} user={data.userInfo} assignedAdviser={data.assignedAdviser} assignedOfficer={data.assignedOfficer} />
                 </section>
             </section>
         </div>

@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import "material-symbols";
 import { showToast } from "./toast";
 import EmptyApplication from "./application_empty";
@@ -35,8 +36,8 @@ function getStateHeader(state) {
   }
 }
 
-function isDisabled(state, user) {
-  if (state === "info_app") return true;
+function isDisabled(application, state, user, first) {
+  if (state === "info_app" && (application.status !== "REJECTED" || !first)) return true;
   switch (user.userType) {
     case "STUDENT":
       return false;
@@ -46,7 +47,7 @@ function isDisabled(state, user) {
 }
 
 export default function ApplicationDetails(props) {
-  const { onSubmitApp, data, state, user, year, semester } = props;
+  const { onSubmitApp, data, state, user, year, semester, isFirst } = props;
   let assignedAdviser = props.assignedAdviser;
   let assignedOfficer = props.assignedOfficer;
 
@@ -77,6 +78,8 @@ export default function ApplicationDetails(props) {
     dta.step = (state === "new_app" ? 1 : data.step);
     dta.submission = { link: formData.get("link"), remarks: formData.get("remarks") };
     dta.dateSubmitted = Date.now();
+    dta.dateApproved = state === "new_app" ? null : data.dateApproved;
+    dta.dateReturned = state === "new_app" ? null : data.dateReturned;
 
     fetch("http://localhost:3001/api/application",
       {
@@ -303,11 +306,13 @@ export default function ApplicationDetails(props) {
             </div> : null
             }
             <input
-              class="mt-5 appearance-none block input input-bordered w-full"
+              className="mt-5 appearance-none block input input-bordered w-full"
               name="link"
+              id="link"
               type="text"
-              value={state === "info_app" ? data.submission.link : null}
-              disabled={isDisabled(state, user)}
+              value={state === "info_app" && (data.status !== "REJECTED" || !isFirst) ? data.submission.link : null}
+              placeholder={state === "info_app" && data.status === "REJECTED" && isFirst ? data.submission.link : null}
+              disabled={isDisabled(data, state, user, isFirst)}
             />
           </div>
         </section>
@@ -325,22 +330,31 @@ export default function ApplicationDetails(props) {
             <textarea
               className="mt-5 block w-full p-3 textarea textarea-bordered"
               name="remarks"
-              value={state === "info_app" ? data.submission.remarks : null}
               rows="8"
-              placeholder={isDisabled(state, user) ? "No remarks" : "Write a remark"}
+              id="remarks"
+              value={state === "info_app" && (data.status !== "REJECTED" || !isFirst) ? data.submission.remarks : null}
+              onChange={state === "info_app" ? (e) => (e) => e.preventDefault() : null}
+              placeholder={isDisabled(data, state, user, isFirst) ? "No remarks" : "Write a remark"}
               style={{resize: "none"}}
-              disabled={isDisabled(state, user)}
-              />
+              disabled={isDisabled(data, state, user, isFirst)} />
           </div>
         </section>
       </div>
 
       {state === "new_app" && user.userType === "STUDENT" ?
-        <button type="submit" class="btn btn-accent mt-10 mb-4 flex bg-transparent text-accent font-semibold hover:text-white py-2 px-4 border border-text-accent hover:border-transparent rounded">
+        <button type="submit" className="btn btn-accent mt-10 mb-4 flex bg-transparent text-accent font-semibold hover:text-white py-2 px-4 border border-text-accent hover:border-transparent rounded">
           <div className="material-symbols-rounded align-middle">
             {getIcon("submit")}
           </div>
           <p className="px-2">Submit application for review</p>
+        </button> : null}
+
+      {state === "info_app" && isFirst && data.status === "REJECTED" && user.userType === "STUDENT" ?
+        <button type="submit" className="btn btn-accent mt-10 mb-4 flex bg-transparent text-accent font-semibold hover:text-white py-2 px-4 border border-text-accent hover:border-transparent rounded">
+          <div className="material-symbols-rounded align-middle">
+            {getIcon("submit")}
+          </div>
+          <p className="px-2">Re-submit application for review</p>
         </button> : null}
 
       {state === "info_app" && data.status === "PENDING" && (user.userType === "ADVISER" || user.userType === "CLEARANCE_OFFICER") ?
@@ -369,13 +383,13 @@ export default function ApplicationDetails(props) {
             </section>
           </div>
           <div className="flex">
-            <button type="button" onClick={approveApplication} class="mr-4 btn btn-secondary mt-10 mb-4 flex font-semibold hover:text-white py-2 px-4 border border-text-accent hover:border-transparent rounded">
+            <button type="button" onClick={approveApplication} className="mr-4 btn btn-secondary mt-10 mb-4 flex font-semibold hover:text-white py-2 px-4 border border-text-accent hover:border-transparent rounded">
               <div className="material-symbols-rounded align-middle">
                 done
               </div>
               <p className="px-2">Approve application</p>
             </button>
-            <button type="button" onClick={returnApplication} class="btn btn-primary mt-10 mb-4 flex bg-transparent text-primary font-semibold hover:text-white py-2 px-4 border border-text-accent hover:border-transparent rounded">
+            <button type="button" onClick={returnApplication} className="btn btn-primary mt-10 mb-4 flex bg-transparent text-primary font-semibold hover:text-white py-2 px-4 border border-text-accent hover:border-transparent rounded">
               <div className="material-symbols-rounded align-middle">
                 close
               </div>

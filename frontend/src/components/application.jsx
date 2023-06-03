@@ -60,7 +60,7 @@ export default function Application(props) {
 
     function onClk() {
         if (onAppClick == null || onAppClick === undefined) return;
-        onAppClick(data);
+        onAppClick(data, isCard);
     }
 
     return (

@@ -46,7 +46,9 @@ const addApplication = async (req, res) => {
     submission: req.body.submission,
     year: req.body.year,
     semester: req.body.semester,
-    dateSubmitted: req.body.dateSubmitted
+    dateSubmitted: req.body.dateSubmitted,
+    dateApproved: req.body.dateApproved,
+    dateReturned: req.body.dateReturned
   });
 
   console.log(req.body);
