@@ -5,6 +5,8 @@ import { useNavigate, useLoaderData } from 'react-router-dom';
 import './Dashboard.css';
 import ApplicationsList from "./dashboard/Applications";
 import AccountMenu from "../components/account_menu";
+import StudentsList from "./dashboard/Students";
+import AccountsList from "./dashboard/Accounts";
 
 export default function Dashboard() {
     const [isLoggedIn] = useState(useLoaderData());
@@ -15,6 +17,7 @@ export default function Dashboard() {
     const [isNewApplication, setNewApplication] = useState(false);
     const [isCard, setIsCard] = useState(false);
     const [paneState, setPaneState] = useState([]);
+    const [tab, setTab] = useState(0);
     const navigate = useNavigate();
 
     let appList = React.createRef();
@@ -71,7 +74,7 @@ export default function Dashboard() {
             document.getElementById("link").value = currentApplication.submission.link;
             document.getElementById("remarks").value = currentApplication.submission.remarks;
         }
-    }, [currentApplication, isNewApplication, isCard]);
+    }, [currentApplication, isNewApplication, isCard, tab]);
 
     function onSubmitApplication() {
         setNewApplication(false);
@@ -93,11 +96,11 @@ export default function Dashboard() {
                     <button className="btn btn-ghost text-primary normal-case text-xl">Clear</button>
                 </div>
                 {data.userInfo !== undefined && data.userInfo.userType === "ADMINISTRATOR" ?
-                    <ul className="text-primary px-10 space-x-5">
-                        <li><button className="font-semibold underline" href="/admin/applications">Applications</button></li>
-                        <li><button href="/admin/students">Students</button></li>
-                        <li><button href="/admin/accounts">Manage Accounts</button></li>
-                    </ul>
+                    <div className="tabs tabs-boxed mr-4">
+                        <button onClick={(e) => setTab(0)} className={(tab === 0 ? "font-semibold tab-active " : "") + "font-medium tab"}>Applications</button>
+                        <button onClick={(e) => setTab(1)} className={(tab === 1 ? "font-semibold tab-active " : "") + "font-medium tab"}>Students</button>
+                        <button onClick={(e) => setTab(2)} className={(tab === 2 ? "font-semibold tab-active " : "") + "font-medium tab"}>Manage Accounts</button>
+                    </div>
                     :
                     null
                 }
@@ -114,12 +117,32 @@ export default function Dashboard() {
                     </div>
                 </div>
             </section>
-            <section className="flex-row flex">
-                <ApplicationsList onAppClick={onClickApplication} currentApp={currentApplication} onNewAppClick={setNewApplication} data={data} elementRef={appList} distanceToBottom={appListHeight} />
-                <section className="flex-auto bg-base-100 w-full rounded-3xl overflow-y-auto" ref={detailsPane} style={{ "height": detailsHeight + "px" }}>
-                    <ApplicationDetails isFirst={isCard} onSubmitApp={onSubmitApplication} data={currentApplication} state={paneState} semester={data.semester} year={data.year} user={data.userInfo} assignedAdviser={data.assignedAdviser} assignedOfficer={data.assignedOfficer} />
-                </section>
-            </section>
+            <div>
+                {tab === 0 ?
+                    <section className="flex-row flex">
+                        <ApplicationsList onAppClick={onClickApplication} currentApp={currentApplication} onNewAppClick={setNewApplication} data={data} elementRef={appList} distanceToBottom={appListHeight} />
+                        <section className="flex-auto bg-base-100 w-full rounded-3xl overflow-y-auto" ref={detailsPane} style={{ "height": detailsHeight + "px" }}>
+                            <ApplicationDetails isFirst={isCard} onSubmitApp={onSubmitApplication} data={currentApplication} state={paneState} semester={data.semester} year={data.year} user={data.userInfo} assignedAdviser={data.assignedAdviser} assignedOfficer={data.assignedOfficer} />
+                        </section>
+                    </section>
+                    : null}
+                {tab === 1 ?
+                    <section className="flex-row flex">
+                        <StudentsList onAppClick={onClickApplication} currentApp={currentApplication} onNewAppClick={setNewApplication} data={data} elementRef={appList} distanceToBottom={appListHeight} />
+                        <section className="flex-auto bg-base-100 w-full rounded-3xl overflow-y-auto" ref={detailsPane} style={{ "height": detailsHeight + "px" }}>
+                            <ApplicationDetails isFirst={isCard} onSubmitApp={onSubmitApplication} data={currentApplication} state={paneState} semester={data.semester} year={data.year} user={data.userInfo} assignedAdviser={data.assignedAdviser} assignedOfficer={data.assignedOfficer} />
+                        </section>
+                    </section>
+                    : null}
+                {tab === 2 ?
+                    <section className="flex-row flex">
+                        <AccountsList onAppClick={onClickApplication} currentApp={currentApplication} onNewAppClick={setNewApplication} data={data} elementRef={appList} distanceToBottom={appListHeight} />
+                        <section className="flex-auto bg-base-100 w-full rounded-3xl overflow-y-auto" ref={detailsPane} style={{ "height": detailsHeight + "px" }}>
+                            <ApplicationDetails isFirst={isCard} onSubmitApp={onSubmitApplication} data={currentApplication} state={paneState} semester={data.semester} year={data.year} user={data.userInfo} assignedAdviser={data.assignedAdviser} assignedOfficer={data.assignedOfficer} />
+                        </section>
+                    </section>
+                    : null}
+            </div>
         </div>
     )
 }
