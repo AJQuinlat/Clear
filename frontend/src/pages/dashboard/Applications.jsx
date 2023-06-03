@@ -87,7 +87,7 @@ export default function ApplicationsList(properties) {
       switch (sort) {
         case "SDATE":
           filteredApps = filteredApps.sort(function (a, b) {
-            return new Date(b.dateSubmitted) - new Date(a.dateSubmitted);
+            return new Date(a.dateSubmitted) - new Date(b.dateSubmitted);
           });
           break;
         case "SNAME":
