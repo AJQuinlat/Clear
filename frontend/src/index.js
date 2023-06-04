@@ -12,6 +12,7 @@ import Admin_Applications from './pages/Admin_Applications';
 import Admin_Students from './pages/Admin_Students'
 import Admin_Accounts from './pages/Admin_Accounts'
 import DashboardAdviser from './pages/dashboards/Adviser_Dashboard'
+import StudentProfile from './components/student_profile';
 
 const verifyUser = async () => {
   const res = await fetch("http://localhost:3001/api/heartbeat",
@@ -52,7 +53,8 @@ const router = createBrowserRouter([
   { path: '/admin/applications', element: <Admin_Applications /> },
   { path: '/admin/students', element: <Admin_Students /> },
   { path: '/admin/accounts', element: <Admin_Accounts /> },
-  { path: "/da", element: <DashboardAdviser /> }
+  { path: "/da", element: <DashboardAdviser /> },
+  { path: "/student", element: <StudentProfile /> }
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

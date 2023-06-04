@@ -18,6 +18,7 @@ module.exports = {
           "success": "#36D399",
           "warning": "#FBBD23",
           "error": "#B71c1c",
+          "black": "000000"
         },
       },
     ],

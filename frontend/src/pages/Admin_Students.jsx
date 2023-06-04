@@ -3,6 +3,7 @@ import Application from "../components/application";
 import ApplicationDetails from "../components/application_details";
 import Search from "../components/search";
 import './Dashboard.css';
+import StudentProfile from "../components/student_profile";
 
 class Admin_Students extends React.Component {
     constructor(props) {
@@ -121,7 +122,7 @@ class Admin_Students extends React.Component {
                             class="relative z-90 bottom-16 mr-0 ml-auto btn btn-secondary w-max h-12 px-3 rounded-lg drop-shadow-md justify-center items-center text-white text-sm normal-case shadow-lg"><span className="align-middle material-symbols-rounded mr-2" style={{ fontSize: '20px' }}>add_circle</span>New Account</button>
                     </section>
                     <section className="flex-auto bg-base-100 w-full rounded-3xl overflow-y-auto" ref={this.detailsRef} style={{ "height": this.state.detailsDistanceToBottom+"px" }}>
-                        {/* student details */}
+                        <StudentProfile semester={'2nd Semester'} year={'2nd Year'} />
                     </section>
                     
                 </section>

@@ -170,9 +170,7 @@ export default function ApplicationDetails(props) {
       <div className="flex flex-row py-14">
         <div className="justify-center m-auto flex-none">
           <span
-            className={
-              getColor(state) + " align-middle material-symbols-rounded"
-            }
+            className={getColor(state) + " align-middle material-symbols-rounded"}
             style={{ fontSize: "3rem" }}
           >
             {getIcon(state)}
