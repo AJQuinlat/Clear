@@ -9,12 +9,13 @@ import UserTile from "../../components/user_list_tile";
 export default function AccountsList(properties) {
     const { currentAccount, onAccountClick, elementRef, distanceToBottom, data } = properties;
     const accounts = data.accounts;
+    console.log()
 
     // query from search
     const [query, setQuery] = useState("")
 
-    // new list of applications to display
-    let filteredApps = []
+    // new list of accounts to display
+    let filteredAccs = []
 
     // filter setting
     const [filter, setFilter] = useState("NAME");
@@ -40,47 +41,37 @@ export default function AccountsList(properties) {
     if (accounts !== undefined) {
       switch (filter) {
         case "DATE":
-          filteredApps = accounts.filter((app) => {
-            let date = new Date(app.dateSubmitted);
-            return moment(date)
-              .format("dddd LL")
-              .toLowerCase()
-              .includes(query.toLowerCase());
-          });
+          // add if date of account creation is added
           break;
         case "ADVISER":
-          filteredApps = accounts.filter((app) => {
-            return (
-              app.adviser.firstName +
-              " " +
-              app.adviser.middleName +
-              " " +
-              app.adviser.lastName
-            )
-              .toLowerCase()
-              .includes(query.toLowerCase());
+          filteredAccs = accounts.filter((acc) => {
+            if (acc.userType == "ADVISER") {
+              return (
+                acc.firstName +
+                " " +
+                acc.middleName +
+                " " +
+                acc.lastName
+              )
+                .toLowerCase()
+                .includes(query.toLowerCase());
+            }
           });
           break;
         case "STATUS":
-          filteredApps = accounts.filter((app) => {
-            return String(app.status)
-              .toLowerCase()
-              .includes(query.toLowerCase());
-          });
+          // only applicable to application since no status attribute for account
           break;
         case "STEP":
-          filteredApps = accounts.filter((app) => {
-            return String(app.step).toLowerCase().includes(query.toLowerCase());
-          });
+          // only applicable to application since no step attribute for account
           break;
         case "NAME":
-          filteredApps = accounts.filter((app) => {
+          filteredAccs = accounts.filter((acc) => {
             return (
-              app.firstName +
+              acc.firstName +
               " " +
-              app.middleName +
+              acc.middleName +
               " " +
-              app.lastName
+              acc.lastName
             )
               .toLowerCase()
               .includes(query.toLowerCase());
@@ -88,12 +79,10 @@ export default function AccountsList(properties) {
       }
       switch (sort) {
         case "SDATE":
-          filteredApps = filteredApps.sort(function (a, b) {
-            return new Date(a.dateSubmitted) - new Date(b.dateSubmitted);
-          });
+          // add if date of account creation is added
           break;
         case "SNAME":
-          filteredApps = filteredApps.sort((a, b) =>
+          filteredAccs = filteredAccs.sort((a, b) =>
             a.user.firstName > b.user.firstName ? 1 : -1
           );
           break;
@@ -113,9 +102,9 @@ export default function AccountsList(properties) {
         <section className="flex flex-col flex-none dashboard-list-section">
           <Search data={accounts} query={query} onQuery={setQuery} filter={filter} filterBy={filterBy} sort={sort} sortBy={sortBy} />
           <section className="dashboard-list grow" ref={elementRef} style={{ "height": distanceToBottom + "px" }}>
-            {accounts.map((app) => {
+            {filteredAccs.map((acc) => {
               return (
-                <UserTile onAccountClick={onAccountClick} currentAccount={currentAccount} data={app} />
+                <UserTile onAccountClick={onAccountClick} currentAccount={currentAccount} data={acc} />
               )
             })}
             <div className="h-4" />

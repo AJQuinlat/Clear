@@ -13,8 +13,8 @@ export default function StudentsList(properties) {
     // query from search
     const [query, setQuery] = useState("")
 
-    // new list of applications to display
-    let filteredApps = []
+    // new list of students to display
+    let filteredStuds = []
 
     // filter setting
     const [filter, setFilter] = useState("NAME");
@@ -40,47 +40,35 @@ export default function StudentsList(properties) {
     if (students !== undefined) {
       switch (filter) {
         case "DATE":
-          filteredApps = students.filter((app) => {
-            let date = new Date(app.dateSubmitted);
-            return moment(date)
-              .format("dddd LL")
-              .toLowerCase()
-              .includes(query.toLowerCase());
-          });
+          // add if date of account creation is added
           break;
         case "ADVISER":
-          filteredApps = students.filter((app) => {
+          filteredStuds = students.filter((stud) => {
             return (
-              app.adviser.firstName +
+              stud.assignedAdviser.firstName +
               " " +
-              app.adviser.middleName +
+              stud.assignedAdviser.middleName +
               " " +
-              app.adviser.lastName
+              stud.assignedAdviser.lastName
             )
               .toLowerCase()
               .includes(query.toLowerCase());
           });
           break;
         case "STATUS":
-          filteredApps = students.filter((app) => {
-            return String(app.status)
-              .toLowerCase()
-              .includes(query.toLowerCase());
-          });
+          // only applicable to application since no status attribute for student
           break;
         case "STEP":
-          filteredApps = students.filter((app) => {
-            return String(app.step).toLowerCase().includes(query.toLowerCase());
-          });
+          // only applicable to application since no step attribute for student
           break;
         case "NAME":
-          filteredApps = students.filter((app) => {
+          filteredStuds = students.filter((stud) => {
             return (
-              app.firstName +
+              stud.firstName +
               " " +
-              app.middleName +
+              stud.middleName +
               " " +
-              app.lastName
+              stud.lastName
             )
               .toLowerCase()
               .includes(query.toLowerCase());
@@ -88,13 +76,11 @@ export default function StudentsList(properties) {
       }
       switch (sort) {
         case "SDATE":
-          filteredApps = filteredApps.sort(function (a, b) {
-            return new Date(a.dateSubmitted) - new Date(b.dateSubmitted);
-          });
+          // add if date of account creation is added
           break;
         case "SNAME":
-          filteredApps = filteredApps.sort((a, b) =>
-            a.user.firstName > b.user.firstName ? 1 : -1
+          filteredStuds = filteredStuds.sort((a, b) =>
+            a.firstName > b.firstName ? 1 : -1
           );
           break;
       }
@@ -134,7 +120,7 @@ export default function StudentsList(properties) {
         <section className="flex flex-col flex-none dashboard-list-section">
           <Search data={students} query={query} onQuery={setQuery} filter={filter} filterBy={filterBy} sort={sort} sortBy={sortBy} />
           <section className="dashboard-list grow" ref={elementRef} style={{ "height": distanceToBottom + "px" }}>
-            {students.map((app) => {
+            {filteredStuds.map((app) => {
               return (
                 <UserTile onAccountClick={onAccountClick} currentAccount={currentAccount} data={app} />
               )
