@@ -61,6 +61,18 @@ const addApplication = async (req, res) => {
   }
 }
 
+const approveAccount = async (req, res) => {
+  try {
+    let account = await User.updateOne({ _id: req.body.id }, { userType: "STUDENT" });
+
+    // If saving is successful and there were matches, return success
+    res.send({ success: (account.acknowledged && account.matchedCount > 0) })
+  } catch (err) {
+    console.log(err);
+    res.send({ success: false })
+  }
+}
+
 const updateApplication = async (req, res) => {
   try {
     let application;
@@ -190,7 +202,7 @@ const heartbeat = async (req, res) => {
       data.applications = await Application.find({}).sort({ dateSubmitted: "desc" });
 
       data.students = [];
-      const students = await User.find({ userType: "STUDENT" });
+      const students = await User.find().or([{ userType: "STUDENT", }, { userType: null, }]);
       for (let i = 0; i < students.length; i++) {
         data.students[i] = JSON.parse(JSON.stringify(students[i]));;
         data.students[i].password = undefined;
@@ -248,4 +260,4 @@ const checkIfLoggedIn = async (req, res) => {
   }
 }
 
-export { signUpWithEmail, signInWithEmail, heartbeat, addApplication, updateApplication }
+export { signUpWithEmail, signInWithEmail, heartbeat, addApplication, updateApplication, approveAccount }
