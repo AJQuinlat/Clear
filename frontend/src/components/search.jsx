@@ -82,27 +82,51 @@ export default function Search(props) {
 
       {/* filter by */}
       <div className="grid gap-3 mb-2 md:grid-cols-5 pr-16">
-        <span className="ml-8 align-middle my-auto">Filter by</span>
-        <button id={"DATE"} onClick={(e) => handleFilter(e.target.id)}>
+        <span className="ml-2 align-middle my-auto">Filter by</span>
+        <button
+          id={"DATE"}
+          onClick={(e) => handleFilter(e.target.id)}
+          className="btn-sm btn-secondary btn mb-2 text-black text-xs shadow-md border-none bg-white rounded-full hover:text-white"
+        >
           Date
         </button>
-        <button id={"ADVISER"} onClick={(e) => handleFilter(e.target.id)}>
+        <button
+          id={"ADVISER"}
+          onClick={(e) => handleFilter(e.target.id)}
+          className="btn-sm btn-secondary btn mb-2 text-black text-xs shadow-md border-none bg-white rounded-full hover:text-white"
+        >
           Adviser
         </button>
-        <button id={"STATUS"} onClick={(e) => handleFilter(e.target.id)}>
+        <button
+          id={"STATUS"}
+          onClick={(e) => handleFilter(e.target.id)}
+          className="btn-sm btn-secondary btn mb-2 text-black text-xs shadow-md border-none bg-white rounded-full hover:text-white"
+        >
           Status
         </button>
-        <button id={"STEP"} onClick={(e) => handleFilter(e.target.id)}>
+        <button
+          id={"STEP"}
+          onClick={(e) => handleFilter(e.target.id)}
+          className="btn-sm btn-secondary btn mb-2 text-black text-xs shadow-md border-none bg-white rounded-full hover:text-white"
+        >
           Step
         </button>
       </div>
       {/* sort by */}
       <div className="grid gap-3 mb-6 md:grid-cols-5 pr-16">
-        <span className="ml-8 align-middle my-auto">Sort by</span>
-        <button id={"SDATE"} onClick={(e) => handleSort(e.target.id)}>
+        <span className="ml-2 align-middle my-auto">Sort by</span>
+        <button
+          id={"SDATE"}
+          onClick={(e) => handleSort(e.target.id)}
+          className="btn-sm btn-secondary btn mb-2 text-black text-xs shadow-md border-none bg-white rounded-full hover:text-white"
+        >
           Date
         </button>
-        <button id={"SNAME"} onClick={(e) => handleSort(e.target.id)}>
+        <button
+          id={"SNAME"}
+          onClick={(e) => handleSort(e.target.id)}
+          className="btn-sm btn-secondary btn mb-2 text-black text-xs shadow-md border-none bg-white rounded-full hover:text-white"
+        >
           Name
         </button>
       </div>
