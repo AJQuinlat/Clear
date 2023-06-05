@@ -1,5 +1,5 @@
 // Import route methods from controller
-import { signUpWithEmail, signInWithEmail, heartbeat, addApplication, updateApplication } from './controller.js';
+import { signUpWithEmail, signInWithEmail, heartbeat, addApplication, updateApplication, approveAccount } from './controller.js';
 
 // Routes
 const router = (app) => {
@@ -15,6 +15,8 @@ const router = (app) => {
     app.post('/api/application', addApplication);
 
     app.post('/api/application/update', updateApplication);
+
+    app.post('/api/accounts/approve', approveAccount);
 }
 
 // Export router

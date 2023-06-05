@@ -7,7 +7,7 @@ import moment from 'moment';
 import UserTile from "../../components/user_list_tile";
 
 export default function StudentsList(properties) {
-    const { currentApp, onNewAppClick, onAppClick, elementRef, distanceToBottom, data } = properties;
+    const { currentAccount, onAccountClick, elementRef, distanceToBottom, data } = properties;
     const students = data.students;
 
     // query from search
@@ -101,7 +101,7 @@ export default function StudentsList(properties) {
     }
 
     function btnNewAppClick() {
-        onNewAppClick(true);
+      onAccountClick(true);
     }
 
     if ((data.userInfo === undefined || data.userInfo.userType === "STUDENT") && (data.assignedAdviser === undefined || data.assignedAdviser === null || data.assignedOfficer === undefined || data.assignedOfficer === null)) {
@@ -136,7 +136,7 @@ export default function StudentsList(properties) {
           <section className="dashboard-list grow" ref={elementRef} style={{ "height": distanceToBottom + "px" }}>
             {students.map((app) => {
               return (
-                <UserTile onAppClick={onAppClick} currentApp={currentApp} data={app} />
+                <UserTile onAccountClick={onAccountClick} currentAccount={currentAccount} data={app} />
               )
             })}
             <div className="h-4" />

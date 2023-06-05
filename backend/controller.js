@@ -18,7 +18,7 @@ const signUpWithEmail = async (req, res) => {
     studentNumber: req.body.studentNumber,
     course: req.body.course,
     college: req.body.college,
-    userType: "STUDENT",
+    userType: null,
     email: req.body.email,
     password: req.body.password
   });
@@ -61,6 +61,18 @@ const addApplication = async (req, res) => {
   }
 }
 
+const approveAccount = async (req, res) => {
+  try {
+    let account = await User.updateOne({ _id: req.body.id }, { userType: "STUDENT" });
+
+    // If saving is successful and there were matches, return success
+    res.send({ success: (account.acknowledged && account.matchedCount > 0) })
+  } catch (err) {
+    console.log(err);
+    res.send({ success: false })
+  }
+}
+
 const updateApplication = async (req, res) => {
   try {
     let application;
@@ -92,17 +104,22 @@ const signInWithEmail = async (req, res) => {
 
   //  Scenario 1: FAIL - User doesn't exist
   if (!user) {
-    return res.send({ success: false })
+    return res.send({ success: false, reason: "account-not-exist" })
   }
 
   // Check if password is correct using the Schema method defined in User Schema
   user.comparePassword(password, (err, isMatch) => {
     if (err || !isMatch) {
       // Scenario 2: FAIL - Wrong password
-      return res.send({ success: false });
+      return res.send({ success: false, reason: "wrong-email-password" });
     }
 
-    // Scenario 3: SUCCESS - time to create a token
+    // Scenario 3: FAIL - User is not approved yet
+    if (user.userType === null) {
+      return res.send({ success: false, reason: "not-approved" });
+    }
+
+    // Scenario 4: SUCCESS - time to create a token
     const tokenPayload = {
       _id: user._id
     }
@@ -183,11 +200,36 @@ const heartbeat = async (req, res) => {
       break;
     case "ADMINISTRATOR":
       data.applications = await Application.find({}).sort({ dateSubmitted: "desc" });
-      data.students = await User.find({ userType: "STUDENT" });
+
+      data.students = [];
+      const students = await User.find().or([{ userType: "STUDENT", }, { userType: null, }]);
+      for (let i = 0; i < students.length; i++) {
+        data.students[i] = JSON.parse(JSON.stringify(students[i]));;
+        data.students[i].password = undefined;
+
+        data.students[i].assignedAdviser = undefined;
+        data.students[i].assignedAdviser = undefined;
+
+        try {
+          data.students[i].assignedAdviser = await User.findById(data.students[i].adviserUid);
+          data.students[i].assignedAdviser.password = undefined;
+        } catch (e) {
+          console.log(e);
+        }
+
+        try {
+          data.students[i].assignedOfficer = await User.findById(data.students[i].officerUid);
+          data.students[i].assignedOfficer.password = undefined;
+        } catch (e) {
+          console.log(e);
+        }
+      }
+
       data.accounts = await User.find({ userType: { $ne: "STUDENT" } });
       break;
   }
 
+  console.log(data);
   return res.send(data);
 }
 
@@ -218,4 +260,4 @@ const checkIfLoggedIn = async (req, res) => {
   }
 }
 
-export { signUpWithEmail, signInWithEmail, heartbeat, addApplication, updateApplication }
+export { signUpWithEmail, signInWithEmail, heartbeat, addApplication, updateApplication, approveAccount }

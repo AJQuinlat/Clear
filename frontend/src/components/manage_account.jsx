@@ -2,26 +2,26 @@ import "material-symbols";
 import EmptyProfile from "./student_empty";
 
 export default function ManageAccount(props) {
-    const { data, user } = props;
+    const { data } = props;
 
-    // if (((data == null || data === undefined || data.length === 0)) || user === undefined) {
-    //     return <EmptyProfile />;
-    // }
+    if (((data == null || data === undefined || data.length === 0))) {
+        return <EmptyProfile />;
+    }
 
     let approver = false;
 
     return (
     <div className="text-[#6b7280] flex flex-col items-center justify-center h-screen" style={{ height: "90vh" }}>
        <div className="">
-            <div className="w-28 avatar pt-2 mb-4">
+            <div className="w-28 avatar pt-2 mb-6">
             <img
                 className="rounded-full"
                 src={"../assets/images/profile-default.webp"}
             />
             </div>
-        </div>
-        <span className="font-semibold text-primary text-3xl">Ariezel Bautista</span>
-        <span className="font-semibold text-base">ambautista@up.edu.ph</span>
+            </div>
+            <span className="font-semibold text-primary text-3xl mb-2">{data.firstName} {data.middleName} {data.lastName}</span>
+            <span className="font-semibold text-base mb-12">{data.email}</span>
         { approver ? 
             <button 
                 onclick={()=>{}} 

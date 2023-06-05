@@ -7,7 +7,7 @@ import moment from 'moment';
 import UserTile from "../../components/user_list_tile";
 
 export default function AccountsList(properties) {
-    const { currentApp, onNewAppClick, onAppClick, elementRef, distanceToBottom, data } = properties;
+    const { currentAccount, onAccountClick, elementRef, distanceToBottom, data } = properties;
     const accounts = data.accounts;
 
     // query from search
@@ -100,32 +100,11 @@ export default function AccountsList(properties) {
       }
     }
 
-    function btnNewAppClick() {
-        onNewAppClick(true);
-    }
-
-    if ((data.userInfo === undefined || data.userInfo.userType === "STUDENT") && (data.assignedAdviser === undefined || data.assignedAdviser === null || data.assignedOfficer === undefined || data.assignedOfficer === null)) {
+  if ((data.userInfo === undefined) && (accounts === undefined || accounts.length === 0 || (accounts.length === 1 && accounts[0].step === 0))) {
         return (
             <section className="flex flex-col flex-none dashboard-list-section">
-                <card className="mx-8 flex-none card w-auto bg-base-100 shadow-md mb-0">
-                    <Application data={({ status: "NO_OFFICER" })} isCard={true} />
-                </card>
                 <section className="dashboard-list grow" ref={elementRef} style={{ "height": distanceToBottom + "px" }}>
                 </section>
-            </section>
-        );
-    }
-
-  if ((data.userInfo === undefined || data.userInfo.userType === "STUDENT") && (accounts === undefined || accounts.length === 0 || (accounts.length === 1 && accounts[0].step === 0))) {
-        return (
-            <section className="flex flex-col flex-none dashboard-list-section">
-                <card className="mx-8 flex-none card w-auto bg-base-100 shadow-md mb-0">
-                    <Application data={({ status: null })} isCard={true} />
-                </card>
-                <section className="dashboard-list grow" ref={elementRef} style={{ "height": distanceToBottom + "px" }}>
-                </section>
-                <button onClick={btnNewAppClick}
-                    className="relative z-90 bottom-16 mx-8 ml-auto btn btn-secondary w-max h-12 px-3 rounded-lg drop-shadow-md justify-center items-center text-white text-sm normal-case shadow-lg"><span className="align-middle material-symbols-rounded mr-2" style={{ fontSize: '20px' }}>add_circle</span>New application</button>
             </section>
         );
     }
@@ -136,11 +115,13 @@ export default function AccountsList(properties) {
           <section className="dashboard-list grow" ref={elementRef} style={{ "height": distanceToBottom + "px" }}>
             {accounts.map((app) => {
               return (
-                <UserTile onAppClick={onAppClick} currentApp={currentApp} data={app} />
+                <UserTile onAccountClick={onAccountClick} currentAccount={currentAccount} data={app} />
               )
             })}
             <div className="h-4" />
-          </section>
+        </section>
+        <button onClick={{}}
+          className="relative z-90 bottom-16 mx-8 ml-auto btn btn-secondary w-max h-12 px-3 rounded-lg drop-shadow-md justify-center items-center text-white text-sm normal-case shadow-lg"><span className="align-middle material-symbols-rounded mr-2" style={{ fontSize: '20px' }}>add_circle</span>New account</button>
         </section>
     );
 }
