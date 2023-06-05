@@ -8,9 +8,6 @@ import './index.css';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Signup from './pages/Signup';
-import Admin_Applications from './pages/Admin_Applications';
-import Admin_Students from './pages/Admin_Students'
-import Admin_Accounts from './pages/Admin_Accounts'
 import DashboardAdviser from './pages/dashboards/Adviser_Dashboard'
 import StudentProfile from './components/student_profile';
 
@@ -50,9 +47,6 @@ const router = createBrowserRouter([
   { path: '/login', element: <Login />, loader: verifyUserOnLogin },
   { path: '/sign-up', element: <Signup />, loader: verifyUserOnLogin },
   { path: '/', element: <Dashboard />, loader: verifyUser },
-  { path: '/admin/applications', element: <Admin_Applications /> },
-  { path: '/admin/students', element: <Admin_Students /> },
-  { path: '/admin/accounts', element: <Admin_Accounts /> },
   { path: "/da", element: <DashboardAdviser /> },
   { path: "/student", element: <StudentProfile /> }
 ]);
