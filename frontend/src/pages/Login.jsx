@@ -58,7 +58,22 @@ export default function Login() {
 
                     localStorage.setItem("username", body.username);
                 }
-                else { alert("Log in failed") }
+                else {
+                    switch (body.reason) {
+                        case "account-not-exist":
+                            document.getElementById('not-exist-modal').checked = true;
+                            break;
+                        case "wrong-email-password":
+                            document.getElementById('account-error-modal').checked = true;
+                            break;
+                        case "not-approved":
+                            document.getElementById('not-approved-modal').checked = true;
+                            break;
+                        default:
+                            document.getElementById('error-modal').checked = true;
+                            break;
+                    }
+                }
             })
     }
 
@@ -82,6 +97,46 @@ export default function Login() {
                     </form>
                 </div>
                 <div className="h-20" />
+                <input type="checkbox" id="not-approved-modal" className="modal-toggle" />
+                <div className="modal">
+                    <div className="modal-box">
+                        <h3 className="font-bold text-lg">Account not approved</h3>
+                        <p className="py-4">Please wait for an administrator to approve your account and try logging in later.</p>
+                        <div className="modal-action">
+                            <label htmlFor="not-approved-modal" className="btn">OK</label>
+                        </div>
+                    </div>
+                </div>
+                <input type="checkbox" id="error-modal" className="modal-toggle" />
+                <div className="modal">
+                    <div className="modal-box">
+                        <h3 className="font-bold text-lg">An error has occured</h3>
+                        <p className="py-4">Please try again later.</p>
+                        <div className="modal-action">
+                            <label htmlFor="error-modal" className="btn">OK</label>
+                        </div>
+                    </div>
+                </div>
+                <input type="checkbox" id="account-error-modal" className="modal-toggle" />
+                <div className="modal">
+                    <div className="modal-box">
+                        <h3 className="font-bold text-lg">Wrong email/password</h3>
+                        <p className="py-4">Please carefully insert your email and password and try again.</p>
+                        <div className="modal-action">
+                            <label htmlFor="account-error-modal"className="btn">OK</label>
+                        </div>
+                    </div>
+                </div>
+                <input type="checkbox" id="not-exist-modal" className="modal-toggle" />
+                <div className="modal">
+                    <div className="modal-box">
+                        <h3 className="font-bold text-lg">Account does not exist</h3>
+                        <p className="py-4">Please carefully insert your email and password and try again.</p>
+                        <div className="modal-action">
+                            <label htmlFor="not-exist-modal" className="btn">OK</label>
+                        </div>
+                    </div>
+                </div>
             </section>
         </div>
     )
