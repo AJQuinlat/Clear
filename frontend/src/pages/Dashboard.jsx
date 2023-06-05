@@ -7,6 +7,7 @@ import ApplicationsList from "./dashboard/Applications";
 import AccountMenu from "../components/account_menu";
 import StudentsList from "./dashboard/Students";
 import AccountsList from "./dashboard/Accounts";
+import StudentProfile from "../components/student_profile";
 
 export default function Dashboard() {
     const [isLoggedIn] = useState(useLoaderData());
@@ -14,6 +15,7 @@ export default function Dashboard() {
     const [appListHeight, setApplicationListHeight] = useState([]);
     const [detailsHeight, setDetailsPaneHeight] = useState([]);
     const [currentApplication, setCurrentApplication] = useState([]);
+    const [currentAccount, setCurrentAccount] = useState([]);
     const [isNewApplication, setNewApplication] = useState(false);
     const [isCard, setIsCard] = useState(false);
     const [paneState, setPaneState] = useState([]);
@@ -76,6 +78,10 @@ export default function Dashboard() {
         }
     }, [currentApplication, isNewApplication, isCard, tab]);
 
+    useEffect(() => {
+        console.log(currentAccount);
+    }, [currentAccount]);
+
     function onSubmitApplication() {
         setNewApplication(false);
         setCurrentApplication([]);
@@ -86,6 +92,11 @@ export default function Dashboard() {
     function onClickApplication(app, card) {
         setIsCard(card);
         setCurrentApplication(app);
+    }
+
+    function onClickAccount(account) {
+        console.log("CLICK");
+        setCurrentAccount(account);
     }
 
     return (
@@ -128,9 +139,9 @@ export default function Dashboard() {
                     : null}
                 {tab === 1 ?
                     <section className="flex-row flex">
-                        <StudentsList onAppClick={onClickApplication} currentApp={currentApplication} onNewAppClick={setNewApplication} data={data} elementRef={appList} distanceToBottom={appListHeight} />
+                        <StudentsList onAccountClick={onClickAccount} currentAccount={currentAccount} data={data} elementRef={appList} distanceToBottom={appListHeight} />
                         <section className="flex-auto bg-base-100 w-full rounded-3xl overflow-y-auto" ref={detailsPane} style={{ "height": detailsHeight + "px" }}>
-                            <ApplicationDetails isFirst={isCard} onSubmitApp={onSubmitApplication} data={currentApplication} state={paneState} semester={data.semester} year={data.year} user={data.userInfo} assignedAdviser={data.assignedAdviser} assignedOfficer={data.assignedOfficer} />
+                            <StudentProfile data={currentAccount} semester={data.semester} year={data.year} />
                         </section>
                     </section>
                     : null}

@@ -5,16 +5,16 @@ import 'material-symbols';
 import "./application.css"
 
 export default function UserTile(props) {
-    const { currentApp, onAppClick, data } = props;
+    const { currentAccount, onAccountClick, data } = props;
     const [isInactive, setInactive] = useState(true);
 
     useEffect(() => {
-        if (currentApp !== undefined) setInactive(data._id !== currentApp._id);
-    }, [currentApp, data]);
+        if (currentAccount !== undefined) setInactive(data._id !== currentAccount._id);
+    }, [currentAccount, data]);
 
     function onClk() {
-        if (onAppClick == null || onAppClick === undefined) return;
-        onAppClick(data);
+        if (onAccountClick == null || onAccountClick === undefined) return;
+        onAccountClick(data);
     }
 
     return (
