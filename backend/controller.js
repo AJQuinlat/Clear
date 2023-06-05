@@ -183,11 +183,36 @@ const heartbeat = async (req, res) => {
       break;
     case "ADMINISTRATOR":
       data.applications = await Application.find({}).sort({ dateSubmitted: "desc" });
-      data.students = await User.find({ userType: "STUDENT" });
+
+      data.students = [];
+      const students = await User.find({ userType: "STUDENT" });
+      for (let i = 0; i < students.length; i++) {
+        data.students[i] = JSON.parse(JSON.stringify(students[i]));;
+        data.students[i].password = undefined;
+
+        data.students[i].assignedAdviser = undefined;
+        data.students[i].assignedAdviser = undefined;
+
+        try {
+          data.students[i].assignedAdviser = await User.findById(data.students[i].adviserUid);
+          data.students[i].assignedAdviser.password = undefined;
+        } catch (e) {
+          console.log(e);
+        }
+
+        try {
+          data.students[i].assignedOfficer = await User.findById(data.students[i].officerUid);
+          data.students[i].assignedOfficer.password = undefined;
+        } catch (e) {
+          console.log(e);
+        }
+      }
+
       data.accounts = await User.find({ userType: { $ne: "STUDENT" } });
       break;
   }
 
+  console.log(data);
   return res.send(data);
 }
 
