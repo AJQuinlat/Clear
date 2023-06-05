@@ -8,7 +8,7 @@ const UserSchema = new mongoose.Schema({
     studentNumber: { type: String, required: true },
     course: { type: String, required: false },
     college: { type: String, required: true },
-    userType: { type: String, required: true, default: "STUDENT" },
+    userType: { type: String, required: true, default: null },
     email: { type: String, required: true },
     password: { type: String, required: true },
     adviserUid: { type: String, required: false },
