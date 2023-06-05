@@ -79,7 +79,10 @@ export default function Dashboard() {
     }, [currentApplication, isNewApplication, isCard, tab]);
 
     useEffect(() => {
-        console.log(currentAccount);
+        setCurrentAccount([]);
+    }, [tab]);
+
+    useEffect(() => {
     }, [currentAccount]);
 
     function onSubmitApplication() {
