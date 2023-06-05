@@ -61,10 +61,7 @@ class Signup extends React.Component {
                     <div className="px-12 justify-self-center">
                         <h1 className="text-5xl text-primary font-bold mb-2">Sign up for a Clear account</h1>
                         <text class="mb-12 text-left text-sm font-medium leading-1">By signing up, you agree to Clear&#39;s terms and conditions and privacy policy</text>
-
-
                         <h2 className="mb-8 mt-10 text-2xl text-primary font-bold leading-snug">Student Information</h2>
-
                         <h3 className="mb-2 text-primary text-xl font-bold leading-snug">Name</h3>
                         <div class="grid gap-2 mb-6 md:grid-cols-3">
                             <input name="first-name" type="text" class="input input-bordered bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded w-full" placeholder="First Name" required />
