@@ -26,7 +26,7 @@ export default function UserTile(props) {
                         src={"../assets/images/profile-default.webp"}
                     />
                 </label>
-                <div className="flex flex-col justify-center flex-auto ml-5">
+                <div className={((data.userType === null) ? "opacity-50 " : "") + "flex flex-col justify-center flex-auto ml-5"}>
                     <h1 className="font-semibold text-xl">{data.firstName} {data.lastName}</h1>
                     <h3 className="text-sm">{data.studentNumber}</h3>
                 </div>

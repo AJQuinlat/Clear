@@ -111,7 +111,7 @@ class Signup extends React.Component {
                 <div className="modal">
                     <div className="modal-box">
                         <h3 className="font-bold text-lg">Signed up successfully</h3>
-                        <p className="py-4">Your account has been successfully added. Welcome to Clear!</p>
+                        <p className="py-4">Your account has been successfully added. Please wait for an administrator to approve your account. Welcome to Clear!</p>
                         <div className="modal-action">
                             <label htmlFor="success-modal" onClick={this.goToLogin} className="btn">OK</label>
                         </div>

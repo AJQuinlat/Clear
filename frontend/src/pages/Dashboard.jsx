@@ -99,8 +99,11 @@ export default function Dashboard() {
     }
 
     function onClickAccount(account) {
-        console.log("CLICK");
         setCurrentAccount(account);
+    }
+
+    function onApproved() {
+        setCurrentAccount([]);
     }
 
     return (
@@ -145,7 +148,7 @@ export default function Dashboard() {
                     <section className="flex-row flex">
                         <StudentsList onAccountClick={onClickAccount} currentAccount={currentAccount} data={data} elementRef={appList} distanceToBottom={appListHeight} />
                         <section className="flex-auto bg-base-100 w-full rounded-3xl overflow-y-auto" ref={detailsPane} style={{ "height": detailsHeight + "px" }}>
-                            <StudentProfile data={currentAccount} semester={data.semester} year={data.year} />
+                            <StudentProfile data={currentAccount} onApproved={onApproved} semester={data.semester} year={data.year} />
                         </section>
                     </section>
                     : null}
