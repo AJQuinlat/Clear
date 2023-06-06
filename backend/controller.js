@@ -159,6 +159,123 @@ async function getUser(req) {
   }
 }
 
+const getApplications = async (req, res) => {
+  let data = [];
+  let userInfo = await getUser(req);
+
+  let semester = 2;
+  let year = 2022;
+
+  // Check if token is valid and user is logged in
+  if (userInfo === null) {
+    return res.send(data);
+  }
+
+  switch (userInfo.userType) {
+    case "STUDENT":
+      data = await Application.find({ uid: userInfo._id, semester: semester, year: year }).sort({ dateSubmitted: "desc" });
+      break;
+    case "ADVISER":
+      data = await Application.find({ adviserUid: userInfo._id, semester: semester, year: year }).sort({ dateSubmitted: "desc" });
+      break;
+    case "CLEARANCE_OFFICER":
+      data = await Application.find({ officerUid: userInfo._id, step: 2, semester: semester, year: year }).sort({ dateSubmitted: "desc" });
+      break;
+    case "ADMINISTRATOR":
+      data = await Application.find({}).sort({ dateSubmitted: "desc" });
+      break;
+  }
+
+  return res.send(data);
+}
+
+const getStudents = async (req, res) => {
+  let data = [];
+  let userInfo = await getUser(req);
+
+  // Check if token is valid and user is an administrator
+  if (userInfo.userType !== "ADMINISTRATOR") {
+    return res.send(data);
+  }
+
+  const students = await User.find().or([{ userType: "STUDENT", }, { userType: null, }]);
+  for (let i = 0; i < students.length; i++) {
+    data[i] = JSON.parse(JSON.stringify(students[i]));;
+    data[i].password = undefined;
+
+    data[i].assignedAdviser = undefined;
+    data[i].assignedAdviser = undefined;
+
+    try {
+      data[i].assignedAdviser = await User.findById(data[i].adviserUid);
+      data[i].assignedAdviser.password = undefined;
+    } catch (e) {
+      console.log(e);
+    }
+
+    try {
+      data[i].assignedOfficer = await User.findById(data[i].officerUid);
+      data[i].assignedOfficer.password = undefined;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  return res.send(data);
+}
+
+const getAccounts = async (req, res) => {
+  let data = [];
+  let userInfo = await getUser(req);
+
+  // Check if token is valid and user is an administrator
+  if (userInfo.userType !== "ADMINISTRATOR") {
+    return res.send(data);
+  }
+
+  const accounts = await User.find({ userType: { $ne: "STUDENT" } });
+  for (let i = 0; i < accounts.length; i++) {
+    data[i] = JSON.parse(JSON.stringify(accounts[i]));;
+    data[i].password = undefined;
+  }
+
+  return res.send(data);
+}
+
+const getUserInfo = async (req, res) => {
+  let data = {};
+  let userInfo = await getUser(req);
+
+  // Check if token is valid and user is logged in
+  if (userInfo === null) {
+    return res.send({userInfo: null});
+  }
+
+  data.semester = 2;
+  data.year = 2022;
+
+  data.userInfo = JSON.parse(JSON.stringify(userInfo));
+  data.userInfo.password = undefined;
+
+  if (data.userInfo.userType === "STUDENT") {
+    try {
+      data.userInfo.assignedAdviser = await User.findById(data.userInfo.adviserUid);
+      data.userInfo.assignedAdviser.password = undefined;
+    } catch (e) {
+      console.log(e);
+    }
+
+    try {
+      data.userInfo.assignedOfficer = await User.findById(data.userInfo.officerUid);
+      data.userInfo.assignedOfficer.password = undefined;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  return res.send(data);
+}
+
 const heartbeat = async (req, res) => {
   let data = {};
   data.userInfo = await getUser(req);
@@ -202,28 +319,7 @@ const heartbeat = async (req, res) => {
       data.applications = await Application.find({}).sort({ dateSubmitted: "desc" });
 
       data.students = [];
-      const students = await User.find().or([{ userType: "STUDENT", }, { userType: null, }]);
-      for (let i = 0; i < students.length; i++) {
-        data.students[i] = JSON.parse(JSON.stringify(students[i]));;
-        data.students[i].password = undefined;
 
-        data.students[i].assignedAdviser = undefined;
-        data.students[i].assignedAdviser = undefined;
-
-        try {
-          data.students[i].assignedAdviser = await User.findById(data.students[i].adviserUid);
-          data.students[i].assignedAdviser.password = undefined;
-        } catch (e) {
-          console.log(e);
-        }
-
-        try {
-          data.students[i].assignedOfficer = await User.findById(data.students[i].officerUid);
-          data.students[i].assignedOfficer.password = undefined;
-        } catch (e) {
-          console.log(e);
-        }
-      }
 
       data.accounts = await User.find({ userType: { $ne: "STUDENT" } });
       break;
@@ -260,4 +356,4 @@ const checkIfLoggedIn = async (req, res) => {
   }
 }
 
-export { signUpWithEmail, signInWithEmail, heartbeat, addApplication, updateApplication, approveAccount }
+export { signUpWithEmail, signInWithEmail, heartbeat, addApplication, updateApplication, approveAccount, getUserInfo, getApplications, getAccounts, getStudents }
