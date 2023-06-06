@@ -51,6 +51,10 @@ export default function ApplicationDetails(props) {
   let assignedAdviser = props.assignedAdviser;
   let assignedOfficer = props.assignedOfficer;
 
+  if (data.length === 0) {
+    return <EmptyApplication />;
+  }
+
   if ((state === "info_app" && (data == null || data === undefined || data.length === 0)) || user === undefined) {
     return <EmptyApplication />;
   }
