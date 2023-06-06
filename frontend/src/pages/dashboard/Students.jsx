@@ -8,10 +8,11 @@ import UserTile from "../../components/user_list_tile";
 export default function Students(properties) {
   const { user, sectionRef, sectionHeight } = properties;
   const [accounts, setAccounts] = useState([]);
+  const [officers, setOfficers] = useState([]);
+  const [advisers, setAdvisers] = useState([]);
   const [currentAccount, setCurrentAccount] = useState([]);
 
   function getAccounts() {
-    console.log("GET");
     fetch('http://localhost:3001/api/accounts/students',
       {
         method: "GET",
@@ -20,6 +21,26 @@ export default function Students(properties) {
       .then(response => response.json())
       .then(body => {
         setAccounts(body);
+      });
+
+    fetch('http://localhost:3001/api/accounts/advisers',
+      {
+        method: "GET",
+        credentials: "include"
+      })
+      .then(response => response.json())
+      .then(body => {
+        setAdvisers(body);
+      });
+
+    fetch('http://localhost:3001/api/accounts/officers',
+      {
+        method: "GET",
+        credentials: "include"
+      })
+      .then(response => response.json())
+      .then(body => {
+        setOfficers(body);
       });
   };
 
@@ -151,7 +172,7 @@ export default function Students(properties) {
     <section className="flex-row flex" ref={sectionRef} style={{ "height": sectionHeight + "px" }}>
       {getAccountsList()}
       <section className="flex-auto bg-base-100 w-full rounded-3xl overflow-y-auto">
-        <StudentProfile data={currentAccount} onApproved={onApproved} semester={user.semester} year={user.year} />
+        <StudentProfile advisers={advisers} officers={officers} data={currentAccount} onApproved={onApproved} semester={user.semester} year={user.year} />
       </section>
     </section>
   )

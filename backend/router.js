@@ -1,5 +1,5 @@
 // Import route methods from controller
-import { signUpWithEmail, signInWithEmail, heartbeat, addApplication, updateApplication, approveAccount, getUserInfo, getApplications, getStudents, getAccounts } from './controller.js';
+import { signUpWithEmail, signInWithEmail, assignAccount, addApplication, updateApplication, approveAccount, getUserInfo, getApplications, getStudents, getAccounts, getAdvisers, getOfficers } from './controller.js';
 
 // Routes
 const router = (app) => {
@@ -18,6 +18,9 @@ const router = (app) => {
     app.get('/api/accounts', getUserInfo);
     app.get('/api/accounts/students', getStudents);
     app.get('/api/accounts/non-students', getAccounts);
+    app.get('/api/accounts/advisers', getAdvisers);
+    app.get('/api/accounts/officers', getOfficers);
+    app.post('/api/accounts/assign', assignAccount);
 
     app.post('/api/application/update', updateApplication);
 

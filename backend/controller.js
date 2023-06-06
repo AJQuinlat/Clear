@@ -10,6 +10,32 @@ await mongoose.connect('mongodb://127.0.0.1:27017/Clear',
 const User = mongoose.model("users");
 const Application = mongoose.model("applications");
 
+async function getUser(req) {
+  // Scenario 1 - No cookies / no authToken cookie sent
+  if (!req.cookies || !req.cookies.authToken) {
+    return null;
+  }
+
+  try {
+    // try to verify the token
+    const tokenPayload = jwt.verify(req.cookies.authToken, 'THIS_IS_A_SECRET_STRING');
+
+    // check if the _id in the payload is an existing user id
+    const user = await User.findById(tokenPayload._id);
+
+    if (user) {
+      // SUCCESS Scenario - User is found
+      return user;
+    } else {
+      // FAIL Scenario 2 - Token is valid but user id not found
+      return null;
+    }
+  } catch {
+    // FAIL Scenario 3 - Error in validating token / Token is not valid
+    return null;
+  }
+}
+
 const signUpWithEmail = async (req, res) => {
   const newUser = new User({
     firstName: req.body.firstName,
@@ -57,6 +83,33 @@ const addApplication = async (req, res) => {
   if (result._id) {
     res.send({ success: true })
   } else {
+    res.send({ success: false })
+  }
+}
+
+const assignAccount = async (req, res) => {
+  let userInfo = await getUser(req);
+
+  console.log(userInfo)
+
+  // Check if token is valid and user is an administrator
+  if (userInfo === null || userInfo === undefined || userInfo.userType !== "ADMINISTRATOR") {
+    return res.send({success: false});
+  }
+  
+  try {
+    let account;
+
+    if (req.query.type === "officer") {
+      account = await User.updateOne({ _id: req.body.id }, { officerUid: req.body.assignId });
+    } else {
+      account = await User.updateOne({ _id: req.body.id }, { adviserUid: req.body.assignId });
+    }
+
+    // If saving is successful and there were matches, return success
+    res.send({ success: (account.acknowledged && account.matchedCount > 0) })
+  } catch (err) {
+    console.log(err);
     res.send({ success: false })
   }
 }
@@ -133,32 +186,6 @@ const signInWithEmail = async (req, res) => {
   })
 }
 
-async function getUser(req) {
-  // Scenario 1 - No cookies / no authToken cookie sent
-  if (!req.cookies || !req.cookies.authToken) {
-    return null;
-  }
-
-  try {
-    // try to verify the token
-    const tokenPayload = jwt.verify(req.cookies.authToken, 'THIS_IS_A_SECRET_STRING');
-
-    // check if the _id in the payload is an existing user id
-    const user = await User.findById(tokenPayload._id);
-
-    if (user) {
-      // SUCCESS Scenario - User is found
-      return user;
-    } else {
-      // FAIL Scenario 2 - Token is valid but user id not found
-      return null;
-    }
-  } catch {
-    // FAIL Scenario 3 - Error in validating token / Token is not valid
-    return null;
-  }
-}
-
 const getApplications = async (req, res) => {
   let data = [];
   let userInfo = await getUser(req);
@@ -224,12 +251,48 @@ const getStudents = async (req, res) => {
   return res.send(data);
 }
 
+const getOfficers = async (req, res) => {
+  let data = [];
+  let userInfo = await getUser(req);
+
+  // Check if token is valid and user is an administrator
+  if (userInfo === null || userInfo === undefined || userInfo.userType !== "ADMINISTRATOR") {
+    return res.send(data);
+  }
+
+  const accounts = await User.find({ userType: "CLEARANCE_OFFICER" });
+  for (let i = 0; i < accounts.length; i++) {
+    data[i] = JSON.parse(JSON.stringify(accounts[i]));;
+    data[i].password = undefined;
+  }
+
+  return res.send(data);
+}
+
+const getAdvisers = async (req, res) => {
+  let data = [];
+  let userInfo = await getUser(req);
+
+  // Check if token is valid and user is an administrator
+  if (userInfo === null || userInfo === undefined || userInfo.userType !== "ADMINISTRATOR") {
+    return res.send(data);
+  }
+
+  const accounts = await User.find({ userType: "ADVISER" });
+  for (let i = 0; i < accounts.length; i++) {
+    data[i] = JSON.parse(JSON.stringify(accounts[i]));;
+    data[i].password = undefined;
+  }
+
+  return res.send(data);
+}
+
 const getAccounts = async (req, res) => {
   let data = [];
   let userInfo = await getUser(req);
 
   // Check if token is valid and user is an administrator
-  if (userInfo.userType !== "ADMINISTRATOR") {
+  if (userInfo === null || userInfo === undefined || userInfo.userType !== "ADMINISTRATOR") {
     return res.send(data);
   }
 
@@ -356,4 +419,4 @@ const checkIfLoggedIn = async (req, res) => {
   }
 }
 
-export { signUpWithEmail, signInWithEmail, heartbeat, addApplication, updateApplication, approveAccount, getUserInfo, getApplications, getAccounts, getStudents }
+export { signUpWithEmail, signInWithEmail, heartbeat, assignAccount, addApplication, updateApplication, approveAccount, getUserInfo, getApplications, getAccounts, getStudents, getAdvisers, getOfficers }

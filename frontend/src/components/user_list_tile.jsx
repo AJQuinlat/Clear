@@ -5,7 +5,7 @@ import 'material-symbols';
 import "./application.css"
 
 export default function UserTile(props) {
-    const { currentAccount, onAccountClick, data } = props;
+    const { dialog, currentAccount, onAccountClick, data } = props;
     const [isInactive, setInactive] = useState(true);
 
     useEffect(() => {
@@ -19,7 +19,7 @@ export default function UserTile(props) {
 
     return (
         <button onClick={onClk} className={(!isInactive ? "app-active" : "") + " app-ghost btn-block text-left"}>
-            <div className="flex flex-row px-6 py-5 mx-8" style={{ minHeight: '4rem' }}>
+            <div className={(dialog === undefined ? "mx-8" : "") + " flex flex-row px-6 py-5"} style={{ minHeight: '4rem' }}>
                 <label className="my-auto btn btn-ghost btn-circle avatar">
                     <img
                         className="rounded-full"

@@ -1,8 +1,10 @@
 /* eslint-disable jsx-a11y/alt-text */
 import "material-symbols";
+import { useState, useEffect } from "react";
 import { showToast } from "./toast";
 import EmptyProfile from "./student_empty";
 import Search from "./search";
+import UserTile from "./user_list_tile";
 
 // Modal component
 function Modal({ id, title, children }) {
@@ -28,15 +30,12 @@ function Modal({ id, title, children }) {
 }
 
 export default function StudentProfile(props) {
-  const { onApproved, data } = props;
-  let assignedAdviser = data.assignedAdviser;
-  let assignedOfficer = data.assignedOfficer;
+  const { onApproved, data, advisers, officers } = props;
+  const [assignedOfficer, setAssignedOfficer] = useState(data.assignedOfficer);
+  const [assignedAdviser, setAssignedAdviser] = useState(data.assignedAdviser);
 
   function approveApplication(event) {
     event.preventDefault();
-
-    if (assignedAdviser === undefined) assignedAdviser = { firstName: "Prince Raeginald", lastName: "Lucario", email: "lucarraeginald@gmail.com" };
-    if (assignedOfficer === undefined) assignedOfficer = { firstName: "Perrito", lastName: "Joemissyou", email: "joemissyou@gmail.com" };
 
     // Construct the object based on form
     let dta = {};
@@ -62,24 +61,82 @@ export default function StudentProfile(props) {
       })
   }
 
+  useEffect(() => {
+    setAssignedOfficer(data.assignedOfficer);
+    setAssignedAdviser(data.assignedAdviser);
+  }, [data]);
+
+
   if (data == null || data === undefined || data.length === 0) {
     return <EmptyProfile />;
   }
 
-  if (assignedAdviser === undefined) assignedAdviser = null;
-  if (assignedOfficer === undefined) assignedOfficer = null;
+  function assignAdviser(adviser) {
+    // Construct the object based on form
+    let dta = {};
+    dta.id = data._id;
+    dta.assignId = adviser._id;
+
+    fetch("http://localhost:3001/api/accounts/assign?type=adviser",
+      {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(dta)
+      })
+      .then(response => response.json())
+      .then(body => {
+        console.log(body);
+        if (body.success) {
+          setAssignedAdviser(adviser)
+          document.getElementById('assign-adviser-modal').checked = false;
+          showToast("Assigned successfully", "Adviser assigned successfully.", "success", "left");
+        } else {
+          showToast("Assignment error", "An error has occured. Try again later.", "error", "left");
+        }
+      })
+  }
+
+  function assignOfficer(officer) {
+    // Construct the object based on form
+    let dta = {};
+    dta.id = data._id;
+    dta.assignId = officer._id;
+
+    fetch("http://localhost:3001/api/accounts/assign?type=officer",
+      {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(dta)
+      })
+      .then(response => response.json())
+      .then(body => {
+        console.log(body);
+        if (body.success) {
+          setAssignedOfficer(officer)
+          document.getElementById('assign-officer-modal').checked = false;
+          showToast("Assigned successfully", "Clearance officer assigned successfully.", "success", "left");
+        } else {
+          showToast("Assignment error", "An error has occured. Try again later.", "error", "left");
+        }
+      })
+  }
 
   function assignedOfficerModal(title) {
     return (
       <Modal id="assign-officer-modal" title={title}>
-        <Search />
-        <div className="overflow-auto h-48">
-          <div className="py-1 pl-8 flex flex-row items-center">
-            <div className="w-8 avatar pt-2">
-              <img className="rounded-full" src={"../assets/images/profile-default.webp"} />
-            </div>
-            <p className="pl-3 text-black text-lg">Administrator Adviser</p>
-          </div>
+        <Search type="A" />
+        <div className="overflow-auto h-48 text-base-content">
+          {officers.map((acc) => {
+            return (
+              <UserTile onAccountClick={(e) => assignOfficer(acc)} dialog={true} data={acc} />
+            )
+          })}
         </div>
       </Modal>
     )
@@ -87,15 +144,14 @@ export default function StudentProfile(props) {
   
   function assignedAdviserModal(title) {
     return (
-      <Modal id="assign-officer-modal" title={title}>
+      <Modal id="assign-adviser-modal" title={title}>
         <Search type="A" />
-        <div className="overflow-auto h-48">
-          <div className="py-1 pl-8 flex flex-row items-center">
-            <div className="w-8 avatar pt-2">
-              <img className="rounded-full" src={"../assets/images/profile-default.webp"} />
-            </div>
-            <p className="pl-3 text-black text-lg">Administrator Adviser</p>
-          </div>
+        <div className="overflow-auto h-48 text-base-content">
+          {advisers.map((acc) => {
+            return (
+              <UserTile onAccountClick={(e) => assignAdviser(acc)} dialog={true} data={acc} />
+            )
+          })}
         </div>
       </Modal>
     )

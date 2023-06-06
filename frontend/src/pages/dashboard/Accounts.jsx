@@ -10,7 +10,6 @@ export default function Accounts(properties) {
   const [currentAccount, setCurrentAccount] = useState([]);
 
   function getAccounts() {
-    console.log("GET");
     fetch('http://localhost:3001/api/accounts/non-students',
       {
         method: "GET",
