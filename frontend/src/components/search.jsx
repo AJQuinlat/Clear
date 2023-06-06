@@ -1,17 +1,23 @@
+/* eslint-disable default-case */
 import { useEffect } from "react";
 
 export default function Search(props) {
+  const { type } = props;
+
   useEffect(() => {
-    let filterButtons = ["DATE", "ADVISER", "STATUS", "STEP"];
-    for (let i = 0; i < filterButtons.length; i++) {
-      if (document.getElementById(filterButtons[i]).id == props.filter) {
-        document.getElementById(filterButtons[i]).className =
-          "btn-sm btn-secondary btn mb-2 text-white text-xs shadow-md border-none bg-secondary rounded-full hover:text-white";
-      } else {
-        document.getElementById(filterButtons[i]).className =
-          "btn-sm btn-secondary btn mb-2 text-black text-xs shadow-md border-none bg-white rounded-full hover:text-white";
+    if (type !== "A") {
+      let filterButtons = ["DATE", "ADVISER", "STATUS", "STEP"];
+      for (let i = 0; i < filterButtons.length; i++) {
+        if (document.getElementById(filterButtons[i]).id == props.filter) {
+          document.getElementById(filterButtons[i]).className =
+            "btn-sm btn-secondary btn mb-2 text-white text-xs shadow-md border-none bg-secondary rounded-full hover:text-white";
+        } else {
+          document.getElementById(filterButtons[i]).className =
+            "btn-sm btn-secondary btn mb-2 text-black text-xs shadow-md border-none bg-white rounded-full hover:text-white";
+        }
       }
     }
+
     let sortButtons = ["SDATE", "SNAME"];
     for (let i = 0; i < sortButtons.length; i++) {
       if (document.getElementById(sortButtons[i]).id == props.sort) {
@@ -75,14 +81,15 @@ export default function Search(props) {
           value={props.query}
           onChange={(e) => props.onQuery(e.target.value)}
           className="w-full bg-white placeholder:font-italitc border border-slate-300 rounded-lg py-4 pl-16 pr-4 focus:outline-primary/50 shadow-md"
-          placeholder="Search for applications"
+          placeholder={"Search for " + (type === "A" ? "accounts" : "applications")}
           type="search"
         />
       </label>
 
       {/* filter by */}
-      <div className="grid gap-3 mb-2 md:grid-cols-5 pr-16">
-        <span className="ml-2 align-middle my-auto">Filter by</span>
+      {type === "A" ? null :
+      <div className="grid gap-3 mb-2 md:grid-cols-5">
+        <span className="font-semibold ml-2 align-middle my-auto">Filter by</span>
         <button
           id={"DATE"}
           onClick={(e) => handleFilter(e.target.id)}
@@ -93,8 +100,7 @@ export default function Search(props) {
         <button
           id={"ADVISER"}
           onClick={(e) => handleFilter(e.target.id)}
-          className="btn-sm btn-secondary btn mb-2 text-black text-xs shadow-md border-none bg-white rounded-full hover:text-white"
-        >
+          className="btn-sm btn-secondary btn mb-2 text-black text-xs shadow-md border-none bg-white rounded-full hover:text-white">
           Adviser
         </button>
         <button
@@ -112,9 +118,10 @@ export default function Search(props) {
           Step
         </button>
       </div>
+        }
       {/* sort by */}
-      <div className="grid gap-3 mb-6 md:grid-cols-5 pr-16">
-        <span className="ml-2 align-middle my-auto">Sort by</span>
+      <div className="grid gap-3 mb-6 md:grid-cols-5">
+        <span className="font-semibold ml-2 align-middle my-auto">Sort by</span>
         <button
           id={"SDATE"}
           onClick={(e) => handleSort(e.target.id)}

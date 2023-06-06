@@ -12,7 +12,7 @@ import DashboardAdviser from './pages/dashboards/Adviser_Dashboard'
 import StudentProfile from './components/student_profile';
 
 const verifyUser = async () => {
-  const res = await fetch("http://localhost:3001/api/heartbeat",
+  const res = await fetch("http://localhost:3001/api/accounts",
     {
       method: "GET",
       credentials: "include"
@@ -28,7 +28,7 @@ const verifyUser = async () => {
 }
 
 const verifyUserOnLogin = async () => {
-  const res = await fetch("http://localhost:3001/api/heartbeat",
+  const res = await fetch("http://localhost:3001/api/accounts",
     {
       method: "GET",
       credentials: "include"

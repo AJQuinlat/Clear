@@ -3,7 +3,6 @@ import { useNavigate, useLoaderData } from 'react-router-dom';
 import Cookies from "universal-cookie";
 
 export default function AccountMenu(properties) {
-    const userInfo = properties.user.userInfo;
     const user = properties.user;
     const [isLoggedIn, setIsLoggedIn] = useState(useLoaderData())
     const navigate = useNavigate()
@@ -36,11 +35,13 @@ export default function AccountMenu(properties) {
         return user.year+"-"+(user.year+1);
     }
 
-    if (userInfo === undefined || userInfo === null) {
+    if (user === undefined || user.userInfo === null) {
         return (
             <div />
         );
     }
+
+    let userInfo = user.userInfo;
 
     return (
         <section className="flex flex-col m-auto">
@@ -59,14 +60,14 @@ export default function AccountMenu(properties) {
                         <div className="flex-none w-10 avatar">
                             <img className="rounded-full" src={"../assets/images/profile-default.webp"} />
                         </div>
-                        {user.assignedAdviser === undefined || user.assignedAdviser === null ?
+                        {user.userInfo.assignedAdviser === undefined || user.userInfo.assignedAdviser === null ?
                             <div className="flex flex-col flex-auto ml-4">
                                 <span className="text-md font-semibold my-auto">Not assigned</span>
                             </div>
                             :
                             <div className="flex flex-col flex-auto ml-4">
-                                <span className="text-md font-semibold my-auto">{user.assignedAdviser.firstName} {user.assignedAdviser.lastName}</span>
-                                <span className="text-xs text-light my-auto">{user.assignedAdviser.email}</span>
+                                <span className="text-md font-semibold my-auto">{user.userInfo.assignedAdviser.firstName} {user.userInfo.assignedAdviser.lastName}</span>
+                                <span className="text-xs text-light my-auto">{user.userInfo.assignedAdviser.email}</span>
                             </div>
                         }
 
@@ -77,14 +78,14 @@ export default function AccountMenu(properties) {
                         <div className="flex-none w-10 avatar">
                             <img className="rounded-full" src={"../assets/images/profile-default.webp"} />
                         </div>
-                        {user.assignedOfficer === undefined || user.assignedOfficer === null ?
+                        {user.userInfo.assignedOfficer === undefined || user.userInfo.assignedOfficer === null ?
                             <div className="flex flex-col flex-auto ml-4">
                                 <span className="text-md font-semibold my-auto">Not assigned</span>
                             </div>
                             :
                             <div className="flex flex-col flex-auto ml-4">
-                                <span className="text-md font-semibold my-auto">{user.assignedOfficer.firstName} {user.assignedOfficer.lastName}</span>
-                                <span className="text-xs text-light my-auto">{user.assignedOfficer.email}</span>
+                                <span className="text-md font-semibold my-auto">{user.userInfo.assignedOfficer.firstName} {user.userInfo.assignedOfficer.lastName}</span>
+                                <span className="text-xs text-light my-auto">{user.userInfo.assignedOfficer.email}</span>
                             </div>
                         }
                     </div>
