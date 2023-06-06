@@ -26,27 +26,14 @@ function Modal({ id, title, children }) {
   );
 }
 
-function getSemesterName(semester) {
-  switch (semester) {
-    case 1:
-      return "1st Semester";
-    case 2:
-      return "2nd Semester";
-    default:
-      return "Mid-semester";
-  }
-}
 
-export default function StudentProfile(props) {
+export default function AdminSignup(props) {
   const { onApproved, semester, year, data } = props;
   let assignedAdviser = data.assignedAdviser;
   let assignedOfficer = data.assignedOfficer;
 
   function approveApplication(event) {
     event.preventDefault();
-
-    if (assignedAdviser === undefined) assignedAdviser = {firstName: "Prince Raeginald", lastName: "Lucario", email: "lucarraeginald@gmail.com"};
-    if (assignedOfficer === undefined) assignedOfficer = {firstName: "Perrito", lastName: "Joemissyou", email: "joemissyou@gmail.com"};
 
     // Construct the object based on form
     let dta = {};
@@ -93,6 +80,7 @@ export default function StudentProfile(props) {
         <span className="font-semibold text-base">{data.studentNumber}</span>
         <span className="text-base mb-10">A.Y. {year}-{year+1} ({getSemesterName(semester)})</span>
         
+
         {data.userType === null ?
           <button onClick={approveApplication} className="btn btn-primary font-bold">
             <span class="material-symbols-outlined align-middle mr-2">check</span>
@@ -100,12 +88,13 @@ export default function StudentProfile(props) {
             </button>
             : null
         }
+
         <div className="flex flex-row mt-8">
           <div className="pr-20 w-max">
             <h2 className={" font-semibold text-black text-2xl"}>
               Assigned Adviser
             </h2>
-          <div className="flex flex-row mt-3">
+          <div className="flex flex-row mt-6">
             <div className="m-auto flex-none">
               <div className="w-10 avatar pt-2">
                 <img className="rounded-full" src={"../assets/images/profile-default.webp"} />
