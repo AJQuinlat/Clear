@@ -5,6 +5,8 @@ import UserTile from "../../components/user_list_tile";
 import ManageAccount from "../../components/manage_account";
 import { showToast } from "../../components/toast";
 
+let formSuccess;
+
 function createAccount(event) {
   event.preventDefault();
 
@@ -36,6 +38,7 @@ function createAccount(event) {
         showToast("Account creation success", "Account created successfully.", "success", "left");
         document.getElementById('add-account-modal').checked = false;
         event.target.reset();
+        formSuccess();
       } else {
         showToast("Account creation error", "An error has occured. Try again later.", "error", "left");
       }
@@ -211,6 +214,8 @@ export default function Accounts(properties) {
   if (user === undefined) {
     return (<></>);
   }
+
+  formSuccess = getAccounts;
 
   function onClickAccount(account) {
     setCurrentAccount(account);
