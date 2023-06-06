@@ -224,11 +224,14 @@ export default function ManageAccount(props) {
         <option value="ADMINISTRATOR">Administrator</option>
       </select>
       <div className="h-8" />
-      <div className="flex">
-        <EditModal account={data} id="edit-account-modal" title="Edit Account" />
-        <div className="w-8" />
-        <DeleteModal account={data} id="delete-account-modal" title="Delete Account" />
-      </div>
+      {
+        data._id === user._id ? null :
+        <div className="flex">
+          <EditModal account={data} id="edit-account-modal" title="Edit Account" />
+          <div className="w-8" />
+          <DeleteModal account={data} id="delete-account-modal" title="Delete Account" />
+        </div>
+      }
     </div>
   );
 }
