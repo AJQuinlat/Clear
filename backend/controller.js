@@ -36,6 +36,35 @@ async function getUser(req) {
   }
 }
 
+const addAccount = async (req, res) => {
+  let userInfo = await getUser(req);
+
+  // Check if token is valid and user is an administrator
+  if (userInfo === null || userInfo === undefined || userInfo.userType !== "ADMINISTRATOR") {
+    return res.send({ success: false });
+  }
+
+  const newUser = new User({
+    firstName: req.body.firstName,
+    middleName: req.body.middleName,
+    lastName: req.body.lastName,
+    studentNumber: req.body.studentNumber,
+    college: req.body.college,
+    userType: req.body.userType,
+    email: req.body.email,
+    password: req.body.password
+  });
+
+  console.log(req.body);
+  const result = await newUser.save();
+
+  if (result._id) {
+    res.send({ success: true })
+  } else {
+    res.send({ success: false })
+  }
+}
+
 const signUpWithEmail = async (req, res) => {
   const newUser = new User({
     firstName: req.body.firstName,
@@ -89,8 +118,6 @@ const addApplication = async (req, res) => {
 
 const assignAccount = async (req, res) => {
   let userInfo = await getUser(req);
-
-  console.log(userInfo)
 
   // Check if token is valid and user is an administrator
   if (userInfo === null || userInfo === undefined || userInfo.userType !== "ADMINISTRATOR") {
@@ -440,4 +467,4 @@ const checkIfLoggedIn = async (req, res) => {
   }
 }
 
-export { signUpWithEmail, signInWithEmail, heartbeat, assignAccount, assignAccountType, addApplication, updateApplication, approveAccount, getUserInfo, getApplications, getAccounts, getStudents, getAdvisers, getOfficers }
+export { signUpWithEmail, addAccount, signInWithEmail, heartbeat, assignAccount, assignAccountType, addApplication, updateApplication, approveAccount, getUserInfo, getApplications, getAccounts, getStudents, getAdvisers, getOfficers }
