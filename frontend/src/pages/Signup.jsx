@@ -96,7 +96,7 @@ class Signup extends React.Component {
                         <text class="text-left text-sm">Ensure the e-mail you are using to sign-up is your UP Mail account</text>
 
                         <div class="grid gap-2 mb-6 mt-4 md:grid-cols-3">
-                            <input pattern="[a-z0-9._%+-]+@up.edu.ph" name="email" type="text" placeholder="Email" className="input input-bordered bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded w-full" required />
+                            <input pattern="[a-z0-9._%+-]+@up.edu.ph" type="email" name="email" placeholder="Email" className="input input-bordered bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded w-full" required />
                             <input name="password" type="password" placeholder="Password" className="input input-bordered bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded w-full" required />
                         </div>
 

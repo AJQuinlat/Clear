@@ -92,7 +92,7 @@ function NewAccountModal({ id, title }) {
 
                 <div className="h-4" />
 
-                <input name="email" type="text" placeholder="Email" className="input input-bordered w-full my-1" required />
+                <input pattern="[a-z0-9._%+-]+@up.edu.ph" type="email" name="email" type="text" placeholder="Email" className="input input-bordered w-full my-1" required />
                 <input name="password" type="password" placeholder="Password" className="input input-bordered w-full my-1" required />
 
               </div>
