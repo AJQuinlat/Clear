@@ -7,41 +7,43 @@ import UserTile from "../../components/user_list_tile";
 
 export default function Students(properties) {
   const { user, sectionRef, sectionHeight } = properties;
-  const [accounts, setAccounts] = useState([]);
-  const [officers, setOfficers] = useState([]);
-  const [advisers, setAdvisers] = useState([]);
+  const [info, setInfo] = useState({ accounts: [], advisers: [], officers: [] });
   const [currentAccount, setCurrentAccount] = useState([]);
 
-  function getAccounts() {
-    fetch('http://localhost:3001/api/accounts/students',
+  async function getAccounts() {
+    var info = {};
+
+    await fetch('http://localhost:3001/api/accounts/students',
       {
         method: "GET",
         credentials: "include"
       })
       .then(response => response.json())
       .then(body => {
-        setAccounts(body);
+        info.accounts = JSON.parse(JSON.stringify(body));
       });
 
-    fetch('http://localhost:3001/api/accounts/advisers',
+    await fetch('http://localhost:3001/api/accounts/advisers',
       {
         method: "GET",
         credentials: "include"
       })
       .then(response => response.json())
       .then(body => {
-        setAdvisers(body);
+        info.advisers = body;
       });
 
-    fetch('http://localhost:3001/api/accounts/officers',
+    await fetch('http://localhost:3001/api/accounts/officers',
       {
         method: "GET",
         credentials: "include"
       })
       .then(response => response.json())
       .then(body => {
-        setOfficers(body);
+        info.officers = body;
       });
+      
+    setInfo(info);
   };
 
   useEffect(() => {
@@ -79,13 +81,13 @@ export default function Students(properties) {
   }
 
   // filtering and sorting functionality
-  if (accounts !== undefined) {
+  if (info.accounts !== undefined) {
     switch (filter) {
       case "DATE":
         // add if date of account creation is added
         break;
       case "ADVISER":
-        filteredStuds = accounts.filter((stud) => {
+        filteredStuds = info.accounts.filter((stud) => {
           return (
             stud.assignedAdviser.firstName +
             " " +
@@ -104,7 +106,7 @@ export default function Students(properties) {
         // only applicable to application since no step attribute for student
         break;
       case "NAME":
-        filteredStuds = accounts.filter((stud) => {
+        filteredStuds = info.accounts.filter((stud) => {
           return (
             stud.firstName +
             " " +
@@ -141,7 +143,7 @@ export default function Students(properties) {
   }
 
   function getAccountsList() {
-    if ((user.userInfo === undefined || user.userInfo.userType === "STUDENT") && (accounts === undefined || accounts.length === 0 || (accounts.length === 1 && accounts[0].step === 0))) {
+    if ((user.userInfo === undefined || user.userInfo.userType === "STUDENT") && (info.accounts === undefined || info.accounts.length === 0 || (info.accounts.length === 1 && info.accounts[0].step === 0))) {
       return (
         <section className="flex flex-col flex-none dashboard-list-section">
           <card className="mx-8 flex-none card w-auto bg-base-100 shadow-md mb-0">
@@ -155,7 +157,7 @@ export default function Students(properties) {
 
     return (
       <section className="flex flex-col flex-none dashboard-list-section">
-        <Search type="A" data={accounts} query={query} onQuery={setQuery} filter={filter} filterBy={filterBy} sort={sort} sortBy={sortBy} />
+        <Search type="A" data={info.accounts} query={query} onQuery={setQuery} filter={filter} filterBy={filterBy} sort={sort} sortBy={sortBy} />
         <section className="dashboard-list grow" ref={sectionRef} style={{ "height": sectionHeight + "px" }}>
           {filteredStuds.map((app) => {
             return (
@@ -172,7 +174,7 @@ export default function Students(properties) {
     <section className="flex-row flex" ref={sectionRef} style={{ "height": sectionHeight + "px" }}>
       {getAccountsList()}
       <section className="flex-auto bg-base-100 w-full rounded-3xl overflow-y-auto">
-        <StudentProfile advisers={advisers} officers={officers} data={currentAccount} onApproved={onApproved} semester={user.semester} year={user.year} />
+        <StudentProfile advisers={info.advisers} officers={info.officers} data={currentAccount} onApproved={onApproved} semester={user.semester} year={user.year} />
       </section>
     </section>
   )
