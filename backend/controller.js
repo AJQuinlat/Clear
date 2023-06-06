@@ -118,7 +118,6 @@ const signUpWithEmail = async (req, res) => {
     studentNumber: req.body.studentNumber,
     course: req.body.course,
     college: req.body.college,
-    userType: null,
     email: req.body.email,
     password: req.body.password
   });
