@@ -115,10 +115,6 @@ export default function Accounts(properties) {
     setCurrentAccount(account);
   }
 
-  function onApproved() {
-    setCurrentAccount([]);
-  }
-
   function getAccountsList() {
     if ((user.userInfo === undefined) && (accounts === undefined || accounts.length === 0 || (accounts.length === 1 && accounts[0].step === 0))) {
       return (
@@ -150,7 +146,7 @@ export default function Accounts(properties) {
     <section className="flex-row flex" ref={sectionRef} style={{ "height": sectionHeight + "px" }}>
       {getAccountsList()}
       <section className="flex-auto bg-base-100 w-full rounded-3xl overflow-y-auto">
-        <ManageAccount data={currentAccount} user={user.userInfo} semester={user.semester} year={user.year} />
+        <ManageAccount onSuccess={getAccounts} data={currentAccount} user={user.userInfo} semester={user.semester} year={user.year} />
       </section>
     </section>
   )

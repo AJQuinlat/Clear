@@ -4,7 +4,7 @@ import { showToast } from "./toast";
 import EmptyProfile from "./student_empty";
 
 export default function ManageAccount(props) {
-    const { user, data } = props;
+    const { onSuccess, user, data } = props;
     const [currentType, setCurrentType] = useState(data.userType);
 
     useEffect(() => {
@@ -34,6 +34,7 @@ export default function ManageAccount(props) {
             .then(body => {
                 if (body.success) {
                     showToast("Changed suucessfully", "Successfully set new account type.", "success", "left");
+                    onSuccess();
                 } else {
                     showToast("Changing error", "An error has occured. Try again later.", "error", "left");
                 }

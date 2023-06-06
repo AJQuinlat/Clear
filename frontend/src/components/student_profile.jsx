@@ -30,7 +30,7 @@ function Modal({ id, title, children }) {
 }
 
 export default function StudentProfile(props) {
-  const { onApproved, data, advisers, officers } = props;
+  const { onSuccess, onApproved, data, advisers, officers } = props;
   const [assignedOfficer, setAssignedOfficer] = useState(data.assignedOfficer);
   const [assignedAdviser, setAssignedAdviser] = useState(data.assignedAdviser);
 
@@ -92,7 +92,8 @@ export default function StudentProfile(props) {
         if (body.success) {
           setAssignedAdviser(adviser)
           document.getElementById('assign-adviser-modal').checked = false;
-          showToast("Assigned successfully", "Adviser assigned successfully.", "success", "left");
+          showToast("Assigned successfully", "Clearance adviser assigned successfully.", "success", "left");
+          onSuccess();
         } else {
           showToast("Assignment error", "An error has occured. Try again later.", "error", "left");
         }
@@ -121,6 +122,7 @@ export default function StudentProfile(props) {
           setAssignedOfficer(officer)
           document.getElementById('assign-officer-modal').checked = false;
           showToast("Assigned successfully", "Clearance officer assigned successfully.", "success", "left");
+          onSuccess();
         } else {
           showToast("Assignment error", "An error has occured. Try again later.", "error", "left");
         }

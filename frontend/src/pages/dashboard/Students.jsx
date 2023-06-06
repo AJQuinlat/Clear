@@ -42,7 +42,7 @@ export default function Students(properties) {
       .then(body => {
         info.officers = body;
       });
-      
+
     setInfo(info);
   };
 
@@ -174,7 +174,7 @@ export default function Students(properties) {
     <section className="flex-row flex" ref={sectionRef} style={{ "height": sectionHeight + "px" }}>
       {getAccountsList()}
       <section className="flex-auto bg-base-100 w-full rounded-3xl overflow-y-auto">
-        <StudentProfile advisers={info.advisers} officers={info.officers} data={currentAccount} onApproved={onApproved} semester={user.semester} year={user.year} />
+        <StudentProfile onSuccess={getAccounts} advisers={info.advisers} officers={info.officers} data={currentAccount} onApproved={onApproved} semester={user.semester} year={user.year} />
       </section>
     </section>
   )
