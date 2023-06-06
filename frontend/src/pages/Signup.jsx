@@ -97,7 +97,7 @@ class Signup extends React.Component {
 
                         <div class="grid gap-2 mb-6 mt-4 md:grid-cols-3">
                             <input pattern="[a-z0-9._%+-]+@up.edu.ph" type="email" name="email" placeholder="Email" className="input input-bordered bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded w-full" required />
-                            <input name="password" type="password" placeholder="Password" className="input input-bordered bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded w-full" required />
+                            <input pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\S+$).{6,}$" name="password" type="password" placeholder="Password" className="input input-bordered bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded w-full" required />
                         </div>
 
                         <button type="submit" className="mb-2 text-base-300 btn btn-primary rounded-xl h-10 w-full">Sign-up</button>
