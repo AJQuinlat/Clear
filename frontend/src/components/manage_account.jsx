@@ -52,7 +52,8 @@ export default function ManageAccount(props) {
                 </div>
             </div>
             <span className="font-semibold text-primary text-3xl mb-2">{data.firstName} {data.middleName} {data.lastName}</span>
-            <span className="font-semibold text-base mb-12">{data.email}</span>
+            <span className="font-semibold text-lg mb-2">{data.email}</span>
+            <span className="text-sm mb-12">{data.studentNumber} ({data.college})</span>
             <select onChange={(e) => changeAccountType(e.target.value)} name="college" className="select select-bordered bg-gray-300 border border-gray-300 text-sm rounded block w-72" value={currentType} disabled={data._id === user._id}>
                 <option value="" disabled selected>Change user type</option>
                 <option value="ADVISER">Adviser</option>
