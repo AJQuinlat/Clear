@@ -150,7 +150,7 @@ export default function Accounts(properties) {
     <section className="flex-row flex" ref={sectionRef} style={{ "height": sectionHeight + "px" }}>
       {getAccountsList()}
       <section className="flex-auto bg-base-100 w-full rounded-3xl overflow-y-auto">
-        <ManageAccount data={currentAccount} semester={user.semester} year={user.year} />
+        <ManageAccount data={currentAccount} user={user.userInfo} semester={user.semester} year={user.year} />
       </section>
     </section>
   )

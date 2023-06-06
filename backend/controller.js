@@ -114,6 +114,27 @@ const assignAccount = async (req, res) => {
   }
 }
 
+const assignAccountType = async (req, res) => {
+  let userInfo = await getUser(req);
+
+  console.log(userInfo)
+
+  // Check if token is valid and user is an administrator
+  if (userInfo === null || userInfo === undefined || userInfo.userType !== "ADMINISTRATOR") {
+    return res.send({ success: false });
+  }
+
+  try {
+    let account = await User.updateOne({ _id: req.body.id }, { userType: req.body.userType });
+
+    // If saving is successful and there were matches, return success
+    res.send({ success: (account.acknowledged && account.matchedCount > 0) })
+  } catch (err) {
+    console.log(err);
+    res.send({ success: false })
+  }
+}
+
 const approveAccount = async (req, res) => {
   try {
     let account = await User.updateOne({ _id: req.body.id }, { userType: "STUDENT" });
@@ -419,4 +440,4 @@ const checkIfLoggedIn = async (req, res) => {
   }
 }
 
-export { signUpWithEmail, signInWithEmail, heartbeat, assignAccount, addApplication, updateApplication, approveAccount, getUserInfo, getApplications, getAccounts, getStudents, getAdvisers, getOfficers }
+export { signUpWithEmail, signInWithEmail, heartbeat, assignAccount, assignAccountType, addApplication, updateApplication, approveAccount, getUserInfo, getApplications, getAccounts, getStudents, getAdvisers, getOfficers }
