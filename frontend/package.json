@@ -10,6 +10,7 @@
     "@testing-library/user-event": "^13.5.0",
     "@yaireo/relative-time": "^1.0.3",
     "daisyui": "^2.51.6",
+    "jspdf": "^2.5.1",
     "material-symbols": "^0.5.5",
     "moment": "^2.29.4",
     "query-string": "^8.1.0",
