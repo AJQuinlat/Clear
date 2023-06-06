@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { jsPDF } from 'jspdf';
 import "material-symbols";
 import { showToast } from "./toast";
 import EmptyApplication from "./application_empty";
@@ -38,7 +39,7 @@ function getStateHeader(state) {
 
 function isDisabled(application, state, user, first) {
   if (state === "info_app" && (application.status !== "REJECTED" || !first)) return true;
-  switch (user.userType) {
+  switch (user.userInfo.userType) {
     case "STUDENT":
       return false;
     default:
@@ -62,6 +63,45 @@ export default function ApplicationDetails(props) {
   // Pull assigned adviser/officer from data if prop is undefined
   if (assignedAdviser === undefined) assignedAdviser = data.adviser;
   if (assignedOfficer === undefined) assignedOfficer = data.officer;
+
+  function printApplication() {
+    const doc = new jsPDF({ orientation: "p", lineHeight: 1.5 });
+    const timeElapsed = Date.now();
+    const today = new Date(timeElapsed);
+    const fullName = data.user.firstName + " " + data.user.middleName + " " + data.user.lastName;
+    const adviserName = data.adviser.firstName + " " + data.adviser.middleName + " " + data.adviser.lastName;
+    const officerName = data.officer.firstName + " " + data.officer.middleName + " " + data.officer.lastName;
+
+    // Header
+    doc.setFontSize(16);
+    doc.text('University of the Philippines Los Baños', 105, 30, null, null, "center");
+    doc.setFontSize(12);
+    doc.text('College of Arts and Sciences', 105, 37, null, null, "center");
+    doc.setFontSize(11);
+    doc.text('Institute of Computer Science', 105, 43, null, null, "center");
+    doc.line(0, 60, doc.internal.pageSize.getWidth(), 60);
+
+    doc.setFontSize(11);
+    doc.text(today.toLocaleDateString(), 20, 80);
+    var split = doc.splitTextToSize("This document certifies that " + fullName + ", " + data.user.studentNumber + " has satisfied the clearance requirements of the institute.", 180);
+    doc.text(split, 20, 90);
+
+
+    doc.setFontSize(13);
+    doc.text('Verified:', 20, 160);
+
+    doc.setFontSize(11);
+    var adviser = doc.splitTextToSize("Academic Adviser: " + adviserName, 180);
+    doc.text(adviser, 20, 170);
+    var officer = doc.splitTextToSize("Clearance Officer: " + officerName, 180);
+    doc.text(officer, 20, 180);
+
+    // generate the PDF document with the type of datauristring/dataurlstring
+    doc.autoPrint();
+
+    //This is a key for printing
+    doc.output('dataurlnewwindow');
+  }
 
   function submitApplication(event) {
     event.preventDefault();
@@ -164,7 +204,7 @@ export default function ApplicationDetails(props) {
   }
 
   let res;
-  if (state === "info_app" && (user.userType !== "ADVISER" && user.userType !== "CLEARANCE_OFFICER")) {
+  if (state === "info_app" && (user.userInfo.userType !== "ADVISER" && user.userInfo.userType !== "CLEARANCE_OFFICER")) {
     res = getResources(data);
   }
 
@@ -256,7 +296,7 @@ export default function ApplicationDetails(props) {
       </div>
 
       {/* Status */}
-      {state === "info_app" && (user.userType !== "ADVISER" && user.userType !== "CLEARANCE_OFFICER") ?
+      {state === "info_app" && (user.userInfo.userType !== "ADVISER" && user.userInfo.userType !== "CLEARANCE_OFFICER") ?
         <div className="mt-12">
           <h2 className={getColor(state) + " font-semibold text-accent text-2xl"}>
             Application Status
@@ -296,7 +336,7 @@ export default function ApplicationDetails(props) {
             <p className="text-xs text-primary font-bold pl-2">required</p>
           </div>
           <div className="mt-2">
-            {user.userType === "STUDENT" ?
+            {user.userInfo.userType === "STUDENT" ?
               <div>
                 <p className="text-sm">
                   Enter the Drive, GitHub, or folder link associated with your
@@ -324,7 +364,7 @@ export default function ApplicationDetails(props) {
             <h3 className="text-lg font-bold">Additional Remarks</h3>
           </div>
           <div className="mt-2">
-            {user.userType === "STUDENT" ?
+            {user.userInfo.userType === "STUDENT" ?
               <p className="text-sm">
                 Add additional remarks to be seen by your clearance adviser
               </p> : null
@@ -343,7 +383,7 @@ export default function ApplicationDetails(props) {
         </section>
       </div>
 
-      {state === "new_app" && user.userType === "STUDENT" ?
+      {state === "new_app" && user.userInfo.userType === "STUDENT" ?
         <button type="submit" className="btn btn-accent mt-10 mb-4 flex bg-transparent text-accent font-semibold hover:text-white py-2 px-4 border border-text-accent hover:border-transparent rounded">
           <div className="material-symbols-rounded align-middle">
             {getIcon("submit")}
@@ -351,7 +391,15 @@ export default function ApplicationDetails(props) {
           <p className="px-2">Submit application for review</p>
         </button> : null}
 
-      {state === "info_app" && isFirst && data.status === "REJECTED" && user.userType === "STUDENT" ?
+      {state === "info_app" && isFirst && data.status === "APPROVED" && user.userInfo.userType === "STUDENT" ?
+        <button type="button" onClick={printApplication} className="btn btn-secondary mt-10 mb-4 flex bg-transparent text-secondary font-semibold hover:text-white py-2 px-4 border border-text-secondary hover:border-transparent rounded">
+          <div className="material-symbols-rounded align-middle">
+            print
+          </div>
+          <p className="px-2">Print Clearance Certificate</p>
+        </button> : null}
+
+      {state === "info_app" && isFirst && data.status === "REJECTED" && user.userInfo.userType === "STUDENT" ?
         <button type="submit" className="btn btn-accent mt-10 mb-4 flex bg-transparent text-accent font-semibold hover:text-white py-2 px-4 border border-text-accent hover:border-transparent rounded">
           <div className="material-symbols-rounded align-middle">
             {getIcon("submit")}
@@ -359,7 +407,7 @@ export default function ApplicationDetails(props) {
           <p className="px-2">Re-submit application for review</p>
         </button> : null}
 
-      {state === "info_app" && data.status === "PENDING" && (user.userType === "ADVISER" || user.userType === "CLEARANCE_OFFICER") ?
+      {state === "info_app" && data.status === "PENDING" && (user.userInfo.userType === "ADVISER" || user.userInfo.userType === "CLEARANCE_OFFICER") ?
         <div>
           {/* Remarks */}
           <div className="mt-12">
