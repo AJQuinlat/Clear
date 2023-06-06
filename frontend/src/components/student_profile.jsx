@@ -6,6 +6,59 @@ import EmptyProfile from "./student_empty";
 import Search from "./search";
 import UserTile from "./user_list_tile";
 
+let success;
+
+function deleteAccount(account) {
+  // Construct the object based on form
+  let data = {};
+  data.id = account._id;
+
+  fetch('http://localhost:3001/api/accounts/delete', {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+    .then(response => response.json())
+    .then(body => {
+      if (body.success) {
+        showToast("Account deletion success", "Account deleted successfully.", "success", "left");
+        document.getElementById('delete-account-modal').checked = false;
+        success();
+      } else {
+        showToast("Account deletion error", "An error has occured. Try again later.", "error", "left");
+      }
+    });
+}
+
+// Modal component
+function DeleteModal({ account, id, title }) {
+  return (
+    <>
+      <button onClick={() => (document.getElementById(id).checked = true)} className="my-6 text-primary font-bold">
+        <span class="material-symbols-outlined align-middle" style={{ fontSize: '15px' }}>delete</span> {title}
+      </button>
+      <input type="checkbox" id={id} className="modal-toggle" />
+      <div className="modal">
+        <div className="modal-box">
+          <div className="pt-6">
+            <h3 className="font-bold text-primary text-3xl mx-8 mb-6">{title}</h3>
+            <div className="overflow-auto px-8 text-base-content">
+              <p>Are you sure you want to delete this account?</p>
+            </div>
+            <div className="modal-action">
+              <label onClick={() => (document.getElementById(id).checked = false)} className="btn-ghost btn">Cancel</label>
+              <label onClick={() => (deleteAccount(account))} className="text-primary btn-ghost btn">Delete</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
 // Modal component
 function Modal({ id, title, children }) {
   return (
@@ -33,6 +86,8 @@ export default function StudentProfile(props) {
   const { onSuccess, onApproved, data, advisers, officers } = props;
   const [assignedOfficer, setAssignedOfficer] = useState(data.assignedOfficer);
   const [assignedAdviser, setAssignedAdviser] = useState(data.assignedAdviser);
+
+  success = onSuccess;
 
   function approveApplication(event) {
     event.preventDefault();
@@ -238,6 +293,9 @@ export default function StudentProfile(props) {
           </div>
         </div>
       }
+      <div>
+        <DeleteModal account={data} id="delete-account-modal" title="Delete Account" />
+      </div>
     </div>
   );
 }
