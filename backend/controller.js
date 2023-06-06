@@ -65,6 +65,51 @@ const addAccount = async (req, res) => {
   }
 }
 
+const editAccount = async (req, res) => {
+  let userInfo = await getUser(req);
+
+  // Check if token is valid and user is an administrator
+  if (userInfo === null || userInfo === undefined || userInfo.userType !== "ADMINISTRATOR") {
+    return res.send({ success: false });
+  }
+
+  try {
+    let account = await User.updateOne({ _id: req.body.id }, {
+      firstName: req.body.firstName,
+      middleName: req.body.middleName,
+      lastName: req.body.lastName,
+      studentNumber: req.body.studentNumber,
+      college: req.body.college,
+      email: req.body.email,
+      password: req.body.password
+    });
+
+    // If saving is successful and there were matches, return success
+    res.send({ success: (account.acknowledged && account.matchedCount > 0) })
+  } catch (e) {
+    res.send({ success: false })
+  }
+}
+
+const deleteAccount = async (req, res) => {
+  let userInfo = await getUser(req);
+
+  // Check if token is valid and user is an administrator
+  if (userInfo === null || userInfo === undefined || userInfo.userType !== "ADMINISTRATOR") {
+    return res.send({ success: false });
+  }
+
+  try {
+    let account = await User.deleteOne({ _id: req.body.id });
+
+    // If saving is successful and there were matches, return success
+    res.send({ success: (account.acknowledged && account.deletedCount > 0) })
+  } catch (err) {
+    console.log(err);
+    res.send({ success: false })
+  }
+}
+
 const signUpWithEmail = async (req, res) => {
   const newUser = new User({
     firstName: req.body.firstName,
@@ -467,4 +512,4 @@ const checkIfLoggedIn = async (req, res) => {
   }
 }
 
-export { signUpWithEmail, addAccount, signInWithEmail, heartbeat, assignAccount, assignAccountType, addApplication, updateApplication, approveAccount, getUserInfo, getApplications, getAccounts, getStudents, getAdvisers, getOfficers }
+export { signUpWithEmail, addAccount, editAccount, deleteAccount, signInWithEmail, heartbeat, assignAccount, assignAccountType, addApplication, updateApplication, approveAccount, getUserInfo, getApplications, getAccounts, getStudents, getAdvisers, getOfficers }

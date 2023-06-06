@@ -33,6 +33,23 @@ const ApplicationSchema = new mongoose.Schema({
     remarks: { type: String, required: false, default: null },
 });
 
+UserSchema.pre("updateOne", function (next) {
+    const user = this;
+
+    if (!user._update.password) return next();
+
+    return bcrypt.genSalt((saltError, salt) => {
+        if (saltError) { return next(saltError); }
+
+        return bcrypt.hash(user._update.password, salt, (hashError, hash) => {
+            if (hashError) { return next(hashError); }
+
+            user._update.password = hash;
+            return next();
+        });
+    });
+});
+
 UserSchema.pre("save", function (next) {
     const user = this;
 

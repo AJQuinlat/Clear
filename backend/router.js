@@ -1,5 +1,5 @@
 // Import route methods from controller
-import { signUpWithEmail, signInWithEmail, assignAccount, addApplication, updateApplication, approveAccount, getUserInfo, getApplications, getStudents, getAccounts, getAdvisers, getOfficers, assignAccountType, addAccount } from './controller.js';
+import { signUpWithEmail, signInWithEmail, assignAccount, addApplication, updateApplication, approveAccount, getUserInfo, getApplications, getStudents, getAccounts, getAdvisers, getOfficers, assignAccountType, addAccount, deleteAccount, editAccount } from './controller.js';
 
 // Routes
 const router = (app) => {
@@ -23,6 +23,8 @@ const router = (app) => {
     app.post('/api/accounts/assign', assignAccount);
     app.post('/api/accounts/set-type', assignAccountType);
     app.post('/api/accounts/add', addAccount);
+    app.post('/api/accounts/delete', deleteAccount);
+    app.post('/api/accounts/edit', editAccount);
 
     app.post('/api/application/update', updateApplication);
 
