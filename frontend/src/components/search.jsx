@@ -18,7 +18,7 @@ export default function Search(props) {
       }
     }
 
-    let sortButtons = ["SDATE", "SNAME"];
+    let sortButtons = ["SDATE", "SDATEDEF", "SNAMEA", "SNAMED"];
     for (let i = 0; i < sortButtons.length; i++) {
       if (document.getElementById(sortButtons[i]).id == props.sort) {
         document.getElementById(sortButtons[i]).className =
@@ -49,10 +49,16 @@ export default function Search(props) {
 
   function handleSort(value) {
     switch (value) {
+      case "SDATEDEF":
+        props.sortBy(value);
+        break;
       case "SDATE":
         props.sortBy(value);
         break;
-      case "SNAME":
+      case "SNAMEA":
+        props.sortBy(value);
+        break;
+      case "SNAMED":
         props.sortBy(value);
         break;
     }
@@ -88,37 +94,37 @@ export default function Search(props) {
 
       {/* filter by */}
       {type === "A" ? null :
-      <div className="grid gap-3 mb-2 md:grid-cols-5">
-        <span className="font-semibold ml-2 align-middle my-auto">Filter by</span>
-        <button
-          id={"DATE"}
-          onClick={(e) => handleFilter(e.target.id)}
-          className="btn-sm btn-secondary btn mb-2 text-black text-xs shadow-md border-none bg-white rounded-full hover:text-white"
-        >
-          Date
-        </button>
-        <button
-          id={"ADVISER"}
-          onClick={(e) => handleFilter(e.target.id)}
-          className="btn-sm btn-secondary btn mb-2 text-black text-xs shadow-md border-none bg-white rounded-full hover:text-white">
-          Adviser
-        </button>
-        <button
-          id={"STATUS"}
-          onClick={(e) => handleFilter(e.target.id)}
-          className="btn-sm btn-secondary btn mb-2 text-black text-xs shadow-md border-none bg-white rounded-full hover:text-white"
-        >
-          Status
-        </button>
-        <button
-          id={"STEP"}
-          onClick={(e) => handleFilter(e.target.id)}
-          className="btn-sm btn-secondary btn mb-2 text-black text-xs shadow-md border-none bg-white rounded-full hover:text-white"
-        >
-          Step
-        </button>
-      </div>
-        }
+        <div className="grid gap-3 mb-2 md:grid-cols-5">
+          <span className="font-semibold ml-2 align-middle my-auto">Filter by</span>
+          <button
+            id={"DATE"}
+            onClick={(e) => handleFilter(e.target.id)}
+            className="btn-sm btn-secondary btn mb-2 text-black text-xs shadow-md border-none bg-white rounded-full hover:text-white"
+          >
+            Date
+          </button>
+          <button
+            id={"ADVISER"}
+            onClick={(e) => handleFilter(e.target.id)}
+            className="btn-sm btn-secondary btn mb-2 text-black text-xs shadow-md border-none bg-white rounded-full hover:text-white">
+            Adviser
+          </button>
+          <button
+            id={"STATUS"}
+            onClick={(e) => handleFilter(e.target.id)}
+            className="btn-sm btn-secondary btn mb-2 text-black text-xs shadow-md border-none bg-white rounded-full hover:text-white"
+          >
+            Status
+          </button>
+          <button
+            id={"STEP"}
+            onClick={(e) => handleFilter(e.target.id)}
+            className="btn-sm btn-secondary btn mb-2 text-black text-xs shadow-md border-none bg-white rounded-full hover:text-white"
+          >
+            Step
+          </button>
+        </div>
+      }
       {/* sort by */}
       <div className="grid gap-3 mb-6 md:grid-cols-5">
         <span className="font-semibold ml-2 align-middle my-auto">Sort by</span>
@@ -127,14 +133,28 @@ export default function Search(props) {
           onClick={(e) => handleSort(e.target.id)}
           className="btn-sm btn-secondary btn mb-2 text-black text-xs shadow-md border-none bg-white rounded-full hover:text-white"
         >
-          Date
+          Date ↑
         </button>
         <button
-          id={"SNAME"}
+          id={"SDATEDEF"}
           onClick={(e) => handleSort(e.target.id)}
           className="btn-sm btn-secondary btn mb-2 text-black text-xs shadow-md border-none bg-white rounded-full hover:text-white"
         >
-          Name
+          Date ↓
+        </button>
+        <button
+          id={"SNAMEA"}
+          onClick={(e) => handleSort(e.target.id)}
+          className="btn-sm btn-secondary btn mb-2 text-black text-xs shadow-md border-none bg-white rounded-full hover:text-white"
+        >
+        Name ↑
+      </button>
+        <button
+          id={"SNAMED"}
+          onClick={(e) => handleSort(e.target.id)}
+          className="btn-sm btn-secondary btn mb-2 text-black text-xs shadow-md border-none bg-white rounded-full hover:text-white"
+        >
+          Name ↓
         </button>
       </div>
     </div>

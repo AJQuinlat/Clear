@@ -71,7 +71,7 @@ export default function Students(properties) {
   }
 
   // sort setting
-  const [sort, setSort] = useState("NONE");
+  const [sort, setSort] = useState("SNAMEA");
   function sortBy(value) {
     if (sort === value) {
       setSort("NONE");
@@ -122,9 +122,14 @@ export default function Students(properties) {
       case "SDATE":
         // add if date of account creation is added
         break;
-      case "SNAME":
+      case "SNAMEA":
         filteredStuds = filteredStuds.sort((a, b) =>
           a.firstName > b.firstName ? 1 : -1
+        );
+        break;
+      case "SNAMED":
+        filteredStuds = filteredStuds.sort((a, b) =>
+          a.firstName < b.firstName ? 1 : -1
         );
         break;
     }

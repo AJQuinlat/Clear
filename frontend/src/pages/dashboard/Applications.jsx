@@ -53,7 +53,7 @@ export default function Applications(properties) {
   }
 
   // sort setting
-  const [sort, setSort] = useState("NONE");
+  const [sort, setSort] = useState("SDATEDEF");
   function sortBy(value) {
     if (sort === value) {
       setSort("NONE");
@@ -73,6 +73,9 @@ export default function Applications(properties) {
             .toLowerCase()
             .includes(query.toLowerCase());
         });
+        break;
+      case "DATEDEF":
+        filteredApps = applications;
         break;
       case "ADVISER":
         filteredApps = applications.filter((app) => {
@@ -118,9 +121,14 @@ export default function Applications(properties) {
           return new Date(a.dateSubmitted) - new Date(b.dateSubmitted);
         });
         break;
-      case "SNAME":
+      case "SNAMEA":
         filteredApps = filteredApps.sort((a, b) =>
           a.user.firstName > b.user.firstName ? 1 : -1
+        );
+        break;
+      case "SNAMED":
+        filteredApps = filteredApps.sort((a, b) =>
+          a.user.firstName < b.user.firstName ? 1 : -1
         );
         break;
     }

@@ -150,7 +150,7 @@ export default function Accounts(properties) {
   }
 
   // sort setting
-  const [sort, setSort] = useState("NONE");
+  const [sort, setSort] = useState("SNAMEA");
   function sortBy(value) {
     if (sort === value) {
       setSort("NONE");
@@ -203,9 +203,14 @@ export default function Accounts(properties) {
       case "SDATE":
         // add if date of account creation is added
         break;
-      case "SNAME":
+      case "SNAMEA":
         filteredAccs = filteredAccs.sort((a, b) =>
           a.user.firstName > b.user.firstName ? 1 : -1
+        );
+        break;
+      case "SNAMED":
+        filteredAccs = filteredAccs.sort((a, b) =>
+          a.user.firstName < b.user.firstName ? 1 : -1
         );
         break;
     }
